@@ -25,6 +25,7 @@ body{
   -webkit-font-smoothing:antialiased;
   overflow:hidden;
   height:100vh;
+  height:calc(var(--winh, 100vh));
 }
 ::selection{background:var(--accent);color:var(--ink);}
 .serif{font-family:'Inter',sans-serif;}
@@ -33,7 +34,7 @@ img{display:block;width:100%;height:100%;object-fit:cover;}
 /* ---- rounded frame ---- */
 #app{
   position:relative;
-  height:calc(100vh - 28px);
+  height:calc(var(--winh, 100vh) - 28px);
   margin:14px;
   border-radius:28px;
   overflow-y:auto;
@@ -53,7 +54,7 @@ img{display:block;width:100%;height:100%;object-fit:cover;}
   background:url("assets/textures/scratch.jpeg") center/cover;
 }
 @media (max-width:760px){
-  #app{ margin:6px; height:calc(100vh - 12px); border-radius:18px; }
+  #app{ margin:6px; height:calc(var(--winh, 100vh) - 12px); border-radius:18px; }
 }
 
 /* grain */
@@ -695,12 +696,20 @@ nav .act-num{opacity:.6;}
 gsap.registerPlugin(ScrollTrigger);
 
 const app = document.getElementById('app');
+function setWinH(){
+  const h = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+  document.documentElement.style.setProperty('--winh', h + 'px');
+}
 function setFrameVars(){
+  setWinH();
   document.documentElement.style.setProperty('--vh', app.clientHeight + 'px');
   document.documentElement.style.setProperty('--vw', app.clientWidth + 'px');
 }
 setFrameVars();
 window.addEventListener('resize', () => { setFrameVars(); ScrollTrigger.refresh(); });
+if (window.visualViewport){
+  window.visualViewport.addEventListener('resize', () => { setFrameVars(); ScrollTrigger.refresh(); });
+}
 
 ScrollTrigger.defaults({ scroller: app, pinType: 'transform' });
 ScrollTrigger.scrollerProxy(app, {
