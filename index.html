@@ -229,6 +229,9 @@
     #track{flex-direction:column;height:auto;transform:none!important}
     .panel{flex:0 0 auto;width:100%;height:100svh}
     .prog{display:none}
+    /* drop expensive blend-mode/compositing layers during scroll on touch devices */
+    header.frame,footer.frame{mix-blend-mode:normal;background:var(--ink)}
+    .work .media .light,.work .media .gr{display:none}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition-duration:.001ms!important}
@@ -373,7 +376,7 @@
       <div class="media">
         <div class="surf"></div><div class="light" style="--lx:64%"></div><div class="gr"></div>
         <canvas class="scrub" id="snpSeq" aria-hidden="true"
-                data-dir="frames/snp/" data-prefix="snp_" data-pad="4" data-ext="webp" data-count="475"></canvas>
+                data-dir="frames/snp/" data-prefix="snp_" data-pad="4" data-ext="webp" data-count="475" data-m-start="159" data-m-end="335"></canvas>
         <div class="watermark">01</div>
         <div class="scrim"></div>
       </div>
@@ -464,7 +467,7 @@
       <div class="media">
         <div class="surf"></div><div class="light" style="--lx:42%"></div><div class="gr"></div>
         <canvas class="scrub" id="nesSeq" aria-hidden="true"
-                data-dir="frames/nes/" data-prefix="nes_" data-pad="4" data-ext="webp" data-count="480"></canvas>
+                data-dir="frames/nes/" data-prefix="nes_" data-pad="4" data-ext="webp" data-count="480" data-m-start="190" data-m-end="300"</canvas>
         <div class="watermark">06</div>
         <div class="scrim"></div>
       </div>
@@ -522,6 +525,8 @@
 <script>
 (function(){
   "use strict";
+  if("scrollRestoration" in history) history.scrollRestoration="manual";
+  window.scrollTo(0,0);
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   var hasGSAP = !!window.gsap;
   if (hasGSAP && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -656,11 +661,18 @@
     var canvas=document.getElementById(id); if(!canvas) return null;
     var ctx=canvas.getContext("2d"), W,H,dpr, d=canvas.dataset;
     var count=parseInt(d.count,10)||0, pad=parseInt(d.pad,10)||4, ext=d.ext||"webp", dir=d.dir||"", prefix=d.prefix||"";
-    if(matchMedia("(max-width:899px)").matches) dir=dir.replace(/\/$/,"")+"-m/";
+    var offset=0;
+    if(matchMedia("(max-width:899px)").matches){
+      dir=dir.replace(/\/$/,"")+"-m/";
+      if(d.mStart!=null&&d.mEnd!=null){
+        var ms=parseInt(d.mStart,10),me=parseInt(d.mEnd,10);
+        offset=ms-1;count=me-ms+1;
+      }
+    }
     if(!count) return null;
     var imgs=new Array(count), loaded=0, current=0, ready=false, minReady=Math.min(count,6);
-    function url(i){var n=String(i+1);while(n.length<pad)n="0"+n;return dir+prefix+n+"."+ext;}
-    function size(){dpr=Math.min(devicePixelRatio||1,1.5);W=canvas.clientWidth;H=canvas.clientHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw(current);}
+    function url(i){var n=String(i+1+offset);while(n.length<pad)n="0"+n;return dir+prefix+n+"."+ext;}
+    function size(){dpr=Math.min(devicePixelRatio||1,2.5);W=canvas.clientWidth;H=canvas.clientHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw(current);}
     function cover(img,alpha){var ir=img.naturalWidth/img.naturalHeight,r=W/H,dw,dh;if(ir>r){dh=H;dw=H*ir;}else{dw=W;dh=W/ir;}ctx.globalAlpha=alpha==null?1:alpha;ctx.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);ctx.globalAlpha=1;}
     function draw(i){
       i=Math.max(0,Math.min(count-1,i));current=i;
@@ -744,6 +756,7 @@
     // MOBILE / TOUCH — vertical snap, fade-up reveals
     mm.add("(max-width:899px),(pointer:coarse)",function(){
       if(fMid)fMid.textContent="";
+      if(ScrollTrigger.normalizeScroll) ScrollTrigger.normalizeScroll(true);
 
       // smoothed scrub: ease the drawn frame toward the scroll-driven target
       // so playback feels fluid rather than snapping 1:1 with raw touch deltas
@@ -782,6 +795,8 @@
         if(cap && !reduce) gsap.from(cap.children,{y:30,opacity:0,duration:0.7,stagger:0.05,ease:"power3.out",
           scrollTrigger:{trigger:p,start:"top 65%"}});
       });
+
+      return function(){if(ScrollTrigger.normalizeScroll) ScrollTrigger.normalizeScroll(false);};
     });
 
     ScrollTrigger.refresh();
