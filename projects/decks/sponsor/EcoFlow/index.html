@@ -72,7 +72,6 @@ nav{
   color:var(--paper);pointer-events:none;mix-blend-mode:difference;
 }
 nav .act-label{font-weight:700;}
-nav .act-num{opacity:.6;}
 
 /* shared act */
 :root{ --vh:100vh; --panels:4; }
@@ -99,13 +98,9 @@ nav .act-num{opacity:.6;}
 .act1 .line.l2{padding-left:8vw;}
 .act1 .line.l3{padding-left:16vw;color:var(--bone);}
 .act1 .foot{
-  position:absolute;bottom:5vh;left:6vw;right:6vw;display:flex;justify-content:space-between;
-  align-items:flex-end;font-size:12px;letter-spacing:.25em;text-transform:uppercase;opacity:.75;
+  position:absolute;bottom:5vh;left:6vw;right:6vw;text-align:right;
+  font-size:12px;letter-spacing:.25em;text-transform:uppercase;opacity:.75;
 }
-.act1 .foot .scrollcue{display:flex;align-items:center;gap:10px;}
-.act1 .foot .ln{width:1px;height:36px;background:rgba(255,255,255,.4);position:relative;overflow:hidden;}
-.act1 .foot .ln::after{content:'';position:absolute;top:0;left:0;width:100%;height:30%;background:#fff;animation:sl 2.2s ease-in-out infinite;}
-@keyframes sl{0%{transform:translateY(-100%)}60%{transform:translateY(220%)}100%{transform:translateY(220%)}}
 
 /* =================== ACT II — FOUNDER =================== */
 .act2{min-height:var(--vh);background:var(--ink);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;}
@@ -124,10 +119,14 @@ nav .act-num{opacity:.6;}
 .act2 .crew-photos{display:flex;gap:12px;margin-bottom:14px;}
 .act2 .crew-photos img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:1px solid var(--line);}
 @media (max-width:860px){
-  .act2{grid-template-columns:1fr;grid-template-rows:34vh auto;height:auto;min-height:var(--vh);}
+  .act2{grid-template-columns:1fr;grid-template-rows:26vh 1fr;height:var(--vh);overflow:hidden;}
   .act2 .media img{height:100%;object-position:center 30%;}
-  .act2 .copy{padding:32px 6vw 48px;gap:20px;}
-  .act2 .bio-stats{gap:28px;flex-wrap:wrap;}
+  .act2 .copy{padding:24px 6vw 32px;gap:18px;overflow:hidden;display:flex;flex-direction:column;}
+  .act2 .copy h2{font-size:clamp(28px,8vw,44px);line-height:1.05;}
+  .act2 .bio{flex:1;display:flex;flex-direction:column;gap:18px;}
+  .act2 .bio p{font-size:clamp(13px,3.6vw,16px);line-height:1.5;}
+  .act2 .bio-stats{gap:20px;flex-wrap:wrap;padding-top:18px;margin-top:auto;}
+  .act2 .bio-stats b{font-size:22px;}
 }
 
 /* =================== ACT III — THE TEAM =================== */
@@ -147,10 +146,12 @@ nav .act-num{opacity:.6;}
 .act3 .member .handle{font-size:12px;letter-spacing:.08em;color:var(--accent);}
 .act3 .member .followers{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone);}
 @media (max-width:860px){
-  .act3 .bg img{object-position:center 35%;}
-  .act3 .head{padding:54px 6vw 360px;}
+  .act3{height:auto;min-height:var(--vh);overflow:visible;display:flex;flex-direction:column;}
+  .act3 .bg{position:absolute;top:0;left:0;right:0;height:115%;}
+  .act3 .bg img{height:100%;object-position:center 35%;}
+  .act3 .head{position:relative;padding:54px 6vw 32px;}
   .act3 .head h2{font-size:clamp(28px,8vw,44px);}
-  .act3 .roster{position:absolute;top:540px;bottom:auto;left:6vw;right:6vw;grid-template-columns:repeat(2,1fr);gap:8px;}
+  .act3 .roster{position:relative;top:auto;left:auto;right:auto;margin:0 6vw 56px;grid-template-columns:repeat(2,1fr);gap:8px;}
   .act3 .member{padding:16px 10px;gap:10px;aspect-ratio:1;justify-content:center;}
   .act3 .member .pic{width:76px;height:76px;}
   .act3 .member .name{font-size:15px;}
@@ -270,7 +271,11 @@ nav .act-num{opacity:.6;}
 .act7 .line2{padding:0 6vw;margin-top:32px;max-width:760px;font-size:clamp(15px,1.8vw,22px);font-style:italic;line-height:1.4;color:#555;}
 
 @media (max-width:860px){
+  .act7{height:auto;min-height:var(--vh);padding:64px 0 48px;overflow:visible;}
   .act7 .grid{grid-template-columns:repeat(2,1fr);}
+  .act7 .node{padding:12px;gap:6px;}
+  .act7 .node .ic{width:24px;height:24px;}
+  .act7 .line2{margin-top:24px;font-size:15px;}
 }
 
 /* =================== ACT VIII — SOLUTION =================== */
@@ -299,10 +304,13 @@ nav .act-num{opacity:.6;}
 .act8 .fnode .s{margin-top:6px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);}
 .act8 .line2{font-size:clamp(15px,1.8vw,22px);line-height:1.5;color:var(--bone);max-width:760px;opacity:.2;transform:translateY(16px);}
 @media (max-width:860px){
-  .act8-pin{gap:32px;}
-  .act8 .flow{grid-template-columns:1fr;gap:32px;justify-items:center;}
-  .act8 .hub{width:min(50vw,220px);}
+  .act8{height:auto;min-height:var(--vh);}
+  .act8-pin{position:relative;height:auto;gap:28px;padding:64px 6vw 48px;overflow:visible;}
+  .act8 .flow{grid-template-columns:1fr;gap:28px;justify-items:center;}
+  .act8 .hub{width:min(50vw,220px);opacity:1;transform:none;}
   .act8 .spokes{grid-template-columns:1fr 1fr;width:100%;}
+  .act8 .fnode{opacity:1;transform:none;}
+  .act8 .line2{opacity:1;transform:none;}
 }
 
 /* =================== ACT IX — PARTNERSHIP =================== */
@@ -379,8 +387,7 @@ nav .act-num{opacity:.6;}
 
 <div class="progress" id="progress"></div>
 <nav>
-  <span class="act-label" id="actLabel">Act I — Who We Are</span>
-  <span class="act-num" id="actNum">01 / 09</span>
+  <span class="act-label" id="actLabel">Act I — The Story</span>
 </nav>
 
 <!-- ============ ACT I — WHO WE ARE ============ -->
@@ -388,13 +395,12 @@ nav .act-num{opacity:.6;}
   <div class="bg"><video id="heroVid" autoplay muted loop playsinline src="assets/web/act1-bg.mp4"></video></div>
   <div class="scrim"></div>
   <div class="lines">
-    <div class="line l1"><span id="l1">Stories live</span></div>
-    <div class="line l2"><span id="l2">beyond the road.</span></div>
-    <div class="line l3"><span id="l3">— Focus Finder Media</span></div>
+    <div class="line l1"><span id="l1">EcoFlow</span></div>
+    <div class="line l2"><span id="l2">Sponsorship</span></div>
+    <div class="line l3"><span id="l3">Deck</span></div>
   </div>
   <div class="foot">
     <div>Focus Finder Media</div>
-    <div class="scrollcue"><div class="ln"></div>Scroll to begin</div>
   </div>
 </section>
 
@@ -412,7 +418,6 @@ nav .act-num{opacity:.6;}
           <div><b>40+</b>Films Delivered</div>
           <div><b>12</b>Countries</div>
         </div>
-        <div class="crew-line">The Crew — Jonah Castleberry, Jeremiah, Liz &amp; Evan · 170K+ combined followers</div>
       </div>
     </div>
 </section>
@@ -706,9 +711,16 @@ function setFrameVars(){
   document.documentElement.style.setProperty('--vw', app.clientWidth + 'px');
 }
 setFrameVars();
-window.addEventListener('resize', () => { setFrameVars(); ScrollTrigger.refresh(); });
+function onViewportChange(){
+  requestAnimationFrame(() => {
+    setFrameVars();
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+  });
+}
+window.addEventListener('resize', onViewportChange);
+window.addEventListener('orientationchange', onViewportChange);
 if (window.visualViewport){
-  window.visualViewport.addEventListener('resize', () => { setFrameVars(); ScrollTrigger.refresh(); });
+  window.visualViewport.addEventListener('resize', onViewportChange);
 }
 
 ScrollTrigger.defaults({ scroller: app, pinType: 'transform' });
@@ -726,10 +738,9 @@ Promise.all(Array.from(document.images).map(img => img.decode ? img.decode().cat
 
 /* progress bar + act label */
 const acts = gsap.utils.toArray('.act');
-const actNames = ['Who We Are','The Founder','The Team','The Work','The Audience','The Next Expedition','The Challenge','The Solution','The Partnership','The Final Ask'];
+const actNames = ['The Story','The Founder','The Team','The Work','The Audience','The Next Expedition','The Challenge','The Solution','The Partnership','The Final Ask'];
 const progress = document.getElementById('progress');
 const actLabel = document.getElementById('actLabel');
-const actNum = document.getElementById('actNum');
 const roman = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
 app.addEventListener('scroll', ()=>{
   const total = app.scrollHeight - app.clientHeight;
@@ -737,7 +748,6 @@ app.addEventListener('scroll', ()=>{
   let cur = 0;
   acts.forEach((a,i)=>{ if(a.getBoundingClientRect().top <= app.clientHeight*0.5) cur = i; });
   actLabel.textContent = 'Act ' + roman[cur] + ' — ' + actNames[cur];
-  actNum.textContent = String(cur+1).padStart(2,'0') + ' / 10';
 }, {passive:true});
 
 /* ===== ACT I — kinetic hero ===== */
