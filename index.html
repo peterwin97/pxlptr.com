@@ -656,10 +656,11 @@
     var canvas=document.getElementById(id); if(!canvas) return null;
     var ctx=canvas.getContext("2d"), W,H,dpr, d=canvas.dataset;
     var count=parseInt(d.count,10)||0, pad=parseInt(d.pad,10)||4, ext=d.ext||"webp", dir=d.dir||"", prefix=d.prefix||"";
+    if(matchMedia("(max-width:899px)").matches) dir=dir.replace(/\/$/,"")+"-m/";
     if(!count) return null;
     var imgs=new Array(count), loaded=0, current=0, ready=false, minReady=Math.min(count,6);
     function url(i){var n=String(i+1);while(n.length<pad)n="0"+n;return dir+prefix+n+"."+ext;}
-    function size(){dpr=Math.min(devicePixelRatio||1,1);W=canvas.clientWidth;H=canvas.clientHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw(current);}
+    function size(){dpr=Math.min(devicePixelRatio||1,1.5);W=canvas.clientWidth;H=canvas.clientHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw(current);}
     function cover(img,alpha){var ir=img.naturalWidth/img.naturalHeight,r=W/H,dw,dh;if(ir>r){dh=H;dw=H*ir;}else{dw=W;dh=W/ir;}ctx.globalAlpha=alpha==null?1:alpha;ctx.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);ctx.globalAlpha=1;}
     function draw(i){
       i=Math.max(0,Math.min(count-1,i));current=i;
@@ -743,18 +744,39 @@
     // MOBILE / TOUCH — vertical snap, fade-up reveals
     mm.add("(max-width:899px),(pointer:coarse)",function(){
       if(fMid)fMid.textContent="";
-      if(floSeq){var fp2=document.getElementById("work");
-        ScrollTrigger.create({trigger:fp2,start:"top bottom",end:"bottom top",scrub:true,
-          onUpdate:function(s){floSeq.draw(s.progress*(floSeq.count-1));}});}
-      if(svSeq){var sp2=panels[5];
-        ScrollTrigger.create({trigger:sp2,start:"top bottom",end:"bottom top",scrub:true,
-          onUpdate:function(s){svSeq.draw(s.progress*(svSeq.count-1));}});}
-      if(snpSeq){var sn2=panels[1];
-        ScrollTrigger.create({trigger:sn2,start:"top bottom",end:"bottom top",scrub:true,
-          onUpdate:function(s){snpSeq.draw(s.progress*(snpSeq.count-1));}});}
-      if(nesSeq){var ns2=panels[6];
-        ScrollTrigger.create({trigger:ns2,start:"top bottom",end:"bottom top",scrub:true,
-          onUpdate:function(s){nesSeq.draw(s.progress*(nesSeq.count-1));}});}
+
+      // smoothed scrub: ease the drawn frame toward the scroll-driven target
+      // so playback feels fluid rather than snapping 1:1 with raw touch deltas
+      var smoothSeqs=[];
+      function addSmoothScrub(seq,trigger){
+        if(!seq||!trigger)return;
+        var state={target:0,current:0,seq:seq};
+        ScrollTrigger.create({trigger:trigger,start:"top bottom",end:"bottom top",scrub:true,
+          onUpdate:function(s){state.target=s.progress*(seq.count-1);}});
+        smoothSeqs.push(state);
+      }
+      if(floSeq) addSmoothScrub(floSeq,document.getElementById("work"));
+      if(svSeq) addSmoothScrub(svSeq,panels[5]);
+      if(snpSeq) addSmoothScrub(snpSeq,panels[1]);
+      if(nesSeq) addSmoothScrub(nesSeq,panels[6]);
+
+      if(smoothSeqs.length){
+        if(reduce){
+          smoothSeqs.forEach(function(st){st.seq.draw(st.target);});
+        } else {
+          var raf=function(){
+            smoothSeqs.forEach(function(st){
+              var diff=st.target-st.current;
+              if(Math.abs(diff)<0.01){st.current=st.target;}
+              else{st.current+=diff*0.18;}
+              st.seq.draw(st.current);
+            });
+            requestAnimationFrame(raf);
+          };
+          requestAnimationFrame(raf);
+        }
+      }
+
       panels.forEach(function(p){
         var cap=p.querySelector(".cap, .pad, .meta");
         if(cap && !reduce) gsap.from(cap.children,{y:30,opacity:0,duration:0.7,stagger:0.05,ease:"power3.out",
