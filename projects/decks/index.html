@@ -199,7 +199,7 @@ footer{
 
 /* ---- Mobile ---- */
 .nav-toggle{ display:none; }
-.mobile-actionbar{ display:none; }
+.mobile-actionbar{ display:none !important; }
 @media (max-width:860px){
   body{ overflow:hidden; }
   #shell{
@@ -234,7 +234,7 @@ footer{
   footer{ display:none; }
 
   .mobile-actionbar{
-    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-shrink:0;
+    display:flex !important; align-items:center; justify-content:space-between; gap:12px; flex-shrink:0;
     padding:14px 20px calc(12px + env(safe-area-inset-bottom));
     border-top:1px solid var(--line); background:var(--ink);
   }
