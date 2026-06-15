@@ -1021,6 +1021,164 @@ function tick(){
 }
 requestAnimationFrame(tick);
 
+/* ===== PDF export mode: ?pdf=1 renders every act into its final, revealed
+   state at 1920x1080, swaps any <video> for its poster frame, captures each
+   act as an image with html2canvas, and assembles + auto-downloads a PDF
+   with jsPDF. ===== */
+if (new URLSearchParams(window.location.search).has('pdf')) {
+  const PDF_W = 1920, PDF_H = 1080;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    html,body{ width:${PDF_W}px; height:auto !important; overflow:visible !important; background:#0b0b0c; }
+    .progress, nav, #gate{ display:none !important; }
+    #app{
+      overflow:visible !important; height:auto !important; display:block !important;
+      scroll-snap-type:none !important; transform:none !important; width:${PDF_W}px !important;
+    }
+    #app::before, #app::after{ display:none !important; }
+    .act{
+      position:relative !important; width:${PDF_W}px !important;
+      height:${PDF_H}px !important; min-height:${PDF_H}px !important; max-height:${PDF_H}px !important;
+      overflow:hidden !important;
+    }
+    .act *{
+      visibility:visible !important;
+      animation:none !important; transition:none !important;
+    }
+    .act[style], .act [style]{
+      opacity:1 !important; transform:none !important;
+    }
+    .act-inner, .act6-pin, .act8-pin{
+      position:relative !important; top:auto !important; height:100% !important;
+    }
+    .act1.pdf-export .line{ font-size:clamp(20px,4.2vw,68px) !important; white-space:nowrap !important; }
+    .act1.pdf-export .line.l2{ padding-left:4vw !important; }
+    .act1.pdf-export .line.l3{ padding-left:8vw !important; }
+    .act1.pdf-export .l3-reveal{ margin-top:10px !important; font-size:clamp(14px,1.8vw,28px) !important; white-space:normal !important; }
+    .act10.pdf-export .ticker{ display:none !important; }
+    .pdf-title{
+      position:absolute; top:28px; left:6vw; z-index:50;
+      font-family:'Inter',sans-serif; font-weight:700; font-size:13px; letter-spacing:.3em; text-transform:uppercase;
+      color:#fff; text-shadow:0 1px 6px rgba(0,0,0,.6); opacity:.85;
+    }
+  `;
+  document.head.appendChild(style);
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:999999;background:#0b0b0c;color:#f3efe6;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;font-size:14px;letter-spacing:.2em;text-transform:uppercase;';
+  overlay.textContent = 'Generating PDF…';
+  document.body.appendChild(overlay);
+
+  function loadScript(src){
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src; s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  function videoToPoster(video){
+    const img = document.createElement('img');
+    for (const attr of ['class','style']) if (video.getAttribute(attr)) img.setAttribute(attr, video.getAttribute(attr));
+    img.style.objectFit = video.style.objectFit || getComputedStyle(video).objectFit;
+    if (video.poster) {
+      img.src = video.poster;
+      video.replaceWith(img);
+      return Promise.resolve();
+    }
+    return new Promise(resolve => {
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth || PDF_W;
+      canvas.height = video.videoHeight || PDF_H;
+      const draw = () => {
+        try {
+          canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+          img.src = canvas.toDataURL('image/jpeg', 0.85);
+        } catch(e) {}
+        video.replaceWith(img);
+        resolve();
+      };
+      if (video.readyState >= 2) draw();
+      else video.addEventListener('loadeddata', draw, { once:true });
+    });
+  }
+
+  window.addEventListener('load', async () => {
+    await Promise.all([
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'),
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
+    ]);
+
+    await Promise.all(Array.from(document.querySelectorAll('video')).map(videoToPoster));
+    await new Promise(r => setTimeout(r, 600));
+    ScrollTrigger.update(); updateProgress(); updateAct4(); updateAct6(); updateAct6Objs(); updateAct8();
+    await new Promise(r => setTimeout(r, 300));
+
+    await Promise.all(Array.from(document.querySelectorAll('img')).map(img => {
+      if (img.complete) return Promise.resolve();
+      return new Promise(resolve => { img.addEventListener('load', resolve, { once:true }); img.addEventListener('error', resolve, { once:true }); });
+    }));
+
+    const titleText = 'Insta360 Sponsorship Deck';
+
+    window.scrollTo(0, 0);
+    const appEl = document.getElementById('app');
+    if (appEl) appEl.scrollTop = 0;
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation:'landscape', unit:'px', format:[PDF_W, PDF_H] });
+    const acts = document.querySelectorAll('#app > .act');
+
+    async function captureCanvas(el){
+      const capture = html2canvas(el, { width:PDF_W, height:PDF_H, windowWidth:PDF_W, windowHeight:PDF_H, scrollX:0, scrollY:0, scale:1, useCORS:true, imageTimeout:8000, logging:false });
+      const timeout = new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 15000));
+      try {
+        return await Promise.race([capture, timeout]);
+      } catch(e) {
+        console.warn('html2canvas failed', e);
+        const canvas = document.createElement('canvas');
+        canvas.width = PDF_W; canvas.height = PDF_H;
+        return canvas;
+      }
+    }
+
+    let pageIndex = 0;
+    for (let i = 0; i < acts.length; i++) {
+      overlay.textContent = `Generating PDF… (${i+1}/${acts.length})`;
+
+      const act = acts[i];
+      act.classList.add('pdf-export');
+      const chip = document.createElement('div');
+      chip.className = 'pdf-title';
+      chip.textContent = titleText;
+      act.appendChild(chip);
+
+      const track = act.querySelector('.act4-pin .track');
+      if (track) {
+        const panels = track.querySelectorAll('.panel');
+        for (let p = 0; p < panels.length; p++) {
+          track.style.setProperty('transform', `translateX(-${p * PDF_W}px)`, 'important');
+          const canvas = await captureCanvas(act);
+          if (pageIndex > 0) pdf.addPage([PDF_W, PDF_H], 'landscape');
+          pdf.addImage(canvas.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, PDF_W, PDF_H);
+          pageIndex++;
+        }
+      } else {
+        const canvas = await captureCanvas(act);
+        if (pageIndex > 0) pdf.addPage([PDF_W, PDF_H], 'landscape');
+        pdf.addImage(canvas.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, PDF_W, PDF_H);
+        pageIndex++;
+      }
+
+      chip.remove();
+      act.classList.remove('pdf-export');
+    }
+
+    pdf.save('insta360-deck.pdf');
+    overlay.remove();
+  });
+}
 </script>
 </body>
 </html>

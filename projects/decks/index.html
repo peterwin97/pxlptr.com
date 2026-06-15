@@ -312,6 +312,9 @@ footer{
         <button class="deck-row" data-file="insta360.html" data-title="Insta360" data-meta="360 Aerial Capture · Active">
           <span class="name">Insta360</span><span class="status">Active</span>
         </button>
+        <button class="deck-row" data-file="roofnest.html" data-title="Roofnest" data-meta="Rooftop Tents · Active">
+          <span class="name">Roofnest</span><span class="status">Active</span>
+        </button>
       </div>
 
       <div class="nav-group">
@@ -336,6 +339,7 @@ footer{
       </div>
       <div class="preview-actions" id="previewActions" style="display:none;">
         <button class="btn" id="copyBtn" type="button">Copy Link</button>
+        <button class="btn" id="pdfBtn" type="button">Download PDF</button>
         <a class="btn primary" id="openBtn" href="#" target="_blank" rel="noopener">Open Full ↗</a>
       </div>
     </div>
@@ -358,6 +362,7 @@ footer{
       </div>
       <div class="mobile-actionbar-btns">
         <button class="btn" id="copyBtnMobile" type="button">Copy Link</button>
+        <button class="btn" id="pdfBtnMobile" type="button">PDF</button>
         <a class="btn primary" id="openBtnMobile" href="#" target="_blank" rel="noopener">Open Full ↗</a>
       </div>
     </div>
@@ -471,6 +476,19 @@ footer{
       setTimeout(()=>{ copyBtn.textContent = 'Copy Link'; copyBtn.classList.remove('copied'); }, 1600);
     });
   });
+
+  // ---- Download as PDF: opens the current deck in a new tab with ?pdf=1,
+  // which the deck itself uses to force every act into its final state,
+  // stack them one-per-page, and trigger the print dialog. ----
+  function exportPDF(){
+    if(!frame.src) return;
+    const url = new URL(frame.src, window.location.href);
+    url.searchParams.set('pdf', '1');
+    window.open(url.href, '_blank', 'width=1920,height=1080');
+  }
+
+  document.getElementById('pdfBtn').addEventListener('click', exportPDF);
+  document.getElementById('pdfBtnMobile').addEventListener('click', exportPDF);
 </script>
 
 </body>

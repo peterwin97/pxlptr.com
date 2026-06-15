@@ -1,0 +1,75 @@
+{
+  "_comment": "Roofnest - rooftop tent / overland sleep systems. Pitched as the basecamp solution for FFM's multi-day off-grid expeditions. FFM facts live in data/global.json.",
+
+  "key": "roofnest",
+  "name": "Roofnest",
+  "accent": "#e8732c",
+  "navLabel": "Roofnest Sponsorship Deck",
+
+  "meta": {
+    "title": "Focus Finder Media - Roofnest Sponsorship Deck",
+    "description": "A scroll-driven look at the Roofnest x Focus Finder Media partnership.",
+    "image": "assets/web/og-roofnest.jpg"
+  },
+
+  "og": {
+    "baseImage": "assets/web/team-9224.jpg",
+    "kicker": "FOCUS FINDER MEDIA",
+    "headline": "Roofnest\nSponsorship Deck"
+  },
+
+  "hero": {
+    "lines": ["The best views", "don't come with", "room service."],
+    "highlightLast": true
+  },
+
+  "challenge": {
+    "label": "The Challenge",
+    "heading": "Multi-day expeditions live<br>or die on where you sleep.",
+    "nodes": [
+      { "icon": "camera",  "t": "No Fixed Camp", "d": "Routes change daily, the crew needs to set up and break down fast", "img": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "monitor", "t": "Weather Exposure", "d": "Wind, rain, and cold that ground-tents can't always handle", "img": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "drone",   "t": "Terrain Limits", "d": "Rocky, sloped, or wet ground with nowhere flat to pitch a tent", "img": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "storage", "t": "Gear &amp; Crew Fatigue", "d": "Long shoot days mean setup time eats into the edit and rest", "img": "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "comms",   "t": "Audience Curiosity", "d": "Viewers want to know how a crew actually lives on the road", "img": "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&w=800&q=80" }
+    ],
+    "quote": "\"On a multi-day route, camp isn't a break from the shoot, it's part of it. Where we sleep decides how early we're rolling, how rested the crew is, and whether the audience sees a team that's actually living the trip or just passing through it.\""
+  },
+
+  "solution": {
+    "label": "The Solution",
+    "heading": "The truck becomes<br>basecamp, anywhere.",
+    "sub": "A Roofnest rooftop tent turns any pullout, ridge, or riverbank into camp in minutes, no flat ground required, no separate tents to pitch and strike. For an expedition built around chasing light and weather, that's hours back every day, and a basecamp that moves with the story.",
+    "hubTitle": "Roofnest Rooftop Tent",
+    "hubSpec": "Hardshell · 60-Second Setup",
+    "spokes": [
+      { "t": "Anywhere Camp", "s": "Sleeps above the terrain, not on it" },
+      { "t": "Minutes, Not Tents", "s": "Up and packed in under a minute" },
+      { "t": "Weatherproof", "s": "Built for wind, rain, and cold on the road" },
+      { "t": "On-Camera Home Base", "s": "A real basecamp the audience can see" }
+    ],
+    "line2": "Roofnest doesn't just give the crew somewhere to sleep. It gives the audience a basecamp they recognize from one location to the next, the constant that ties a multi-day expedition together."
+  },
+
+  "partnership": {
+    "eyebrow": "The Partnership",
+    "heading": "Gear people live with is gear people remember.",
+    "paragraphs": [
+      "Tents and roof racks are everywhere in this space, but most of it is shown, not used. A rooftop tent that's actually the crew's home for a week-long expedition tells a different story, one the audience can picture themselves living.",
+      "The plan: Roofnest as the crew's sleep system for the next expedition, with creator-led setup/breakdown content, day-in-the-life basecamp footage, and long-form work that uses the truck and tent as the throughline across every location."
+    ],
+    "flow": [
+      { "icon": "battery",  "t": "Roofnest Rooftop Tent", "s": "Primary sleep system for the expedition" },
+      { "icon": "camera",   "t": "In the Field", "s": "Setup, breakdown &amp; basecamp life, on camera" },
+      { "icon": "play",     "t": "Organic + Original Work", "s": "Shared live, and built into films" },
+      { "icon": "audience", "t": "Our Audience", "s": "3.1M+ monthly views" }
+    ]
+  },
+
+  "finalAsk": {
+    "eyebrow": "The Final Ask",
+    "heading": "Camp shouldn't slow<br>the story down.<br><i>Let's put it on the roof.</i>",
+    "paragraph": "Focus Finder Media is built around chasing the next location, not setting up the last one. Roofnest turns the truck into basecamp, anywhere we stop. Let's make it part of the next expedition.",
+    "cta": "Let's build the next chapter"
+  }
+}
