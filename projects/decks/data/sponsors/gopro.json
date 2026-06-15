@@ -1,0 +1,75 @@
+{
+  "_comment": "GoPro - targeting the upcoming MISSION 1 PRO ILS (in-lens stabilization), positioned as an early-access / seeding pitch since the unit isn't released yet. FFM facts live in data/global.json.",
+
+  "key": "gopro",
+  "name": "GoPro",
+  "accent": "#6fd13c",
+  "navLabel": "GoPro Sponsorship Deck",
+
+  "meta": {
+    "title": "Focus Finder Media - GoPro Sponsorship Deck",
+    "description": "A scroll-driven look at the GoPro x Focus Finder Media partnership.",
+    "image": "assets/web/og-gopro.jpg"
+  },
+
+  "og": {
+    "baseImage": "assets/web/team-9224.jpg",
+    "kicker": "FOCUS FINDER MEDIA",
+    "headline": "GoPro\nSponsorship Deck"
+  },
+
+  "hero": {
+    "lines": ["Before it ships,", "let it prove itself", "in the field."],
+    "highlightLast": true
+  },
+
+  "challenge": {
+    "label": "The Challenge",
+    "heading": "A new camera needs<br>real footage before launch day.",
+    "nodes": [
+      { "icon": "camera",  "t": "Impact &amp; Motion", "d": "Handlebar, harness, and hands-free shots that shake lesser cameras apart", "img": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "monitor", "t": "Stabilization Proof", "d": "Footage that shows what in-lens stabilization actually feels like, not a spec sheet claim", "img": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "drone",   "t": "Wide-Open Country", "d": "Sweeping POV across terrain with nowhere to hide a shaky frame", "img": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "storage", "t": "All-Day Durability", "d": "Heat, dust, and water across a full multi-day shoot", "img": "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "comms",   "t": "Launch-Ready Content", "d": "Real-world clips ready the moment the product goes live", "img": "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&w=800&q=80" }
+    ],
+    "quote": "\"By the time a camera ships, the audience has already decided whether it's worth buying, based on footage they saw from people actually using it. That footage has to exist before launch day, not after.\""
+  },
+
+  "solution": {
+    "label": "The Ask",
+    "heading": "Put MISSION 1 PRO ILS<br>in our hands before launch.",
+    "sub": "We're asking for an early demo unit of the MISSION 1 PRO ILS, GoPro's upcoming in-lens stabilization camera. In exchange, our next expedition becomes a real-world proving ground: the kind of footage that shows exactly what in-lens stabilization makes possible, captured before most of the audience even knows the product exists.",
+    "hubTitle": "MISSION 1 PRO ILS",
+    "hubSpec": "Coming Soon · Demo Unit Requested",
+    "spokes": [
+      { "t": "In-Lens Stabilization", "s": "Tested across rough terrain, motion, and handheld work" },
+      { "t": "First-Look Footage", "s": "Real content ready ahead of the public launch" },
+      { "t": "Field Validation", "s": "Multi-day, off-grid conditions, not a controlled demo room" },
+      { "t": "Early Audience", "s": "3.1M+ monthly views, ready before launch day" }
+    ],
+    "line2": "A pre-launch unit in the field turns MISSION 1 PRO ILS from an announcement into proof, footage the audience can see and feel before they can even buy it."
+  },
+
+  "partnership": {
+    "eyebrow": "The Partnership",
+    "heading": "The best launch content isn't made after launch.",
+    "paragraphs": [
+      "Most camera launches lean on studio demos and controlled b-roll. The footage that actually convinces people comes from creators using the gear the way it's meant to be used, in real conditions, before the product is even available to buy.",
+      "We're proposing exactly that: an early MISSION 1 PRO ILS unit on our next expedition, with creator-led BTS, in-lens stabilization breakdowns, and organic posts that build anticipation ahead of launch, then carry straight into it."
+    ],
+    "flow": [
+      { "icon": "camera",   "t": "MISSION 1 PRO ILS", "s": "Early demo unit, field-tested pre-launch" },
+      { "icon": "battery",  "t": "In the Field", "s": "Multi-day expedition, real conditions" },
+      { "icon": "play",     "t": "Organic + Original Work", "s": "Shared live, and built into films" },
+      { "icon": "audience", "t": "Our Audience", "s": "3.1M+ monthly views" }
+    ]
+  },
+
+  "finalAsk": {
+    "eyebrow": "The Final Ask",
+    "heading": "MISSION 1 PRO ILS<br>hasn't launched yet.<br><i>Let's give it a head start.</i>",
+    "paragraph": "One demo unit, one expedition, and a body of footage that's already out in the world the moment MISSION 1 PRO ILS is. Let's build it before launch day, not after.",
+    "cta": "Let's build the next chapter"
+  }
+}

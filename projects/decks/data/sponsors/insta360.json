@@ -1,0 +1,75 @@
+{
+  "_comment": "Insta360 - targeting the Antigravity drone (invisible-rig 360 aerial capture). FFM facts live in data/global.json.",
+
+  "key": "insta360",
+  "name": "Insta360",
+  "accent": "#3cc8e0",
+  "navLabel": "Insta360 Sponsorship Deck",
+
+  "meta": {
+    "title": "Focus Finder Media - Insta360 Sponsorship Deck",
+    "description": "A scroll-driven look at the Insta360 x Focus Finder Media partnership.",
+    "image": "assets/web/og-insta360.jpg"
+  },
+
+  "og": {
+    "baseImage": "assets/web/team-9224.jpg",
+    "kicker": "FOCUS FINDER MEDIA",
+    "headline": "Insta360\nSponsorship Deck"
+  },
+
+  "hero": {
+    "lines": ["The rig disappears.", "The whole world", "stays in frame."],
+    "highlightLast": true
+  },
+
+  "challenge": {
+    "label": "The Challenge",
+    "heading": "Aerial footage always<br>shows its hand.",
+    "nodes": [
+      { "icon": "drone",   "t": "Visible Rigs", "d": "Drone shadows, props, and gimbal arms breaking the shot", "img": "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "monitor", "t": "Limited Angles", "d": "One framing, one direction, decided before the shot is captured", "img": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "camera",  "t": "Tight Spaces", "d": "Canyons, tree cover, and tight terrain where standard drones can't fly", "img": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "storage", "t": "One Take, One Shot", "d": "No way to reframe after the moment is gone", "img": "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "comms",   "t": "Audience Fatigue", "d": "The same drone shots, again and again", "img": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" }
+    ],
+    "quote": "\"Every drone shot we capture is locked the moment we capture it. One angle, one direction, and if it's wrong, the moment is gone. An aerial camera that captures everything and lets us choose the angle later is a completely different way to shoot.\""
+  },
+
+  "solution": {
+    "label": "The Solution",
+    "heading": "Antigravity turns the sky<br>into raw material.",
+    "sub": "Insta360's Antigravity drone shoots full 360 from the air, an invisible rig that disappears from the frame and leaves every angle reframeable in post. For an expedition built around landscapes too big for a single framing, that's not a feature, it's a new way to cover terrain.",
+    "hubTitle": "Insta360 Antigravity",
+    "hubSpec": "360 Aerial Capture · Invisible Rig",
+    "spokes": [
+      { "t": "Invisible Rig", "s": "No props, arms, or shadows in the shot" },
+      { "t": "Reframe in Post", "s": "Every angle captured, the edit decides the shot" },
+      { "t": "Tight Terrain", "s": "Flies where standard drone framing can't" },
+      { "t": "New Footage Language", "s": "Aerial coverage our audience hasn't seen from us" }
+    ],
+    "line2": "Antigravity doesn't just add another drone to the kit. It changes what an aerial shot even is, every direction captured, every angle still available when we sit down to edit."
+  },
+
+  "partnership": {
+    "eyebrow": "The Partnership",
+    "heading": "New gear earns attention when it changes the footage.",
+    "paragraphs": [
+      "Our audience has seen plenty of drone shots. What they haven't seen is 360 aerial capture used the way Antigravity makes possible: an invisible rig, full coverage, and reframing that opens up angles a standard drone could never deliver in a single pass.",
+      "The plan is straightforward: Antigravity in the field on our next expedition, with creator-led BTS showing how 360 aerial capture works, organic posts built around the reframed footage, and long-form work that puts the format front and center."
+    ],
+    "flow": [
+      { "icon": "drone",    "t": "Insta360 Antigravity", "s": "Primary aerial camera for the expedition" },
+      { "icon": "camera",   "t": "In the Field", "s": "Cinematic coverage, BTS &amp; stills" },
+      { "icon": "play",     "t": "Organic + Original Work", "s": "Shared live, and built into films" },
+      { "icon": "audience", "t": "Our Audience", "s": "3.1M+ monthly views" }
+    ]
+  },
+
+  "finalAsk": {
+    "eyebrow": "The Final Ask",
+    "heading": "The sky has more angles<br>than one drone shot.<br><i>Let's capture all of them.</i>",
+    "paragraph": "Focus Finder Media exists to find the angle no one's seen yet. Antigravity makes that angle, all of them, capturable in a single flight. Let's put it in the air on the next expedition.",
+    "cta": "Let's build the next chapter"
+  }
+}
