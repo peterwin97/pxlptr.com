@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Journal — Yosemite Expedition — EcoFlow Partnership Request</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#eee9dd;
+    --paper2:#f5f1e6;
+    --graphite:#3a3a38;
+    --charcoal:#22221f;
+    --faded:#8d887c;
+    --line:#cfc8b8;
+    --orange:#e15a2b;
+    --red:#b3392c;
+    --green:#3f5d3a;
+    --blue:#3a5f7d;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; height:100%; overflow:hidden; }
+  body{
+    font-family:'Inter', sans-serif;
+    background:#0c0c0b;
+    color:var(--charcoal);
+    -webkit-font-smoothing:antialiased;
+  }
+  .hand{ font-family:'Patrick Hand', cursive; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  img{ display:block; max-width:100%; }
+
+  /* ===== app frame ===== */
+  .app{ position:relative; height:100vh; padding:12px; }
+  .stage{
+    position:relative; height:100%; width:100%; overflow:hidden;
+    border-radius:14px; border:1px solid rgba(238,233,221,0.1);
+    background:
+      repeating-linear-gradient(0deg, transparent 0 23px, rgba(0,0,0,0.025) 23px 24px),
+      repeating-linear-gradient(90deg, transparent 0 23px, rgba(0,0,0,0.025) 23px 24px),
+      var(--paper);
+  }
+  .scroller{ height:100%; overflow-y:auto; scroll-snap-type:y mandatory; scrollbar-width:none; }
+  .scroller::-webkit-scrollbar{ display:none; }
+  section.frame{
+    height:100%; width:100%; scroll-snap-align:start; position:relative;
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+
+  /* ===== progress + page dots ===== */
+  .progress{ position:absolute; top:0; left:0; height:2px; background:var(--orange); z-index:30; width:0%; transition:width .1s linear; }
+  .dots{ position:absolute; right:16px; top:50%; transform:translateY(-50%); z-index:30; display:flex; flex-direction:column; gap:9px; }
+  .dots .d{ width:6px; height:6px; border-radius:50%; border:1px solid var(--faded); cursor:pointer; transition:background .3s, border-color .3s, transform .3s; }
+  .dots .d.active{ background:var(--orange); border-color:var(--orange); transform:scale(1.3); }
+
+  /* ===== shared page shell ===== */
+  .page{ flex:1; display:flex; flex-direction:column; padding:34px 40px; overflow:hidden; }
+  .page-body{ flex:1; overflow-y:auto; min-height:0; }
+  .page-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:8px; flex-shrink:0; }
+  .page-head .tab{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.28em; text-transform:uppercase;
+    color:#fff; background:var(--graphite); padding:5px 12px; transform:rotate(-1deg);
+  }
+  .page-head .pageno{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--faded); letter-spacing:.1em; }
+  .page h2{ font-size:clamp(26px,4.2vw,40px); font-weight:700; line-height:1.15; letter-spacing:-0.01em; margin-bottom:4px; flex-shrink:0; }
+  .page .deck{ font-size:15px; color:var(--faded); margin-bottom:18px; max-width:520px; line-height:1.55; flex-shrink:0; }
+
+  /* ===== reveal on scroll ===== */
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+  .frame.in-view .reveal{ opacity:1; transform:translateY(0); }
+  .reveal.d1{ transition-delay:.08s; } .reveal.d2{ transition-delay:.16s; } .reveal.d3{ transition-delay:.24s; } .reveal.d4{ transition-delay:.32s; }
+
+  /* ===== taped photo ===== */
+  .tape-photo{ position:relative; display:inline-block; background:#fff; padding:8px 8px 28px; box-shadow:0 6px 18px rgba(0,0,0,0.15); }
+  .tape-photo img{ width:220px; height:160px; object-fit:cover; filter:sepia(8%) contrast(1.02); transform:scale(1.08); transition:transform 1.4s cubic-bezier(.16,1,.3,1); }
+  .frame.in-view .tape-photo img{ transform:scale(1); }
+  .tape-photo .cap{ font-family:'Patrick Hand',cursive; font-size:13px; color:var(--graphite); position:absolute; bottom:6px; left:10px; right:10px; }
+  .tape-photo::before{
+    content:''; position:absolute; top:-9px; left:50%; width:54px; height:20px; background:rgba(225,90,43,0.35);
+    transform:translateX(-50%) rotate(-2deg); box-shadow:0 1px 2px rgba(0,0,0,0.1);
+  }
+  .tape-photo.rot-l{ transform:rotate(-2.5deg); }
+  .tape-photo.rot-r{ transform:rotate(2deg); }
+
+  /* ===== media strip (travel content) ===== */
+  .media-strip{ display:flex; gap:14px; flex-wrap:wrap; align-items:flex-start; }
+  .media-strip .tape-photo{ flex-shrink:0; }
+
+  /* ===== mission brief / cover ===== */
+  #s01 .brief-grid{ display:flex; gap:30px; flex-wrap:wrap; align-items:center; flex:1; min-height:0; }
+  #s01 .brief-text{ flex:1.2; min-width:240px; }
+  #s01 .stamp{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.3em; text-transform:uppercase;
+    color:var(--orange); border:2px solid var(--orange); display:inline-block; padding:5px 12px;
+    transform:rotate(-3deg); margin-bottom:18px;
+  }
+  #s01 h1{ font-size:clamp(28px,5.4vw,52px); line-height:1.08; font-weight:700; letter-spacing:-0.01em; margin-bottom:14px; }
+  #s01 .sub{ font-size:16px; color:var(--graphite); max-width:440px; line-height:1.6; margin-bottom:18px; }
+  #s01 .meta{ display:flex; flex-wrap:wrap; gap:24px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--faded); border-top:1px dashed var(--line); padding-top:14px; }
+  #s01 .meta b{ color:var(--charcoal); display:block; font-family:'Patrick Hand',cursive; font-size:19px; letter-spacing:0; text-transform:none; margin-top:3px; }
+  #s01 .objective-box{ border:2px solid var(--charcoal); padding:14px 16px; margin-top:16px; background:var(--paper2); }
+  #s01 .objective-box .lbl{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.28em; text-transform:uppercase; color:var(--orange); margin-bottom:6px; }
+  #s01 .objective-box p{ font-size:15.5px; font-weight:500; line-height:1.55; margin:0; }
+  #s01 .scroll-cue{ font-family:'Patrick Hand',cursive; font-size:16px; color:var(--faded); display:flex; align-items:center; gap:8px; margin-top:14px; }
+  #s01 .scroll-cue .arrow{ display:inline-block; animation:bob 1.8s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(5px); } }
+
+  /* ===== route plan / map ===== */
+  .map-wrap{ border:2px solid var(--charcoal); background:var(--paper2); padding:14px; position:relative; flex:1; display:flex; flex-direction:column; min-height:0; }
+  .map-wrap .corner{ position:absolute; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.2em; color:var(--faded); }
+  .map-wrap .corner.tl{ top:6px; left:8px; } .map-wrap .corner.tr{ top:6px; right:8px; } .map-wrap .corner.bl{ bottom:6px; left:8px; } .map-wrap .corner.br{ bottom:6px; right:8px; }
+  .map-img{ width:100%; flex:1.2; object-fit:cover; filter:sepia(15%) contrast(1.05) saturate(0.9); border:1px solid var(--line); min-height:0; transform:scale(1.06); transition:transform 1.4s cubic-bezier(.16,1,.3,1); }
+  .frame.in-view .map-img{ transform:scale(1); }
+  .waypoints{ margin-top:12px; display:grid; grid-template-columns:repeat(4,1fr); gap:0; flex-shrink:0; }
+  .waypoint{ display:flex; flex-direction:column; gap:4px; padding:10px 14px; border-left:1px dashed var(--line); }
+  .waypoint:first-child{ border-left:none; padding-left:0; }
+  .waypoint .wp-id{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--orange); font-weight:600; }
+  .waypoint .wp-body h4{ font-size:15px; font-weight:600; margin-bottom:2px; }
+  .waypoint .wp-body p{ font-size:12.5px; color:var(--faded); line-height:1.4; }
+  .waypoint .wp-coord{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--blue); margin-top:2px; }
+  @media (max-width:760px){ .waypoints{ grid-template-columns:repeat(2,1fr); } }
+
+  /* ===== mission timeline (interactive) ===== */
+  .timeline-wrap{ flex:1; display:flex; flex-direction:column; min-height:0; }
+  .timeline-track{ position:relative; height:6px; background:var(--line); margin:24px 0 36px; flex-shrink:0; }
+  .timeline-track .fill{ position:absolute; left:0; top:0; height:100%; width:0%; background:var(--orange); transition:width 1.8s cubic-bezier(.65,0,.35,1); }
+  .timeline-days{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; flex:1; min-height:0; }
+  .tl-day{ border:2px solid var(--line); background:var(--paper2); padding:14px 16px; display:flex; flex-direction:column; opacity:.4; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease, border-color .6s ease; }
+  .frame.in-view .tl-day{ opacity:1; transform:translateY(0); }
+  .frame.in-view .tl-day.active{ border-color:var(--orange); }
+  .tl-day .marker{ width:14px; height:14px; border-radius:50%; border:2px solid var(--faded); margin-bottom:10px; transition:background .5s, border-color .5s, box-shadow .5s; }
+  .frame.in-view .tl-day.active .marker{ background:var(--orange); border-color:var(--orange); box-shadow:0 0 0 5px rgba(225,90,43,0.15); }
+  .tl-day .dnum{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.2em; color:var(--orange); margin-bottom:6px; }
+  .tl-day h4{ font-size:17px; font-weight:600; margin-bottom:6px; }
+  .tl-day p{ font-size:13.5px; color:var(--faded); line-height:1.5; flex:1; }
+  .tl-day .pwr{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--graphite); border-top:1px dashed var(--line); padding-top:8px; margin-top:8px; }
+  .power-accum{ margin-top:16px; flex-shrink:0; font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--faded); display:flex; align-items:baseline; gap:10px; }
+  .power-accum b{ font-size:36px; color:var(--orange); font-weight:600; }
+  @media (max-width:760px){ .timeline-days{ grid-template-columns:repeat(2,1fr); overflow-y:auto; } }
+
+  /* ===== power calculations (handwritten) ===== */
+  .calc-sheet{ border:2px solid var(--charcoal); background:var(--paper2); padding:18px 20px; position:relative; flex:1; min-height:0; overflow-y:auto;
+    background-image: repeating-linear-gradient(0deg, transparent 0 27px, rgba(58,95,125,0.12) 27px 28px); }
+  .calc-sheet .red-margin{ position:absolute; top:0; bottom:0; left:42px; width:1px; background:var(--red); opacity:.5; }
+  .calc-row{ display:flex; justify-content:space-between; align-items:baseline; padding:6px 0 6px 56px; font-family:'Patrick Hand',cursive; font-size:21px; }
+  .calc-row .item{ color:var(--graphite); }
+  .calc-row .val{ font-family:'IBM Plex Mono',monospace; font-size:16px; color:var(--charcoal); font-weight:600; }
+  .calc-row.total{ border-top:2px solid var(--charcoal); margin-top:6px; padding-top:10px; font-weight:700; }
+  .calc-row.total .val{ color:var(--orange); font-size:20px; }
+  .calc-note{ font-family:'Patrick Hand',cursive; font-size:18px; color:var(--red); margin-top:14px; padding-left:56px; }
+  .calc-note::before{ content:'→ '; }
+
+  /* ===== equipment manifest ===== */
+  .manifest{ border:2px solid var(--charcoal); background:var(--paper2); flex:1; min-height:0; overflow-y:auto; }
+  .manifest-row{ display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; padding:11px 16px; border-bottom:1px solid var(--line); cursor:pointer; }
+  .manifest-row:last-child{ border-bottom:none; }
+  .manifest-row .chk{ width:16px; height:16px; border:2px solid var(--charcoal); flex-shrink:0; position:relative; }
+  .manifest-row.checked .chk::after{ content:''; position:absolute; left:1px; top:-2px; width:13px; height:13px; background:var(--green); clip-path:polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 45% 71%); }
+  .manifest-row .item-name{ font-size:15.5px; font-weight:500; }
+  .manifest-row .item-name .id{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--orange); display:block; letter-spacing:.18em; margin-bottom:2px; }
+  .manifest-row .item-spec{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faded); text-align:right; white-space:nowrap; }
+  .manifest-detail{ grid-column:1/-1; max-height:0; overflow:hidden; transition:max-height .35s ease; }
+  .manifest-row.open .manifest-detail{ max-height:60px; }
+  .manifest-detail-in{ font-family:'Patrick Hand',cursive; font-size:17px; color:var(--graphite); padding:8px 0 2px 28px; border-top:1px dashed var(--line); margin-top:8px; }
+
+  /* ===== field notes + weather (combined) ===== */
+  .split{ display:flex; gap:24px; flex:1; min-height:0; }
+  .split > div{ flex:1; min-height:0; display:flex; flex-direction:column; }
+  .notes-wrap{ display:flex; flex-direction:column; gap:12px; overflow-y:auto; }
+  .sticky{ background:#fef3c0; box-shadow:0 6px 14px rgba(0,0,0,0.12); padding:18px 18px; font-family:'Patrick Hand',cursive; font-size:17px; line-height:1.4; color:#4a3f1a; }
+  .sticky.blue{ background:#dbe9f4; color:#2e4a5e; }
+  .sticky.green{ background:#e3ecd8; color:#3a4d31; }
+  .sticky:nth-child(1){ transform:rotate(-1.5deg); }
+  .sticky:nth-child(2){ transform:rotate(1deg); }
+  .sticky:nth-child(3){ transform:rotate(-1deg); }
+  .sticky .tag{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; opacity:.6; display:block; margin-bottom:6px; }
+  .weather-table{ width:100%; border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:13px; }
+  .weather-table th, .weather-table td{ border:1px solid var(--line); padding:12px 14px; text-align:left; }
+  .weather-table th{ background:var(--graphite); color:#fff; font-weight:500; letter-spacing:.1em; text-transform:uppercase; font-size:11px; }
+  .weather-table .warn{ color:var(--red); font-weight:600; }
+  @media (max-width:760px){ .split{ flex-direction:column; } }
+
+  /* ===== deployment plan (power flow) ===== */
+  .deploy-diagram{ border:2px solid var(--charcoal); background:var(--paper2); padding:22px 18px; flex-shrink:0; }
+  .deploy-row{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  .deploy-box{ border:2px solid var(--graphite); padding:10px 12px; text-align:center; flex:1; min-width:100px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; text-transform:uppercase; transition:border-color .6s, color .6s, background .6s; }
+  .deploy-box.src{ border-color:var(--orange); color:var(--orange); font-weight:600; transition:border-color .4s, color .4s, opacity .4s; }
+  .deploy-box.src.empty{ border-color:var(--line); color:var(--faded); border-style:dashed; }
+  .frame.in-view .deploy-box:not(.src){ transition-delay:var(--d,0s); border-color:var(--orange); background:rgba(225,90,43,0.06); }
+  .deploy-arrow{ font-family:'Patrick Hand',cursive; font-size:22px; color:var(--graphite); flex-shrink:0; opacity:.3; transition:opacity .6s; transition-delay:var(--d,0s); }
+  .frame.in-view .deploy-arrow{ opacity:1; }
+  @media (max-width:700px){ .deploy-row{ flex-direction:column; } .deploy-arrow{ transform:rotate(90deg); } }
+
+  /* ===== interactive pack builder ===== */
+  .pack-wrap{ flex:1; display:flex; gap:18px; min-height:0; }
+  .pack-catalog{ flex:1.3; display:flex; flex-direction:column; gap:8px; overflow-y:auto; min-height:0; }
+  .pack-card{
+    display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+    border:2px solid var(--line); background:var(--paper2); padding:14px 16px; cursor:pointer;
+    transition:border-color .25s, background .25s, transform .15s;
+  }
+  .pack-card:hover{ transform:translateX(2px); }
+  .pack-card.added{ border-color:var(--orange); background:rgba(225,90,43,0.06); }
+  .pack-card .pc-chk{ width:16px; height:16px; border:2px solid var(--charcoal); position:relative; flex-shrink:0; }
+  .pack-card.added .pc-chk::after{ content:''; position:absolute; left:1px; top:-2px; width:13px; height:13px; background:var(--orange); clip-path:polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 45% 71%); }
+  .pack-card .pc-name{ font-size:15px; font-weight:600; }
+  .pack-card .pc-tag{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--faded); display:block; margin-top:2px; }
+  .pack-card .pc-spec{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--graphite); text-align:right; white-space:nowrap; }
+  .pack-card .pc-spec .pc-sub{ display:block; font-size:9px; color:var(--faded); margin-top:2px; }
+
+  .pack-readout{ flex:1; display:flex; flex-direction:column; gap:14px; border:2px solid var(--charcoal); background:var(--paper2); padding:16px 18px; min-height:0; overflow-y:auto; }
+  .meter-block .meter-lbl{ display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--faded); margin-bottom:6px; }
+  .meter-block .meter-lbl b{ color:var(--charcoal); font-family:'Patrick Hand',cursive; font-size:15px; letter-spacing:0; text-transform:none; }
+  .meter-track{ height:10px; background:var(--line); position:relative; overflow:hidden; }
+  .meter-track .meter-fill{ position:absolute; left:0; top:0; height:100%; width:0%; background:var(--red); transition:width .6s cubic-bezier(.65,0,.35,1), background .6s; }
+  .meter-track .meter-mark{ position:absolute; top:0; bottom:0; width:1px; background:var(--charcoal); opacity:.4; }
+
+  .day-coverage{ display:flex; gap:8px; }
+  .day-coverage .dc{ flex:1; border:2px solid var(--line); text-align:center; padding:8px 4px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--faded); transition:border-color .4s, color .4s, background .4s; }
+  .day-coverage .dc.ok{ border-color:var(--green); color:var(--green); background:rgba(63,93,58,0.07); }
+  .day-coverage .dc .dc-day{ font-size:9px; opacity:.7; display:block; margin-bottom:3px; }
+
+  .pack-status{ margin-top:auto; border-top:1px dashed var(--line); padding-top:12px; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+  .pack-status .ps-text{ font-family:'Patrick Hand',cursive; font-size:16px; color:var(--graphite); }
+  .pack-status .ps-stamp{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.24em; text-transform:uppercase; padding:6px 12px; border:2px solid var(--red); color:var(--red); transform:rotate(-3deg); transition:border-color .4s, color .4s; }
+  .pack-status .ps-stamp.ready{ border-color:var(--green); color:var(--green); }
+  @media (max-width:760px){ .pack-wrap{ flex-direction:column; } }
+
+  /* ===== content plan + travel media ===== */
+  .shotlist{ border:2px solid var(--charcoal); background:var(--paper2); flex-shrink:0; }
+  .shot{ display:grid; grid-template-columns:50px 1fr auto; gap:10px; padding:13px 16px; border-bottom:1px dashed var(--line); align-items:center; font-size:14.5px; }
+  .shot:last-child{ border-bottom:none; }
+  .shot .num{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--orange); }
+  .shot .qty{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--faded); }
+
+  /* ===== outcomes + partnership request (combined) ===== */
+  .outcome-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--charcoal); border:2px solid var(--charcoal); flex-shrink:0; }
+  .outcome-cell{ background:var(--paper2); padding:18px 16px; }
+  .outcome-cell .num{ font-family:'IBM Plex Mono',monospace; font-size:28px; font-weight:600; color:var(--orange); }
+  .outcome-cell .lbl{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faded); margin-top:3px; }
+  .request-box{ border:2px solid var(--charcoal); background:var(--paper2); padding:14px 16px; }
+  .request-box .tn{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.24em; text-transform:uppercase; color:var(--orange); margin-bottom:5px; }
+  .request-box h4{ font-size:16px; font-weight:600; margin-bottom:4px; }
+  .request-box p{ font-size:13.5px; color:var(--faded); line-height:1.5; }
+  .signoff{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:14px; border-top:1px dashed var(--line); padding-top:14px; flex-shrink:0; }
+  .signoff .name{ font-family:'Patrick Hand',cursive; font-size:22px; }
+  .signoff .role{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--faded); margin-top:3px; }
+  .stamp-final{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--red); border:2px solid var(--red); padding:7px 14px; transform:rotate(-4deg); }
+  @media (max-width:700px){ .outcome-grid{ grid-template-columns:repeat(2,1fr); } }
+
+  /* ===== identity / who we are ===== */
+  .id-grid{ display:flex; gap:28px; flex:1; min-height:0; }
+  .id-text{ flex:1.2; display:flex; flex-direction:column; min-height:0; }
+  .id-text p{ font-size:14px; line-height:1.7; color:var(--graphite); margin-bottom:12px; }
+  .id-photos{ flex:1; display:flex; flex-direction:column; gap:16px; align-items:center; justify-content:center; }
+  .id-stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--charcoal); border:2px solid var(--charcoal); flex-shrink:0; }
+  .id-stats .cell{ background:var(--paper2); padding:14px 12px; }
+  .id-stats .cell .num{ font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:600; color:var(--orange); }
+  .id-stats .cell .lbl{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faded); margin-top:3px; }
+  @media (max-width:760px){ .id-grid{ flex-direction:column; } .id-stats{ grid-template-columns:repeat(2,1fr); } }
+
+  /* ===== founder profile ===== */
+  .founder-grid{ display:flex; gap:28px; flex:1; min-height:0; }
+  .founder-photo{ flex:0 0 220px; display:flex; flex-direction:column; gap:14px; align-items:center; }
+  .founder-text{ flex:1; display:flex; flex-direction:column; gap:14px; min-height:0; overflow-y:auto; }
+  .journal-sheet{ border:2px solid var(--charcoal); background:var(--paper2); padding:18px 20px; position:relative;
+    background-image: repeating-linear-gradient(0deg, transparent 0 27px, rgba(58,95,125,0.12) 27px 28px); }
+  .journal-sheet .red-margin{ position:absolute; top:0; bottom:0; left:42px; width:1px; background:var(--red); opacity:.5; }
+  .journal-sheet .jh{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:var(--orange); margin-bottom:8px; padding-left:56px; }
+  .journal-sheet p{ font-family:'Patrick Hand',cursive; font-size:18px; line-height:1.6; color:var(--graphite); padding-left:56px; }
+  @media (max-width:760px){ .founder-grid{ flex-direction:column; } .founder-photo{ flex:none; flex-direction:row; } }
+
+  /* ===== expedition archive ===== */
+  .archive-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; flex:1; min-height:0; }
+  .archive-card{ border:2px solid var(--charcoal); background:var(--paper2); display:flex; flex-direction:column; position:relative; overflow:hidden; }
+  .archive-card .ac-img{ height:42%; overflow:hidden; position:relative; }
+  .archive-card .ac-img img{ width:100%; height:100%; object-fit:cover; filter:sepia(10%) contrast(1.02); transform:scale(1.08); transition:transform 1.4s cubic-bezier(.16,1,.3,1); }
+  .frame.in-view .archive-card .ac-img img{ transform:scale(1); }
+  .archive-card .ac-stamp{ position:absolute; top:8px; right:8px; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--green); border:2px solid var(--green); padding:3px 8px; background:rgba(245,241,230,0.85); transform:rotate(-4deg); }
+  .archive-card .ac-body{ padding:12px 14px; display:flex; flex-direction:column; flex:1; min-height:0; }
+  .archive-card .ac-loc{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--faded); margin-bottom:4px; }
+  .archive-card h4{ font-size:15px; font-weight:600; margin-bottom:6px; }
+  .archive-card p{ font-size:11.5px; color:var(--graphite); line-height:1.5; flex:1; }
+  .archive-card .ac-stats{ display:flex; gap:14px; border-top:1px dashed var(--line); padding-top:8px; margin-top:8px; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--faded); }
+  .archive-card .ac-stats b{ color:var(--orange); font-size:13px; display:block; font-family:'IBM Plex Mono',monospace; }
+  @media (max-width:900px){ .archive-grid{ grid-template-columns:1fr; overflow-y:auto; } }
+
+  /* ===== audience intelligence ===== */
+  .audience-wrap{ display:flex; gap:24px; flex:1; min-height:0; }
+  .audience-wrap > div{ flex:1; min-height:0; display:flex; flex-direction:column; }
+  .bar-row{ margin-bottom:10px; }
+  .bar-row .bl{ display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--graphite); margin-bottom:4px; }
+  .bar-row .bl b{ color:var(--orange); }
+  .bar-track{ height:10px; background:var(--line); }
+  .bar-track .bf{ height:100%; background:var(--orange); width:0%; transition:width 1.2s cubic-bezier(.65,0,.35,1); }
+  .bar-track .bf.blue{ background:var(--blue); }
+  .bar-track .bf.green{ background:var(--green); }
+  .frame.in-view .bar-track .bf{ width:var(--w); }
+  .tag-cloud{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tag-pill{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; border:2px solid var(--charcoal); padding:6px 12px; background:var(--paper2); }
+  .geo-list{ display:flex; flex-direction:column; gap:6px; }
+  .geo-list .g-row{ display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:11px; border-bottom:1px dashed var(--line); padding:6px 0; }
+  .geo-list .g-row b{ color:var(--orange); }
+  @media (max-width:760px){ .audience-wrap{ flex-direction:column; overflow-y:auto; } }
+
+  /* ===== proof of performance ===== */
+  .perf-table{ width:100%; border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:12px; flex-shrink:0; }
+  .perf-table th, .perf-table td{ border:1px solid var(--line); padding:11px 13px; text-align:left; }
+  .perf-table th{ background:var(--graphite); color:#fff; font-weight:500; letter-spacing:.1em; text-transform:uppercase; font-size:10px; }
+  .perf-table td.hl{ color:var(--orange); font-weight:600; }
+
+  /* ===== why ecoflow (selection record) ===== */
+  .req-checklist{ border:2px solid var(--charcoal); background:var(--paper2); flex-shrink:0; }
+  .req-row{ display:flex; align-items:center; gap:14px; padding:12px 16px; border-bottom:1px solid var(--line); }
+  .req-row:last-child{ border-bottom:none; }
+  .req-row .chk{ width:16px; height:16px; border:2px solid var(--green); position:relative; flex-shrink:0; background:var(--green); }
+  .req-row .chk::after{ content:''; position:absolute; left:1px; top:-2px; width:13px; height:13px; clip-path:polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 45% 71%); background:#fff; }
+  .req-row .req-name{ font-size:14px; font-weight:500; flex:1; }
+  .req-row .req-note{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--faded); }
+  .selected-card{ border:2px solid var(--orange); background:rgba(225,90,43,0.06); padding:16px 18px; margin-top:14px; display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+  .selected-card .sc-label{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.28em; text-transform:uppercase; color:var(--orange); margin-bottom:4px; }
+  .selected-card h4{ font-size:20px; font-weight:700; }
+  .selected-card .sc-specs{ display:flex; gap:18px; margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--graphite); }
+  .selected-card .sc-specs b{ display:block; color:var(--orange); font-size:16px; }
+
+  /* ===== partnership value report ===== */
+  .value-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; flex:1; min-height:0; }
+  .value-card{ border:2px solid var(--charcoal); background:var(--paper2); padding:14px 16px; display:flex; flex-direction:column; }
+  .value-card .vc-tn{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.24em; text-transform:uppercase; color:var(--orange); margin-bottom:6px; }
+  .value-card h4{ font-size:15px; font-weight:600; margin-bottom:6px; }
+  .value-card ul{ list-style:none; margin:0; padding:0; flex:1; }
+  .value-card li{ font-size:12.5px; color:var(--graphite); padding:5px 0; border-top:1px dashed var(--line); display:flex; justify-content:space-between; gap:10px; }
+  .value-card li:first-child{ border-top:none; }
+  .value-card li b{ color:var(--orange); font-family:'IBM Plex Mono',monospace; font-weight:600; white-space:nowrap; }
+  @media (max-width:760px){ .value-grid{ grid-template-columns:1fr; overflow-y:auto; } }
+
+  @media (max-width:760px){
+    .app{ padding:0; }
+    .stage{ border-radius:0; border:none; }
+    .page{ padding:24px 20px; }
+    .dots{ display:none; }
+    #s01 .brief-grid{ flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="stage">
+    <div class="progress" id="progress"></div>
+    <div class="dots" id="dots"></div>
+    <div class="scroller" id="scroller">
+
+  <!-- ============ 01 — MISSION BRIEF / COVER ============ -->
+  <section class="frame" id="s01">
+    <div class="page">
+      <div class="brief-grid">
+        <div class="brief-text">
+          <span class="stamp reveal">Field Copy — Do Not Remove From Pack</span>
+          <h1 class="reveal d1">Expedition Field Journal<br>Yosemite Valley, CA</h1>
+          <p class="sub reveal d2">Planning documents, equipment manifests, power calculations, and field notes for a four-day off-grid production. Compiled for partner review — EcoFlow.</p>
+          <div class="meta reveal d3">
+            <div>Crew<b>Focus Finder Media</b></div>
+            <div>Duration<b>4 Days / Off-Grid</b></div>
+            <div>Location<b>37.8651°N, 119.5383°W</b></div>
+            <div>Status<b>Pre-Deployment</b></div>
+          </div>
+          <div class="objective-box reveal d4">
+            <div class="lbl">Objective</div>
+            <p>Run an entire production — cameras, drone, edit workflow, comms — for four days with zero grid connections, and document the power system that made it possible.</p>
+          </div>
+          <div class="scroll-cue reveal d4">scroll to open journal <span class="arrow">↓</span></div>
+        </div>
+        <div class="tape-photo rot-l reveal d2">
+          <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=600&auto=format&fit=crop" alt="">
+          <div class="cap">camp, night one — charging everything at once</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHO WE ARE ============ -->
+  <section class="frame" id="sWho">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Field Report 001 — Who We Are</span><span class="pageno mono">pg. 02</span></div>
+      <h2 class="reveal">Four people who'd rather be cold and far from cell signal</h2>
+      <p class="deck reveal">The first page of this notebook — who put it together, and why.</p>
+      <div class="id-grid reveal d1">
+        <div class="id-text">
+          <p>Focus Finder Media is a four-person field production crew. We don't shoot from hotels. We carry our kit in on foot, sleep where we're filming, and build every story around the conditions we actually find — not the ones we plan for.</p>
+          <p>We started doing this because the gear-review and travel-influencer space felt staged. We wanted to make films that looked and felt like the trip actually went — including the parts that almost didn't work.</p>
+          <div class="objective-box" style="margin-top:auto;">
+            <div class="lbl">Why We Exist</div>
+            <p>To document remote places and the equipment that makes working in them possible — honestly, on camera, as it happens.</p>
+          </div>
+        </div>
+        <div class="id-photos">
+          <div class="tape-photo rot-l">
+            <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=600&auto=format&fit=crop" alt="">
+            <div class="cap">the crew, somewhere above 9,000ft</div>
+          </div>
+        </div>
+      </div>
+      <div class="id-stats reveal d2">
+        <div class="cell"><div class="num mono">6</div><div class="lbl">Years Operating</div></div>
+        <div class="cell"><div class="num mono">40+</div><div class="lbl">Films Delivered</div></div>
+        <div class="cell"><div class="num mono">4</div><div class="lbl">Person Crew, Full Kit</div></div>
+        <div class="cell"><div class="num mono">12</div><div class="lbl">Countries Filmed</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOUNDER PROFILE ============ -->
+  <section class="frame" id="sFounder">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Field Note #001 — Founder Profile</span><span class="pageno mono">pg. 03</span></div>
+      <h2 class="reveal">Jonah Castleberry</h2>
+      <p class="deck reveal">Founder &amp; Mission Lead, Focus Finder Media.</p>
+      <div class="founder-grid reveal d1">
+        <div class="founder-photo">
+          <div class="tape-photo rot-r">
+            <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=600&auto=format&fit=crop" alt="">
+            <div class="cap">Jonah, Tuolumne scout, dawn</div>
+          </div>
+          <div class="sticky blue" style="width:100%;"><span class="tag">first camera</span>A hand-me-down Canon 60D — still the camera I judge new gear against.</div>
+        </div>
+        <div class="founder-text">
+          <div class="journal-sheet">
+            <div class="red-margin"></div>
+            <div class="jh">Field Note #001</div>
+            <p>"I started filming trips because I kept coming home and not being able to explain what happened out there. Not the views — the waiting, the cold mornings, the gear failing at the worst time and somehow still getting the shot. That's the part people actually want to see. Every trip since has been an attempt to get closer to that."</p>
+          </div>
+          <div class="objective-box">
+            <div class="lbl">Personal Mission</div>
+            <p>Make the remote feel reachable — and make sure the equipment in frame is equipment that actually held up.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPEDITION ARCHIVE ============ -->
+  <section class="frame" id="sArchive">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Expedition Archive</span><span class="pageno mono">pg. 04</span></div>
+      <h2 class="reveal">Recovered field reports</h2>
+      <p class="deck reveal">Three prior expeditions, archived — same crew, same approach.</p>
+      <div class="archive-grid reveal d1">
+        <div class="archive-card">
+          <div class="ac-img"><img src="https://images.unsplash.com/photo-1517824806704-9040b037703b?q=80&w=700&auto=format&fit=crop" alt=""></div>
+          <span class="ac-stamp">Archived</span>
+          <div class="ac-body">
+            <div class="ac-loc">Patagonia, Argentina — 2023</div>
+            <h4>Patagonia Overland</h4>
+            <p>A 9-day overland route through Los Glaciares, shot for a gear-brand collaboration.</p>
+            <div class="ac-stats"><div><b>2.1M</b>Views</div><div><b>6.4%</b>Engagement</div><div><b>1 Film + 6 Reels</b>Delivered</div></div>
+          </div>
+        </div>
+        <div class="archive-card">
+          <div class="ac-img"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=700&auto=format&fit=crop" alt=""></div>
+          <span class="ac-stamp">Archived</span>
+          <div class="ac-body">
+            <div class="ac-loc">Moab, Utah — 2022</div>
+            <h4>Moab Off-Grid</h4>
+            <p>A 4-day desert shoot built around a portable power and recovery-gear partner.</p>
+            <div class="ac-stats"><div><b>980K</b>Views</div><div><b>5.8%</b>Engagement</div><div><b>8 Reels + 12 Photos</b>Delivered</div></div>
+          </div>
+        </div>
+        <div class="archive-card">
+          <div class="ac-img"><img src="https://images.unsplash.com/photo-1571687949921-1306b7a3b6c1?q=80&w=700&auto=format&fit=crop" alt=""></div>
+          <span class="ac-stamp">Archived</span>
+          <div class="ac-body">
+            <div class="ac-loc">Pacific Crest Trail — 2024</div>
+            <h4>Pacific Crest Diaries</h4>
+            <p>A 10-part series following a single thru-hike section, released weekly.</p>
+            <div class="ac-stats"><div><b>3.4M</b>Views</div><div><b>7.1%</b>Engagement</div><div><b>10-Part Series</b>Delivered</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AUDIENCE INTELLIGENCE REPORT ============ -->
+  <section class="frame" id="sAudience">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Audience Intelligence Report</span><span class="pageno mono">pg. 05</span></div>
+      <h2 class="reveal">Who's actually watching</h2>
+      <p class="deck reveal">Total reach across platforms: 1.2M+. Pulled from our own analytics, the morning this dossier was assembled.</p>
+      <div class="audience-wrap reveal d1">
+        <div>
+          <div class="bar-row" style="--w:62%"><div class="bl"><span>Instagram</span><b>740K followers</b></div><div class="bar-track"><div class="bf"></div></div></div>
+          <div class="bar-row" style="--w:34%"><div class="bl"><span>TikTok</span><b>410K followers</b></div><div class="bar-track"><div class="bf"></div></div></div>
+          <div class="bar-row" style="--w:8%"><div class="bl"><span>YouTube</span><b>90K subscribers</b></div><div class="bar-track"><div class="bf"></div></div></div>
+          <div class="geo-list" style="margin-top:10px;">
+            <div class="g-row"><span>United States</span><b>48%</b></div>
+            <div class="g-row"><span>Canada</span><b>12%</b></div>
+            <div class="g-row"><span>Western Europe</span><b>8%</b></div>
+            <div class="g-row"><span>Other</span><b>32%</b></div>
+          </div>
+        </div>
+        <div>
+          <div class="bar-row" style="--w:58%"><div class="bl"><span>Age 24–34</span><b>58%</b></div><div class="bar-track"><div class="bf blue"></div></div></div>
+          <div class="bar-row" style="--w:27%"><div class="bl"><span>Age 35–44</span><b>27%</b></div><div class="bar-track"><div class="bf blue"></div></div></div>
+          <div class="bar-row" style="--w:57%"><div class="bl"><span>Male</span><b>57%</b></div><div class="bar-track"><div class="bf green"></div></div></div>
+          <div class="bar-row" style="--w:43%"><div class="bl"><span>Female</span><b>43%</b></div><div class="bar-track"><div class="bf green"></div></div></div>
+          <div class="tag-cloud" style="margin-top:14px;">
+            <span class="tag-pill">Outdoor Recreation</span>
+            <span class="tag-pill">Photography</span>
+            <span class="tag-pill">Overlanding</span>
+            <span class="tag-pill">Camping</span>
+            <span class="tag-pill">Travel</span>
+            <span class="tag-pill">Adventure Sports</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROOF OF PERFORMANCE ============ -->
+  <section class="frame" id="sPerf">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Proof of Performance</span><span class="pageno mono">pg. 06</span></div>
+      <h2 class="reveal">What's worked before</h2>
+      <p class="deck reveal">Results from the campaigns archived on pg. 04.</p>
+      <table class="perf-table reveal d1">
+        <tr><th>Project</th><th>Views</th><th>Engagement</th><th>Retention</th><th>Sponsor Outcome</th></tr>
+        <tr><td>Patagonia Overland</td><td class="hl">2.1M</td><td>6.4%</td><td>71%</td><td>Sold-out product line tie-in</td></tr>
+        <tr><td>Moab Off-Grid</td><td class="hl">980K</td><td>5.8%</td><td>68%</td><td>Partner restock within 2 weeks</td></tr>
+        <tr><td>Pacific Crest Diaries</td><td class="hl">3.4M</td><td>7.1%</td><td>74%</td><td>Featured — Outside Magazine</td></tr>
+      </table>
+      <div class="sticky green reveal d2" style="margin-top:16px; max-width:480px;"><span class="tag">takeaway</span>Every prior field partner has gotten a dedicated feature, usage rights, and measurable lift — this is a repeatable result, not a one-off.</div>
+    </div>
+  </section>
+
+  <!-- ============ ROUTE PLAN ============ -->
+  <section class="frame" id="s02">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Route Plan</span><span class="pageno mono">pg. 07</span></div>
+      <h2 class="reveal">The route, marked up</h2>
+      <p class="deck reveal">Four waypoints, four days. Each stop is a different power scenario.</p>
+      <div class="map-wrap reveal d1">
+        <span class="corner tl mono">YOS-VALLEY-04</span><span class="corner tr mono">SCALE 1:50,000</span>
+        <img class="map-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop" alt="">
+        <span class="corner bl mono">REV. 3</span><span class="corner br mono">N ↑</span>
+        <div class="waypoints">
+          <div class="waypoint"><span class="wp-id mono">WP 01</span><div class="wp-body"><h4>Tunnel View → Bridalveil</h4><p>Arrival day, vehicle access. Full overnight charge.</p></div><span class="wp-coord mono">37.716, -119.707</span></div>
+          <div class="waypoint"><span class="wp-id mono">WP 02</span><div class="wp-body"><h4>Glacier Point → Sentinel</h4><p>Sunrise hike, solar trickle during climb.</p></div><span class="wp-coord mono">37.726, -119.574</span></div>
+          <div class="waypoint"><span class="wp-id mono">WP 03</span><div class="wp-body"><h4>Tuolumne Meadows</h4><p>Backcountry, peak power draw of the trip.</p></div><span class="wp-coord mono">37.873, -119.354</span></div>
+          <div class="waypoint"><span class="wp-id mono">WP 04</span><div class="wp-body"><h4>Valley Floor → Wrap</h4><p>On-site edit session, pack-out.</p></div><span class="wp-coord mono">37.748, -119.594</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 — MISSION TIMELINE (interactive) ============ -->
+  <section class="frame" id="s03">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Mission Timeline</span><span class="pageno mono">pg. 08</span></div>
+      <h2 class="reveal">Four days, by the numbers</h2>
+      <p class="deck reveal">Route progress and power draw accumulate as the mission moves forward.</p>
+      <div class="timeline-wrap reveal d1">
+        <div class="timeline-track"><div class="fill" id="tlFill"></div></div>
+        <div class="timeline-days">
+          <div class="tl-day active" data-pwr="3.0"><div class="marker"></div><div class="dnum mono">DAY 01</div><h4>Arrival</h4><p>Tunnel View, Bridalveil Fall. Full charge cycle overnight.</p><div class="pwr mono">0.45 + 0.35 + 1.0 + 0.6 kWh</div></div>
+          <div class="tl-day active" data-pwr="3.0"><div class="marker"></div><div class="dnum mono">DAY 02</div><h4>Glacier Point</h4><p>Sunrise hike, drone aerials. Solar trickle deployed.</p><div class="pwr mono">~3.0 kWh draw</div></div>
+          <div class="tl-day active" data-pwr="3.0"><div class="marker"></div><div class="dnum mono">DAY 03</div><h4>Tuolumne</h4><p>Backcountry — full off-grid day, peak draw.</p><div class="pwr mono">~3.0 kWh draw</div></div>
+          <div class="tl-day active" data-pwr="3.0"><div class="marker"></div><div class="dnum mono">DAY 04</div><h4>Wrap</h4><p>On-location edit, b-roll, departure.</p><div class="pwr mono">~3.0 kWh draw</div></div>
+        </div>
+        <div class="power-accum"><span>Cumulative draw:</span><b id="pwrAccum">0</b><span>kWh / ~12 kWh trip total</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 — POWER CALCULATIONS ============ -->
+  <section class="frame" id="s04">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Power Calculations</span><span class="pageno mono">pg. 09</span></div>
+      <h2 class="reveal">Working out the numbers</h2>
+      <p class="deck reveal">Back-of-the-notebook math — daily draw, per device.</p>
+      <div class="calc-sheet reveal d1">
+        <div class="red-margin"></div>
+        <div class="calc-row"><span class="item">RED Komodo (cinema body)</span><span class="val">0.45 kWh/day</span></div>
+        <div class="calc-row"><span class="item">Sony FX3 ×2 (run &amp; gun)</span><span class="val">0.35 kWh/day</span></div>
+        <div class="calc-row"><span class="item">DJI Mavic 3 (3 batteries)</span><span class="val">0.30 kWh/day</span></div>
+        <div class="calc-row"><span class="item">MacBook Pro 16" ×2 (edit/offload)</span><span class="val">1.00 kWh/day</span></div>
+        <div class="calc-row"><span class="item">Starlink Mini (comms)</span><span class="val">0.60 kWh/day</span></div>
+        <div class="calc-row total"><span class="item">Total draw, per day</span><span class="val">~3.0 kWh</span></div>
+        <div class="calc-row total"><span class="item">Total draw, 4-day trip</span><span class="val">~12 kWh</span></div>
+        <div class="calc-note">need a power station that can hold this + recharge fast between days</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 — EQUIPMENT MANIFEST ============ -->
+  <section class="frame" id="s05">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Equipment Manifest</span><span class="pageno mono">pg. 10</span></div>
+      <h2 class="reveal">What's going in the packs</h2>
+      <p class="deck reveal">Every item that needs charge. Tap a row for power specs.</p>
+      <div class="manifest reveal d1" id="manifest">
+        <div class="manifest-row checked"><div class="chk"></div><div class="item-name"><span class="id mono">CAM-01</span>RED Komodo — cinema body</div><div class="item-spec">45W avg</div><div class="manifest-detail"><div class="manifest-detail-in">~4 hrs runtime per V-mount battery, swapped on location</div></div></div>
+        <div class="manifest-row checked"><div class="chk"></div><div class="item-name"><span class="id mono">CAM-02</span>Sony FX3 ×2 — run &amp; gun</div><div class="item-spec">18W avg (ea)</div><div class="manifest-detail"><div class="manifest-detail-in">~1.5 hrs per NP-FZ100 battery — 6 spares carried</div></div></div>
+        <div class="manifest-row checked"><div class="chk"></div><div class="item-name"><span class="id mono">UAV-01</span>DJI Mavic 3 — aerial</div><div class="item-spec">90W charge</div><div class="manifest-detail"><div class="manifest-detail-in">~25 min flight per battery, 3 in rotation — charger draws 90W</div></div></div>
+        <div class="manifest-row checked"><div class="chk"></div><div class="item-name"><span class="id mono">EDIT-01</span>MacBook Pro 16" ×2</div><div class="item-spec">96W (ea)</div><div class="manifest-detail"><div class="manifest-detail-in">~5 hr nightly edit session, USB-C PD charging</div></div></div>
+        <div class="manifest-row checked"><div class="chk"></div><div class="item-name"><span class="id mono">COM-01</span>Starlink Mini — satcom</div><div class="item-spec">40W cont.</div><div class="manifest-detail"><div class="manifest-detail-in">Continuous draw while active — can run direct off station</div></div></div>
+        <div class="manifest-row"><div class="chk"></div><div class="item-name"><span class="id mono">PWR-01</span>Portable power station — <span style="color:var(--red)">not yet packed</span></div><div class="item-spec">— TBD —</div><div class="manifest-detail"><div class="manifest-detail-in">This is the gap. See Deployment Plan, pg. 13.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 — FIELD NOTES + WEATHER ============ -->
+  <section class="frame" id="s06">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Field Notes &amp; Conditions</span><span class="pageno mono">pg. 11</span></div>
+      <h2 class="reveal">Notes from the scout, weather on the ground</h2>
+      <p class="deck reveal">Cold nights mean batteries drain faster — the power system has to absorb that.</p>
+      <div class="split reveal d1">
+        <div class="notes-wrap">
+          <div class="sticky"><span class="tag">camp, night 1</span>Trailhead outlet is "staff only." Plan for full off-grid from hour one.</div>
+          <div class="sticky blue"><span class="tag">glacier point</span>Drone battery drain noticeably faster below 40°F. Keep spares warm.</div>
+          <div class="sticky green"><span class="tag">tuolumne</span>No cell signal past the meadow turnoff — Starlink ran almost all day.</div>
+        </div>
+        <div>
+          <table class="weather-table">
+            <tr><th>Day</th><th>Cond.</th><th>Low / High</th><th>Notes</th></tr>
+            <tr><td>01</td><td>☀️</td><td>34° / 61°F</td><td>Clear, arrival shoot</td></tr>
+            <tr><td>02</td><td>🌤️</td><td>29° / 58°F</td><td class="warn">Cold start — drain expected</td></tr>
+            <tr><td>03</td><td>⛅</td><td>26° / 54°F</td><td class="warn">Coldest night, no resupply</td></tr>
+            <tr><td>04</td><td>☀️</td><td>33° / 60°F</td><td>Clear, pack-out</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY ECOFLOW — SELECTION RECORD ============ -->
+  <section class="frame" id="sWhy">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Selection Record</span><span class="pageno mono">pg. 12</span></div>
+      <h2 class="reveal">Why we selected EcoFlow</h2>
+      <p class="deck reveal">Checked against the field requirements from pg. 09–11.</p>
+      <div class="req-checklist reveal d1">
+        <div class="req-row"><div class="chk"></div><div class="req-name">Capacity — covers ~12 kWh / 4-day draw</div><div class="req-note mono">pg. 09</div></div>
+        <div class="req-row"><div class="chk"></div><div class="req-name">Fast charging between shoot days</div><div class="req-note mono">pg. 09</div></div>
+        <div class="req-row"><div class="chk"></div><div class="req-name">Solar integration for backcountry days</div><div class="req-note mono">pg. 07</div></div>
+        <div class="req-row"><div class="chk"></div><div class="req-name">Portable enough for a 4-person kit</div><div class="req-note mono">pg. 10</div></div>
+        <div class="req-row"><div class="chk"></div><div class="req-name">Reliable below freezing</div><div class="req-note mono">pg. 11</div></div>
+        <div class="req-row"><div class="chk"></div><div class="req-name">Expandable for future multi-week trips</div><div class="req-note mono">—</div></div>
+      </div>
+      <div class="selected-card reveal d2">
+        <div>
+          <div class="sc-label">Selected System</div>
+          <h4>EcoFlow DELTA Pro 3</h4>
+        </div>
+        <div class="sc-specs">
+          <div><b>4.0 kWh</b>Capacity</div>
+          <div><b>1.0 kWh/day</b>w/ 400W Solar</div>
+          <div><b>64 lb</b>Field Weight</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 — DEPLOYMENT PLAN ============ -->
+  <section class="frame" id="s07">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Deployment Plan</span><span class="pageno mono">pg. 13</span></div>
+      <h2 class="reveal">Build the kit, see it cover the trip</h2>
+      <p class="deck reveal">The system selected on pg. 12 — pick EcoFlow units below and watch the power budget fill in real time.</p>
+
+      <div class="deploy-diagram reveal d1" style="padding:14px 18px; margin-bottom:14px;">
+        <div class="deploy-row">
+          <div class="deploy-box src empty" id="srcBox" style="--d:.0s">Pack a Station<br><span style="font-size:9px;">↓</span></div>
+          <div class="deploy-arrow" style="--d:.05s">→</div>
+          <div class="deploy-box" style="--d:.1s">Charging<br>Hub</div>
+          <div class="deploy-arrow" style="--d:.15s">→</div>
+          <div class="deploy-box" style="--d:.2s">Cameras<br>+ Drone</div>
+          <div class="deploy-arrow" style="--d:.25s">→</div>
+          <div class="deploy-box" style="--d:.3s">Laptops<br>+ Satcom</div>
+        </div>
+      </div>
+
+      <div class="pack-wrap reveal d2">
+        <div class="pack-catalog" id="packCatalog">
+          <!-- populated by JS -->
+        </div>
+        <div class="pack-readout">
+          <div class="meter-block">
+            <div class="meter-lbl"><span>Trip Capacity vs. ~12 kWh Need</span><b id="capLabel">0.0 kWh</b></div>
+            <div class="meter-track"><div class="meter-fill" id="capFill"></div><div class="meter-mark" style="left:100%;"></div></div>
+          </div>
+          <div class="meter-block">
+            <div class="meter-lbl"><span>Daily Solar Recharge vs. ~3.0 kWh/day</span><b id="solarLabel">0.0 kWh/day</b></div>
+            <div class="meter-track"><div class="meter-fill" id="solarFill" style="background:var(--blue);"></div><div class="meter-mark" style="left:100%; background:var(--blue);"></div></div>
+          </div>
+          <div class="meter-block">
+            <div class="meter-lbl"><span>Pack Weight</span><b id="weightLabel">0 lb</b></div>
+          </div>
+          <div class="day-coverage" id="dayCoverage">
+            <div class="dc"><span class="dc-day">Day 01</span>Arrival</div>
+            <div class="dc"><span class="dc-day">Day 02</span>Glacier Pt</div>
+            <div class="dc"><span class="dc-day">Day 03</span>Tuolumne</div>
+            <div class="dc"><span class="dc-day">Day 04</span>Wrap</div>
+          </div>
+          <div class="pack-status">
+            <span class="ps-text" id="psText">Empty pack — add a power station to begin.</span>
+            <span class="ps-stamp" id="psStamp">Not Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 08 — CONTENT PLAN + MEDIA ============ -->
+  <section class="frame" id="s08">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Content Plan</span><span class="pageno mono">pg. 14</span></div>
+      <h2 class="reveal">Shot list &amp; deliverables</h2>
+      <p class="deck reveal">What gets produced on this trip.</p>
+      <div class="shotlist reveal d1">
+        <div class="shot"><span class="num mono">01</span><span>Expedition film — 4–6 min cinematic edit</span><span class="qty mono">×1</span></div>
+        <div class="shot"><span class="num mono">02</span><span>Short-form reels &amp; TikToks</span><span class="qty mono">8 + 10</span></div>
+        <div class="shot"><span class="num mono">03</span><span>Instagram stories, behind-the-scenes</span><span class="qty mono">×15</span></div>
+        <div class="shot"><span class="num mono">04</span><span>Edited stills, full set</span><span class="qty mono">×25</span></div>
+        <div class="shot"><span class="num mono">05</span><span>Dedicated EcoFlow feature — power system in use</span><span class="qty mono">×1</span></div>
+      </div>
+      <div class="sticky reveal d2" style="margin-top:16px; max-width:480px;"><span class="tag">see also</span>Reference footage from prior trips in this same style — Expedition Archive, pg. 04.</div>
+    </div>
+  </section>
+
+  <!-- ============ 09 — OUTCOMES + PARTNERSHIP REQUEST ============ -->
+  <section class="frame" id="s09">
+    <div class="page">
+      <div class="page-head reveal"><span class="tab">Partnership Value Report</span><span class="pageno mono">pg. 15</span></div>
+      <h2 class="reveal">What EcoFlow receives — and what we're asking for</h2>
+      <p class="deck reveal">The full deliverables dossier, plus expected outcomes for the partnership.</p>
+      <div class="value-grid reveal d1">
+        <div class="value-card">
+          <div class="vc-tn">Content Deliverables</div>
+          <h4>From pg. 14 Shot List</h4>
+          <ul>
+            <li><span>Expedition film</span><b>4–6 min</b></li>
+            <li><span>Reels + TikToks</span><b>18 total</b></li>
+            <li><span>Stories (BTS)</span><b>×15</b></li>
+            <li><span>Edited stills</span><b>×25</b></li>
+            <li><span>Dedicated EcoFlow feature</span><b>×1</b></li>
+          </ul>
+        </div>
+        <div class="value-card">
+          <div class="vc-tn">Usage Rights &amp; Integration</div>
+          <h4>Brand Association</h4>
+          <ul>
+            <li><span>Usage rights window</span><b>12 months</b></li>
+            <li><span>Category exclusivity</span><b>Portable Power</b></li>
+            <li><span>On-camera billing</span><b>"Powered by EcoFlow"</b></li>
+            <li><span>Asset library value</span><b>$18,000+</b></li>
+            <li><span>Field test, documented</span><b>×1</b></li>
+          </ul>
+        </div>
+      </div>
+      <div class="outcome-grid reveal d2" style="margin-top:14px;">
+        <div class="outcome-cell"><div class="num mono">1.2M+</div><div class="lbl">Audience Exposure</div></div>
+        <div class="outcome-cell"><div class="num mono">$18K+</div><div class="lbl">Content Value</div></div>
+        <div class="outcome-cell"><div class="num mono">12 mo</div><div class="lbl">Campaign Lifespan</div></div>
+        <div class="outcome-cell"><div class="num mono">60</div><div class="lbl">Total Assets Produced</div></div>
+      </div>
+      <div class="signoff reveal d3" style="margin-top:14px;">
+        <div>
+          <div class="name">Jonah Castleberry</div>
+          <div class="role mono">Mission Lead — Focus Finder Media · The ask: EcoFlow DELTA Pro 3 + 400W panel, see pg. 13</div>
+        </div>
+        <div class="stamp-final">Pending Approval</div>
+      </div>
+    </div>
+  </section>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const sections = Array.from(document.querySelectorAll('.frame'));
+const scroller = document.getElementById('scroller');
+const progress = document.getElementById('progress');
+const dotsWrap = document.getElementById('dots');
+
+sections.forEach((s,i)=>{
+  const d = document.createElement('div');
+  d.className = 'd' + (i===0 ? ' active' : '');
+  d.addEventListener('click', ()=> s.scrollIntoView({behavior:'smooth'}));
+  dotsWrap.appendChild(d);
+});
+const dots = Array.from(dotsWrap.children);
+
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && e.intersectionRatio > 0.5){
+      e.target.classList.add('in-view');
+      const idx = sections.indexOf(e.target);
+      dots.forEach(d=>d.classList.remove('active'));
+      if(dots[idx]) dots[idx].classList.add('active');
+
+      if(e.target.id === 's03'){
+        document.getElementById('tlFill').style.width = '100%';
+        animatePower();
+      }
+    }
+  });
+}, { threshold:[0.5] });
+sections.forEach(s=>io.observe(s));
+
+let pwrDone = false;
+function animatePower(){
+  if(pwrDone) return; pwrDone = true;
+  const el = document.getElementById('pwrAccum');
+  const target = 12;
+  const dur = 1800;
+  const start = performance.now();
+  function step(now){
+    const p = Math.min(1, (now-start)/dur);
+    el.textContent = (target * p).toFixed(1);
+    if(p < 1) requestAnimationFrame(step);
+    else el.textContent = target.toFixed(1);
+  }
+  requestAnimationFrame(step);
+}
+
+if(history.scrollRestoration) history.scrollRestoration = 'manual';
+scroller.scrollTop = 0;
+
+scroller.addEventListener('scroll', ()=>{
+  const max = scroller.scrollHeight - scroller.clientHeight;
+  progress.style.width = (scroller.scrollTop / max * 100) + '%';
+}, { passive:true });
+
+document.querySelectorAll('.manifest-row').forEach(row=>{
+  row.addEventListener('click', ()=> row.classList.toggle('open'));
+});
+
+/* ===== interactive pack builder ===== */
+const PRODUCTS = [
+  { id:'river3',   name:'EcoFlow RIVER 3 Plus',  tag:'Power Station', kwh:1.0, weight:9,   solar:0 },
+  { id:'delta2max',name:'EcoFlow DELTA 2 Max',   tag:'Power Station', kwh:2.0, weight:23,  solar:0 },
+  { id:'deltapro', name:'EcoFlow DELTA Pro',     tag:'Power Station', kwh:3.6, weight:99,  solar:0 },
+  { id:'deltapro3',name:'EcoFlow DELTA Pro 3',   tag:'Power Station', kwh:4.0, weight:64,  solar:0 },
+  { id:'solar220', name:'220W Solar Panel',      tag:'Solar Panel',   kwh:0,   weight:10,  solar:1.0 },
+  { id:'solar400', name:'400W Solar Panel',      tag:'Solar Panel',   kwh:0,   weight:21,  solar:1.8 },
+];
+const TRIP_KWH = 12;
+const DAY_KWH = 3.0;
+const selected = new Set();
+const catalog = document.getElementById('packCatalog');
+
+PRODUCTS.forEach(p=>{
+  const card = document.createElement('div');
+  card.className = 'pack-card';
+  card.innerHTML = `<div class="pc-chk"></div>
+    <div><div class="pc-name">${p.name}</div><span class="pc-tag">${p.tag}</span></div>
+    <div class="pc-spec">${p.kwh ? p.kwh.toFixed(1)+' kWh' : '+'+p.solar.toFixed(1)+' kWh/day'}<span class="pc-sub">${p.weight} lb</span></div>`;
+  card.addEventListener('click', ()=>{
+    card.classList.toggle('added');
+    if(selected.has(p.id)) selected.delete(p.id); else selected.add(p.id);
+    updatePack();
+  });
+  catalog.appendChild(card);
+});
+
+function updatePack(){
+  let kwh = 0, solar = 0, weight = 0;
+  PRODUCTS.forEach(p=>{
+    if(selected.has(p.id)){ kwh += p.kwh; solar += p.solar; weight += p.weight; }
+  });
+
+  const capPct = Math.min(100, (kwh / TRIP_KWH) * 100);
+  const capFill = document.getElementById('capFill');
+  capFill.style.width = capPct + '%';
+  capFill.style.background = kwh >= TRIP_KWH ? 'var(--green)' : (kwh >= TRIP_KWH/2 ? 'var(--orange)' : 'var(--red)');
+  document.getElementById('capLabel').textContent = kwh.toFixed(1) + ' kWh';
+
+  const solarPct = Math.min(100, (solar / DAY_KWH) * 100);
+  document.getElementById('solarFill').style.width = solarPct + '%';
+  document.getElementById('solarLabel').textContent = solar.toFixed(1) + ' kWh/day';
+
+  document.getElementById('weightLabel').textContent = weight + ' lb';
+
+  const dcs = Array.from(document.querySelectorAll('#dayCoverage .dc'));
+  dcs.forEach((dc, i)=>{
+    const remaining = kwh + solar*i - DAY_KWH*(i+1);
+    dc.classList.toggle('ok', remaining >= -0.01);
+  });
+
+  const srcBox = document.getElementById('srcBox');
+  const psText = document.getElementById('psText');
+  const psStamp = document.getElementById('psStamp');
+
+  if(selected.size === 0){
+    srcBox.classList.add('empty');
+    srcBox.innerHTML = 'Pack a Station<br><span style="font-size:9px;">↓</span>';
+    psText.textContent = 'Empty pack — add a power station to begin.';
+    psStamp.textContent = 'Not Ready';
+    psStamp.classList.remove('ready');
+    return;
+  }
+
+  srcBox.classList.remove('empty');
+  srcBox.innerHTML = kwh.toFixed(1) + ' kWh<br>Packed';
+
+  if(kwh >= TRIP_KWH){
+    psText.textContent = `${kwh.toFixed(1)} kWh packed — covers the full 4-day, ${TRIP_KWH} kWh draw.`;
+    psStamp.textContent = 'Mission Ready';
+    psStamp.classList.add('ready');
+  } else if(kwh + solar*4 >= TRIP_KWH){
+    psText.textContent = `${kwh.toFixed(1)} kWh capacity + solar recharge closes the gap across 4 days.`;
+    psStamp.textContent = 'Ready w/ Solar';
+    psStamp.classList.add('ready');
+  } else {
+    const short = (TRIP_KWH - kwh - solar*4).toFixed(1);
+    psText.textContent = `${kwh.toFixed(1)} kWh packed — short by ~${short} kWh across the trip.`;
+    psStamp.textContent = 'Short ' + short + ' kWh';
+    psStamp.classList.remove('ready');
+  }
+}
+updatePack();
+</script>
+
+</body>
+</html>

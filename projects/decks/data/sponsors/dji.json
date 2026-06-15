@@ -1,0 +1,75 @@
+{
+  "_comment": "DJI — ecosystem partner, led by power with cinema gimbal/camera gear as secondary. Drones de-emphasized given the current US DJI drone restrictions. FFM facts live in data/global.json.",
+
+  "key": "dji",
+  "name": "DJI",
+  "accent": "#4aa3ff",
+  "navLabel": "DJI Sponsorship Deck",
+
+  "meta": {
+    "title": "Focus Finder Media — DJI Sponsorship Deck",
+    "description": "A scroll-driven look at the DJI x Focus Finder Media partnership.",
+    "image": "assets/web/og-dji.jpg"
+  },
+
+  "og": {
+    "baseImage": "assets/web/team-9224.jpg",
+    "kicker": "FOCUS FINDER MEDIA",
+    "headline": "DJI\nSponsorship Deck"
+  },
+
+  "hero": {
+    "lines": ["Power the places", "the grid can't reach,", "and the stories that happen there."],
+    "highlightLast": true
+  },
+
+  "challenge": {
+    "label": "The Challenge",
+    "heading": "Four days. Zero grid.<br>Everything still has to run.",
+    "nodes": [
+      { "icon": "camera",  "t": "Cameras",  "d": "2x cinema bodies, all-day shooting" },
+      { "icon": "drone",   "t": "Gimbal Rig", "d": "Stabilized handheld, all-day power" },
+      { "icon": "monitor", "t": "Edit Bay", "d": "On-site review &amp; first cuts" },
+      { "icon": "storage", "t": "Storage", "d": "Redundant backup, every night" },
+      { "icon": "comms",   "t": "Comms",   "d": "Satellite check-ins &amp; safety" }
+    ],
+    "quote": "\"Without power, none of this runs. Without any of this running, there is no film, and without the film, there's no audience to reach.\""
+  },
+
+  "solution": {
+    "label": "The Solution",
+    "heading": "DJI is the<br>mission's power layer.",
+    "sub": "Four days off-grid means every camera, gimbal, and drive depends on one thing staying alive. DJI Power is the hub that keeps the entire kit running, the same kit that includes the RS gimbal already in our bag.",
+    "hubTitle": "DJI Power 2000",
+    "hubSpec": "2.0 kWh + Fast Charge",
+    "spokes": [
+      { "t": "Cinema Cameras", "s": "All-day shooting power" },
+      { "t": "RS Gimbal", "s": "Stabilized handheld shots" },
+      { "t": "Edit Bay", "s": "Laptops + on-site review" },
+      { "t": "Storage &amp; Comms", "s": "Backup drives + satellite" }
+    ],
+    "line2": "No power, no cameras. No cameras, no film. DJI is what keeps this expedition shootable from sunrise to sunrise."
+  },
+
+  "partnership": {
+    "eyebrow": "The Partnership",
+    "heading": "Powering the story is more powerful than sponsoring it.",
+    "paragraphs": [
+      "People don't follow us for product placements. They follow us for the places we go, the stories we tell, and the experiences we share.",
+      "This expedition gets documented exactly like every other adventure we post: raw, real, and as it happens. DJI shows up naturally in that content, on camera when it's keeping us running, in the Stories where we're actually using it, because that's the kind of thing our audience already asks us about."
+    ],
+    "flow": [
+      { "icon": "battery",  "t": "DJI Power 2000", "s": "Running the whole trip" },
+      { "icon": "camera",   "t": "In the Field", "s": "Daily Stories, Reels &amp; BTS" },
+      { "icon": "play",     "t": "Organic Posts", "s": "Shared live, no paid promo" },
+      { "icon": "audience", "t": "Our Audience", "s": "3.1M+ monthly views" }
+    ]
+  },
+
+  "finalAsk": {
+    "eyebrow": "The Final Ask",
+    "heading": "The story exists.<br>The audience exists.<br><i>Now we need the power.</i>",
+    "paragraph": "Every story needs a catalyst. This expedition runs on power. The content runs on curiosity. The audience runs on inspiration.",
+    "cta": "Let's build the next chapter"
+  }
+}

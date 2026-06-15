@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Focus Finder Media — EcoFlow Sponsorship Deck</title>
-<meta property="og:title" content="Focus Finder Media — EcoFlow Sponsorship Deck">
-<meta property="og:description" content="A scroll-driven look at the EcoFlow x Focus Finder Media partnership.">
-<meta property="og:image" content="assets/web/og-ecoflow.jpg">
+<title>Focus Finder Media — LAOWA Partnership Deck</title>
+<meta property="og:title" content="Focus Finder Media — LAOWA Partnership Deck">
+<meta property="og:description" content="A scroll-driven look at the LAOWA x Focus Finder Media partnership.">
+<meta property="og:image" content="assets/web/og-laowa.jpg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Focus Finder Media — EcoFlow Sponsorship Deck">
-<meta name="twitter:description" content="A scroll-driven look at the EcoFlow x Focus Finder Media partnership.">
-<meta name="twitter:image" content="assets/web/og-ecoflow.jpg">
+<meta name="twitter:title" content="Focus Finder Media — LAOWA Partnership Deck">
+<meta name="twitter:description" content="A scroll-driven look at the LAOWA x Focus Finder Media partnership.">
+<meta name="twitter:image" content="assets/web/og-laowa.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
   --bone:#d8d2c4;
   --grey:#8b877c;
   --line:rgba(243,239,230,.14);
-  --accent:#c9ff4f;
+  --accent:#e8b14c;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{background:#0a0908;color:var(--paper);}
@@ -276,15 +276,25 @@ nav .act-label{font-weight:700;}
 .act7{height:var(--vh);background:var(--paper);color:var(--ink);display:flex;flex-direction:column;justify-content:center;padding:48px 0;overflow:hidden;}
 .act7 .head{padding:0 6vw;margin-bottom:40px;max-width:900px;}
 .act7 .head h2{font-size:clamp(24px,3.6vw,52px);font-weight:800;letter-spacing:-0.01em;}
-.act7 .grid{padding:0 6vw;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;position:relative;}
+.act7 .grid{padding:0 6vw;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;position:relative;}
 .act7 .node{
-  aspect-ratio:1; border:1px solid rgba(10,10,10,.12); display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;
-  opacity:.25; transform:scale(.9);
+  position:relative; aspect-ratio:4/5; border:1px solid rgba(10,10,10,.12); border-top:3px solid var(--accent);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:18px;text-align:center;padding:24px 18px;
+  opacity:.25; transform:scale(.9); transition:background .25s ease; overflow:hidden;
 }
-.act7 .node .ic{width:28px;height:28px;stroke:var(--ink);fill:none;stroke-width:1.5;}
-.act7 .node .t{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;}
-.act7 .node .d{font-size:11px;color:var(--grey);}
+.act7 .node:hover{ background:rgba(10,10,10,.04); }
+.act7 .node .ic{width:40px;height:40px;stroke:var(--accent);fill:none;stroke-width:1.6;}
+.act7 .node .t{font-size:14px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;}
+.act7 .node .d{font-size:13px;line-height:1.4;color:var(--grey);}
+.act7 .node.has-img{ color:var(--paper); }
+.act7 .node.has-img .bg{position:absolute;inset:0;z-index:0;}
+.act7 .node.has-img .bg img{width:100%;height:100%;object-fit:cover;}
+.act7 .node.has-img .bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.35) 0%,rgba(11,11,12,.8) 100%);}
+.act7 .node.has-img .ic,.act7 .node.has-img .t,.act7 .node.has-img .d{position:relative;z-index:1;}
+.act7 .node.has-img .ic{stroke:var(--accent);}
+.act7 .node.has-img .t{color:var(--paper);}
+.act7 .node.has-img .d{color:var(--bone);}
 .act7 .line2{padding:0 6vw;margin-top:32px;max-width:760px;font-size:clamp(15px,1.8vw,22px);font-style:italic;line-height:1.4;color:#555;}
 
 @media (max-width:860px){
@@ -297,37 +307,47 @@ nav .act-label{font-weight:700;}
 
 /* =================== ACT VIII — SOLUTION =================== */
 .act8{height:160vh;background:var(--ink);}
-.act8-pin{height:var(--vh);position:sticky;top:0;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:0 6vw;gap:48px;}
-.act8 .head{max-width:560px;}
-.act8 .head h2{font-family:'Inter',sans-serif;font-size:clamp(32px,5.5vw,76px);font-weight:800;letter-spacing:-0.01em;max-width:760px;margin-top:14px;}
+.act8-pin{
+  height:var(--vh);position:sticky;top:0;display:grid;grid-template-columns:1fr 1.15fr;align-items:center;
+  overflow:hidden;padding:0 6vw;gap:5vw;
+}
+.act8-bg{position:absolute;inset:0;z-index:0;}
+.act8-bg img{width:100%;height:100%;object-fit:cover;opacity:.22;}
+.act8-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,var(--ink) 30%,rgba(11,11,12,.55) 100%);}
+.act8 .head{max-width:560px;position:relative;z-index:1;}
+.act8 .head h2{font-family:'Inter',sans-serif;font-size:clamp(28px,5vw,68px);font-weight:800;letter-spacing:-0.01em;max-width:760px;margin-top:14px;}
 .act8 .head .sub{margin-top:16px;font-size:clamp(13px,1.3vw,16px);line-height:1.6;color:var(--bone);max-width:420px;}
+.act8 .head .line2{
+  margin-top:26px;font-size:clamp(14px,1.45vw,18px);line-height:1.55;color:var(--bone);max-width:440px;
+  border-left:2px solid var(--accent);padding-left:18px;opacity:.2;transform:translateY(16px);
+}
 .act8 .flow{
-  position:relative;width:100%;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6vw;
+  position:relative;z-index:1;width:100%;display:flex;flex-direction:column;gap:14px;
 }
 .act8 .hub{
-  position:relative;width:min(26vw,240px);aspect-ratio:1;border-radius:50%;
-  border:1px solid var(--accent);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.05),rgba(243,239,230,.02));
-  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:10px;
-  opacity:.2;transform:scale(.85);
-}
-.act8 .hub .t{font-family:'Inter',sans-serif;font-size:clamp(15px,1.8vw,22px);font-weight:800;max-width:80%;}
-.act8 .hub .s{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);}
-.act8 .spokes{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
-.act8 .fnode{
-  border:1px solid var(--line);border-radius:4px;padding:20px 22px;background:rgba(243,239,230,.03);
+  position:relative;border:1px solid var(--accent);border-radius:4px;
+  background:rgba(var(--accent-rgb,243,239,230),.06);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;
   opacity:.2;transform:translateX(24px);
 }
-.act8 .fnode .t{font-family:'Inter',sans-serif;font-size:16px;font-weight:700;}
-.act8 .fnode .s{margin-top:6px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);}
-.act8 .line2{font-size:clamp(15px,1.8vw,22px);line-height:1.5;color:var(--bone);max-width:760px;opacity:.2;transform:translateY(16px);}
+.act8 .hub .t{font-family:'Inter',sans-serif;font-size:clamp(15px,1.8vw,22px);font-weight:800;}
+.act8 .hub .s{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);text-align:right;}
+.act8 .spokes{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.act8 .fnode{
+  border:1px solid var(--line);border-radius:4px;padding:16px 18px;background:rgba(243,239,230,.03);
+  opacity:.2;transform:translateX(24px);transition:background .25s ease,border-color .25s ease;
+}
+.act8 .fnode:hover{ background:rgba(243,239,230,.06); border-color:var(--accent); }
+.act8 .fnode .t{font-family:'Inter',sans-serif;font-size:15px;font-weight:700;}
+.act8 .fnode .s{margin-top:6px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);line-height:1.4;}
 @media (max-width:860px){
   .act8{height:auto;min-height:var(--vh);}
-  .act8-pin{position:relative;height:auto;gap:28px;padding:64px 6vw 48px;overflow:visible;}
+  .act8-pin{position:relative;height:auto;grid-template-columns:1fr;gap:28px;padding:64px 6vw 48px;overflow:visible;}
   .act8 .flow{grid-template-columns:1fr;gap:28px;justify-items:center;}
   .act8 .hub{width:min(50vw,220px);opacity:1;transform:none;}
   .act8 .spokes{grid-template-columns:1fr 1fr;width:100%;}
   .act8 .fnode{opacity:1;transform:none;}
-  .act8 .line2{opacity:1;transform:none;}
+  .act8 .head .line2{opacity:1;transform:none;}
 }
 
 /* =================== ACT IX — PARTNERSHIP =================== */
@@ -404,7 +424,7 @@ nav .act-label{font-weight:700;}
 
 <div class="progress" id="progress"></div>
 <nav>
-  <span class="act-label" id="actLabel">EcoFlow Sponsorship Deck</span>
+  <span class="act-label" id="actLabel">LAOWA Partnership Deck</span>
 </nav>
 
 <!-- ============ ACT I — WHO WE ARE ============ -->
@@ -412,9 +432,9 @@ nav .act-label{font-weight:700;}
   <div class="bg"><video id="heroVid" autoplay muted loop playsinline src="assets/web/act1-bg.mp4"></video></div>
   <div class="scrim"></div>
   <div class="lines">
-    <div class="line l1"><span id="l1">Power the places</span></div>
-    <div class="line l2"><span id="l2">the grid can't reach,</span></div>
-    <div class="line l3"><span id="l3">and the stories that happen there.</span></div>
+    <div class="line l1"><span id="l1">The world has already</span></div>
+    <div class="line l2"><span id="l2">been photographed.</span></div>
+    <div class="line l3"><span id="l3">Find the angle it hasn't.</span></div>
   </div>
   <div class="foot">
     <div>Focus Finder Media</div>
@@ -578,7 +598,7 @@ nav .act-label{font-weight:700;}
       <div class="label tag">Audience Breakdown</div>
       <div class="map-dots" id="mapDots"></div>
       <div class="interests">
-        <div class="interest"><div class="top"><span>Women</span><b>69.2%</b></div><div class="ibar"><div class="fill" data-w="69.2"></div></div></div>
+        <div class="interest"><div class="top"><span>Men</span><b>69.2%</b></div><div class="ibar"><div class="fill" data-w="69.2"></div></div></div>
         <div class="interest"><div class="top"><span>Aged 25–34</span><b>49.6%</b></div><div class="ibar"><div class="fill" data-w="49.6"></div></div></div>
         <div class="interest"><div class="top"><span>Aged 18–24</span><b>36.5%</b></div><div class="ibar"><div class="fill" data-w="36.5"></div></div></div>
         <div class="interest"><div class="top"><span>United States</span><b>47.8%</b></div><div class="ibar"><div class="fill" data-w="47.8"></div></div></div>
@@ -620,37 +640,48 @@ nav .act-label{font-weight:700;}
 <!-- ============ ACT VII — THE CHALLENGE ============ -->
 <section class="act act7" id="act7">
   <div class="head">
-    <div class="label">The Challenge</div>
-    <h2 style="margin-top:14px;">Four days. Zero grid.<br>Everything still has to run.</h2>
+    <div class="label">The Perspective</div>
+    <h2 style="margin-top:14px;">Most cameras document reality.<br>The right lens transforms it.</h2>
   </div>
   <div class="grid" id="challengeGrid">
-    <div class="node"><svg class="ic" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg><div class="t">Cameras</div><div class="d">2x cinema bodies, all-day shooting</div></div>
-    <div class="node"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8 6h8M6 8v8M18 8v8M8 18h8"/></svg><div class="t">Drones</div><div class="d">Multiple battery cycles per day</div></div>
-    <div class="node"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 20h8M12 16v4"/></svg><div class="t">Edit Bay</div><div class="d">On-site review &amp; first cuts</div></div>
-    <div class="node"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h4"/></svg><div class="t">Storage</div><div class="d">Redundant backup, every night</div></div>
-    <div class="node"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20v-6"/><circle cx="12" cy="11" r="3"/><path d="M7 8a7 7 0 0110 0M4.5 5.5a10.5 10.5 0 0115 0"/></svg><div class="t">Comms</div><div class="d">Satellite check-ins &amp; safety</div></div>
+    <div class="node has-img"><div class="bg"><img src="assets/web/probe-laowa.jpg" alt=""></div>
+      <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg><div class="t">Probe Shots</div><div class="d">Impossible camera movement through tight spaces</div>
+    </div>
+    <div class="node has-img"><div class="bg"><img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" alt=""></div>
+      <svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8 6h8M6 8v8M18 8v8M8 18h8"/></svg><div class="t">Macro Worlds</div><div class="d">Texture and scale most lenses can't reach</div>
+    </div>
+    <div class="node has-img"><div class="bg"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80" alt=""></div>
+      <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 20h8M12 16v4"/></svg><div class="t">Zero-D Wides</div><div class="d">Distortion-free environments, edge to edge</div>
+    </div>
+    <div class="node has-img"><div class="bg"><img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80" alt=""></div>
+      <svg class="ic" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h4"/></svg><div class="t">Anamorphic Look</div><div class="d">A cinematic signature in every frame</div>
+    </div>
+    <div class="node has-img"><div class="bg"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" alt=""></div>
+      <svg class="ic" viewBox="0 0 24 24"><path d="M12 20v-6"/><circle cx="12" cy="11" r="3"/><path d="M7 8a7 7 0 0110 0M4.5 5.5a10.5 10.5 0 0115 0"/></svg><div class="t">On-the-Move</div><div class="d">Optics that hold up wherever the story goes</div>
+    </div>
   </div>
-  <div class="line2">"Without power, none of this runs. Without any of this running, there is no film, and without the film, there's no audience to reach."</div>
+  <div class="line2">"The location only matters if the glass can do it justice. Every shot in this film lives or dies on the optics, and the optics decide whether the audience just sees the place, or asks how it was shot."</div>
 </section>
 
 <!-- ============ ACT VIII — THE SOLUTION ============ -->
 <section class="act act8" id="act8">
   <div class="act8-pin">
+    <div class="act8-bg"><img src="assets/web/bark.png" alt=""></div>
     <div class="head">
-      <div class="label">The Solution</div>
-      <h2>EcoFlow is the<br>mission's power layer.</h2>
-      <p class="sub">Four days off-grid means every camera, drone, and drive depends on one thing staying alive. The DELTA Pro 3 is the hub that keeps the entire kit running.</p>
+      <div class="label">Why LAOWA</div>
+      <h2>LAOWA isn't supporting<br>the visuals. It's creating them.</h2>
+      <p class="sub">Focus Finder Media is a cinematography-driven creative agency: filmmakers, photographers, and editors obsessed with camera movement, optical experimentation, and visual storytelling. LAOWA's lineup is the toolkit that turns a destination into a perspective no one else has captured.</p>
+      <div class="line2">Some perspectives only exist because of the lens. LAOWA is the optical signature behind every frame we deliver — not a product in the shot, but the reason the shot exists at all.</div>
     </div>
     <div class="flow" id="flow">
-      <div class="hub"><div class="t">EcoFlow DELTA Pro 3</div><div class="s">4.0 kWh + Solar Input</div></div>
+      <div class="hub"><div class="t">LAOWA Lens Lineup</div><div class="s">Probe · Macro · Zero-D · Anamorphic</div></div>
       <div class="spokes">
-        <div class="fnode" data-i="0"><div class="t">Cinema Cameras</div><div class="s">All-day shooting power</div></div>
-        <div class="fnode" data-i="1"><div class="t">Drones</div><div class="s">Rapid battery swaps</div></div>
-        <div class="fnode" data-i="2"><div class="t">Edit Bay</div><div class="s">Laptops + on-site review</div></div>
-        <div class="fnode" data-i="3"><div class="t">Storage &amp; Comms</div><div class="s">Backup drives + satellite</div></div>
+        <div class="fnode" data-i="0"><div class="t">Probe</div><div class="s">Reveals hidden worlds, impossible movement</div></div>
+        <div class="fnode" data-i="1"><div class="t">Macro</div><div class="s">Texture and detail no standard lens can hold</div></div>
+        <div class="fnode" data-i="2"><div class="t">Zero-D</div><div class="s">True-to-life wides, no warped edges</div></div>
+        <div class="fnode" data-i="3"><div class="t">Anamorphic</div><div class="s">A cinematic signature, frame after frame</div></div>
       </div>
     </div>
-    <div class="line2">No power, no cameras. No cameras, no film. EcoFlow is what keeps this expedition shootable from sunrise to sunrise.</div>
   </div>
 </section>
 
@@ -661,9 +692,9 @@ nav .act-label{font-weight:700;}
   <div class="wrap">
     <div class="copy">
       <div class="eyebrow">The Partnership</div>
-      <h2>Powering the story is more powerful than sponsoring it.</h2>
-      <p>People don't follow us for product placements. They follow us for the places we go, the stories we tell, and the experiences we share.</p>
-      <p>This expedition gets documented exactly like every other adventure we post: raw, real, and as it happens. EcoFlow shows up naturally in that content, on camera when it's keeping us running, in the Stories where we're actually using it, because that's the kind of thing our audience already asks us about.</p>
+      <h2>The best lens marketing doesn't look like marketing.</h2>
+      <p>The most effective lens marketing doesn't happen through advertisements. It happens when filmmakers use the glass to create imagery people have never seen before — and the audience doesn't just see the product, they experience what it makes possible.</p>
+      <p>Every partnership begins with creator-led content shared organically across our personal and agency channels: authentic, documentary, in-field, with LAOWA glass actively part of the creative process. The strongest partnerships go further — dedicated short films, optical demonstrations, product showcases, and long-form cinematic work built around the lens itself.</p>
       <div class="metrics" id="act9Metrics">
         <div class="metric"><div class="val" data-target="3.1" data-suffix="M+">0</div><div class="lbl">Monthly Views</div></div>
         <div class="metric"><div class="val" data-target="4" data-suffix="">0</div><div class="lbl">Creators Posting In-Field</div></div>
@@ -674,21 +705,17 @@ nav .act-label{font-weight:700;}
     <div class="flow" id="act9Flow">
       <div class="fnode" data-i="0">
         <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><rect x="20" y="10" width="2" height="4"/><path d="M7 10v4M11 10v4"/></svg>
-        <div class="copytext"><div class="t">EcoFlow DELTA Pro 3</div><div class="s">Running the whole trip</div></div>
+        <div class="copytext"><div class="t">LAOWA Lens Kit</div><div class="s">Shooting the whole project</div></div>
       </div>
       <div class="fconn"><div class="pulse"></div></div>
       <div class="fnode" data-i="1">
-        <div class="ic-row">
-          <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg>
-          <svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8 6h8M6 8v8M18 8v8M8 18h8"/></svg>
-          <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 20h8M12 16v4"/></svg>
-        </div>
-        <div class="copytext"><div class="t">In the Field</div><div class="s">Daily Stories, Reels &amp; BTS</div></div>
+        <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg>
+        <div class="copytext"><div class="t">In the Field</div><div class="s">Cinematic coverage, BTS &amp; stills</div></div>
       </div>
       <div class="fconn"><div class="pulse"></div></div>
       <div class="fnode" data-i="2">
         <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M10 8l6 4-6 4z"/></svg>
-        <div class="copytext"><div class="t">Organic Posts</div><div class="s">Shared live, no paid promo</div></div>
+        <div class="copytext"><div class="t">Organic + Original Work</div><div class="s">Shared live, and built into films</div></div>
       </div>
       <div class="fconn"><div class="pulse"></div></div>
       <div class="fnode" data-i="3">
@@ -702,8 +729,8 @@ nav .act-label{font-weight:700;}
 <!-- ============ ACT X — FINAL ASK ============ -->
 <section class="act act10" id="act10">
   <div class="eyebrow">The Final Ask</div>
-  <h2>The story exists.<br>The audience exists.<br><i>Now we need the power.</i></h2>
-  <p>Every story needs a catalyst. This expedition runs on power. The content runs on curiosity. The audience runs on inspiration.</p>
+  <h2>The lens isn't documenting<br>the story.<br><i>The lens is the story.</i></h2>
+  <p>Focus Finder Media exists to create cinematic imagery. LAOWA exists to create cinematic possibilities. Together, we can produce work that shows not just what the lens is, but what it makes possible.</p>
   <div class="cta-line">
     <div class="btn">Let's build the next chapter</div>
   </div>
@@ -755,17 +782,17 @@ Promise.all(Array.from(document.images).map(img => img.decode ? img.decode().cat
 
 /* progress bar + act label */
 const acts = gsap.utils.toArray('.act');
-const actNames = ['EcoFlow Sponsorship Deck','The Founder','The Team','The Work','The Audience','The Next Expedition','The Challenge','The Solution','The Partnership','The Final Ask'];
+const actNames = ["LAOWA Partnership Deck", "The Founder", "The Team", "The Work", "The Audience", "The Next Expedition", "The Perspective", "Why LAOWA", "The Partnership", "The Final Ask"];
 const progress = document.getElementById('progress');
 const actLabel = document.getElementById('actLabel');
-const roman = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
-app.addEventListener('scroll', ()=>{
+function updateProgress(){
   const total = app.scrollHeight - app.clientHeight;
   progress.style.width = (app.scrollTop/total*100) + '%';
   let cur = 0;
   acts.forEach((a,i)=>{ if(a.getBoundingClientRect().top <= app.clientHeight*0.5) cur = i; });
   actLabel.textContent = actNames[cur];
-}, {passive:true});
+}
+app.addEventListener('scroll', updateProgress, {passive:true});
 
 /* ===== ACT I — kinetic hero ===== */
 gsap.to('#heroVid', {
@@ -925,9 +952,15 @@ const act8Hub = document.querySelector('.act8 .hub');
 const fnodes = gsap.utils.toArray('.act8 .fnode');
 const act8Line2 = document.querySelector('.act8 .line2');
 function updateAct8(){
+  if (window.innerWidth <= 860) {
+    gsap.set(act8Hub, { opacity:1, x:0 });
+    gsap.set(fnodes, { opacity:1, x:0 });
+    gsap.set(act8Line2, { opacity:1, y:0 });
+    return;
+  }
   const p = pinProgress(act8El);
   const hubT = gsap.utils.clamp(0,1,p/0.25);
-  gsap.set(act8Hub, { opacity:0.2+0.8*hubT, scale:0.85+0.15*hubT });
+  gsap.set(act8Hub, { opacity:0.2+0.8*hubT, x:24*(1-hubT) });
   fnodes.forEach((n,i)=>{
     const start = 0.15+i*0.15, end = start+0.25;
     const t = gsap.utils.clamp(0,1,(p-start)/(end-start));
@@ -974,6 +1007,20 @@ ScrollTrigger.create({
     });
   }
 });
+
+/* mobile (iOS) batches 'scroll' events during momentum scrolling, so the
+   manual scroll-driven updates above and ScrollTrigger's scrub timelines can
+   lag or appear to "skip" pinned sections. Drive everything from rAF too. */
+function tick(){
+  ScrollTrigger.update();
+  updateProgress();
+  updateAct4();
+  updateAct6();
+  updateAct6Objs();
+  updateAct8();
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
 
 </script>
 </body>

@@ -1,0 +1,76 @@
+{
+  "_comment": "LAOWA — cinema/macro lens partner. Positions FFM as a cinematography-first creative agency; LAOWA glass is the enabler of perspectives, not a travel sponsor. FFM facts live in data/global.json.",
+
+  "key": "laowa",
+  "name": "LAOWA",
+  "accent": "#e8b14c",
+  "navLabel": "LAOWA Partnership Deck",
+
+  "meta": {
+    "title": "Focus Finder Media — LAOWA Partnership Deck",
+    "description": "A scroll-driven look at the LAOWA x Focus Finder Media partnership.",
+    "image": "assets/web/og-laowa.jpg"
+  },
+
+  "og": {
+    "baseImage": "assets/web/team-9224.jpg",
+    "kicker": "FOCUS FINDER MEDIA",
+    "headline": "LAOWA\nPartnership Deck"
+  },
+
+  "hero": {
+    "lines": ["The world has already", "been photographed.", "Find the angle it hasn't."],
+    "highlightLast": true
+  },
+
+  "challenge": {
+    "label": "The Perspective",
+    "heading": "Most cameras document reality.<br>The right lens transforms it.",
+    "nodes": [
+      { "icon": "camera",  "t": "Probe Shots",  "d": "Impossible camera movement through tight spaces", "img": "assets/web/probe-laowa.jpg" },
+      { "icon": "drone",   "t": "Macro Worlds", "d": "Texture and scale most lenses can't reach", "img": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "monitor", "t": "Zero-D Wides", "d": "Distortion-free environments, edge to edge", "img": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "storage", "t": "Anamorphic Look", "d": "A cinematic signature in every frame", "img": "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "comms",   "t": "On-the-Move", "d": "Optics that hold up wherever the story goes", "img": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" }
+    ],
+    "quote": "\"The location only matters if the glass can do it justice. Every shot in this film lives or dies on the optics, and the optics decide whether the audience just sees the place, or asks how it was shot.\""
+  },
+
+  "solution": {
+    "label": "Why LAOWA",
+    "heading": "LAOWA isn't supporting<br>the visuals. It's creating them.",
+    "sub": "Focus Finder Media is a cinematography-driven creative agency: filmmakers, photographers, and editors obsessed with camera movement, optical experimentation, and visual storytelling. LAOWA's lineup is the toolkit that turns a destination into a perspective no one else has captured.",
+    "bgImg": "assets/web/bark.png",
+    "hubTitle": "LAOWA Lens Lineup",
+    "hubSpec": "Probe · Macro · Zero-D · Anamorphic",
+    "spokes": [
+      { "t": "Probe", "s": "Reveals hidden worlds, impossible movement" },
+      { "t": "Macro", "s": "Texture and detail no standard lens can hold" },
+      { "t": "Zero-D", "s": "True-to-life wides, no warped edges" },
+      { "t": "Anamorphic", "s": "A cinematic signature, frame after frame" }
+    ],
+    "line2": "Some perspectives only exist because of the lens. LAOWA is the optical signature behind every frame we deliver — not a product in the shot, but the reason the shot exists at all."
+  },
+
+  "partnership": {
+    "eyebrow": "The Partnership",
+    "heading": "The best lens marketing doesn't look like marketing.",
+    "paragraphs": [
+      "The most effective lens marketing doesn't happen through advertisements. It happens when filmmakers use the glass to create imagery people have never seen before — and the audience doesn't just see the product, they experience what it makes possible.",
+      "Every partnership begins with creator-led content shared organically across our personal and agency channels: authentic, documentary, in-field, with LAOWA glass actively part of the creative process. The strongest partnerships go further — dedicated short films, optical demonstrations, product showcases, and long-form cinematic work built around the lens itself."
+    ],
+    "flow": [
+      { "icon": "battery",  "t": "LAOWA Lens Kit", "s": "Shooting the whole project" },
+      { "icon": "camera",   "t": "In the Field", "s": "Cinematic coverage, BTS &amp; stills" },
+      { "icon": "play",     "t": "Organic + Original Work", "s": "Shared live, and built into films" },
+      { "icon": "audience", "t": "Our Audience", "s": "3.1M+ monthly views" }
+    ]
+  },
+
+  "finalAsk": {
+    "eyebrow": "The Final Ask",
+    "heading": "The lens isn't documenting<br>the story.<br><i>The lens is the story.</i>",
+    "paragraph": "Focus Finder Media exists to create cinematic imagery. LAOWA exists to create cinematic possibilities. Together, we can produce work that shows not just what the lens is, but what it makes possible.",
+    "cta": "Let's build the next chapter"
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "_comment": "Portable power category — Pecron. FFM facts live in data/global.json.",
+  "key": "pecron",
+  "name": "Pecron",
+  "accent": "#e0492f",
+  "navLabel": "Pecron Sponsorship Deck",
+  "meta": {
+    "title": "Focus Finder Media — Pecron Sponsorship Deck",
+    "description": "A scroll-driven look at the Pecron x Focus Finder Media partnership.",
+    "image": "assets/web/og-pecron.jpg"
+  },
+  "og": {
+    "baseImage": "assets/web/team-9224.jpg",
+    "kicker": "FOCUS FINDER MEDIA",
+    "headline": "Pecron\nSponsorship Deck"
+  },
+  "hero": {
+    "lines": [
+      "Power the places",
+      "the grid can't reach,",
+      "and the stories that happen there."
+    ],
+    "highlightLast": true
+  },
+  "challenge": {
+    "label": "The Challenge",
+    "heading": "Four days. Zero grid.<br>Everything still has to run.",
+    "nodes": [
+      {
+        "icon": "camera",
+        "t": "Cameras",
+        "d": "2x cinema bodies, all-day shooting"
+      },
+      {
+        "icon": "drone",
+        "t": "Drones",
+        "d": "Multiple battery cycles per day"
+      },
+      {
+        "icon": "monitor",
+        "t": "Edit Bay",
+        "d": "On-site review &amp; first cuts"
+      },
+      {
+        "icon": "storage",
+        "t": "Storage",
+        "d": "Redundant backup, every night"
+      },
+      {
+        "icon": "comms",
+        "t": "Comms",
+        "d": "Satellite check-ins &amp; safety"
+      }
+    ],
+    "quote": "\"Without power, none of this runs. Without any of this running, there is no film, and without the film, there's no audience to reach.\""
+  },
+  "solution": {
+    "label": "The Solution",
+    "heading": "Pecron is the<br>mission's power layer.",
+    "sub": "Four days off-grid means every camera, drone, and drive depends on one thing staying alive. The E3600LFP is the hub that keeps the entire kit running.",
+    "hubTitle": "Pecron E3600LFP",
+    "hubSpec": "3.6 kWh + Solar Input",
+    "spokes": [
+      {
+        "t": "Cinema Cameras",
+        "s": "All-day shooting power"
+      },
+      {
+        "t": "Drones",
+        "s": "Rapid battery swaps"
+      },
+      {
+        "t": "Edit Bay",
+        "s": "Laptops + on-site review"
+      },
+      {
+        "t": "Storage &amp; Comms",
+        "s": "Backup drives + satellite"
+      }
+    ],
+    "line2": "No power, no cameras. No cameras, no film. Pecron is what keeps this expedition shootable from sunrise to sunrise."
+  },
+  "partnership": {
+    "eyebrow": "The Partnership",
+    "heading": "Powering the story is more powerful than sponsoring it.",
+    "paragraphs": [
+      "People don't follow us for product placements. They follow us for the places we go, the stories we tell, and the experiences we share.",
+      "This expedition gets documented exactly like every other adventure we post: raw, real, and as it happens. Pecron shows up naturally in that content, on camera when it's keeping us running, in the Stories where we're actually using it, because that's the kind of thing our audience already asks us about."
+    ],
+    "flow": [
+      {
+        "icon": "battery",
+        "t": "Pecron E3600LFP",
+        "s": "Running the whole trip"
+      },
+      {
+        "icon": "camera",
+        "t": "In the Field",
+        "s": "Daily Stories, Reels &amp; BTS"
+      },
+      {
+        "icon": "play",
+        "t": "Organic Posts",
+        "s": "Shared live, no paid promo"
+      },
+      {
+        "icon": "audience",
+        "t": "Our Audience",
+        "s": "3.1M+ monthly views"
+      }
+    ]
+  },
+  "finalAsk": {
+    "eyebrow": "The Final Ask",
+    "heading": "The story exists.<br>The audience exists.<br><i>Now we need the power.</i>",
+    "paragraph": "Every story needs a catalyst. This expedition runs on power. The content runs on curiosity. The audience runs on inspiration.",
+    "cta": "Let's build the next chapter"
+  }
+}

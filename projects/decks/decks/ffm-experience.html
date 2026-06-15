@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focus Finder Media — EcoFlow Sponsorship Deck</title>
+<meta property="og:title" content="Focus Finder Media — EcoFlow Sponsorship Deck">
+<meta property="og:description" content="A scroll-driven look at the EcoFlow x Focus Finder Media partnership.">
+<meta property="og:image" content="assets/web/og-ecoflow.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Focus Finder Media — EcoFlow Sponsorship Deck">
+<meta name="twitter:description" content="A scroll-driven look at the EcoFlow x Focus Finder Media partnership.">
+<meta name="twitter:image" content="assets/web/og-ecoflow.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f3efe6;
+  --bone:#d8d2c4;
+  --grey:#8b877c;
+  --line:rgba(243,239,230,.14);
+  --accent:#c9ff4f;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:#0a0908;color:var(--paper);}
+body{
+  font-family:'Inter',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+  height:100vh;
+  height:calc(var(--winh, 100vh));
+}
+::selection{background:var(--accent);color:var(--ink);}
+.serif{font-family:'Inter',sans-serif;}
+img{display:block;width:100%;height:100%;object-fit:cover;}
+
+/* ---- rounded frame ---- */
+#app{
+  position:relative;
+  height:calc(var(--winh, 100vh) - 28px);
+  margin:14px;
+  border-radius:28px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background:var(--ink);
+  transform:translateZ(0);
+  box-shadow:0 40px 100px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.04);
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+@media (min-width:861px){
+  #app{ scroll-snap-type:y proximity; }
+}
+#app::-webkit-scrollbar{ display:none; }
+#app::before{
+  content:'';position:absolute;inset:0;z-index:201;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background:url("assets/textures/scratch.jpeg") center/cover;
+}
+@media (max-width:760px){
+  #app{ margin:6px; height:calc(var(--winh, 100vh) - 12px); border-radius:18px; }
+}
+
+/* grain */
+#app::after{
+  content:'';position:absolute;inset:0;z-index:200;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+
+/* progress + nav */
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:210;width:0%;}
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:190;display:flex;justify-content:space-between;
+  align-items:center;padding:28px 5vw;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--paper);pointer-events:none;mix-blend-mode:difference;
+}
+nav .act-label{font-weight:700;}
+
+/* shared act */
+:root{ --vh:100vh; --panels:4; }
+.act{position:relative;min-height:var(--vh);width:100%;scroll-snap-align:start;scroll-snap-stop:normal;}
+.act-inner{position:relative;width:100%;height:100%;}
+.eyebrow{font-size:12px;letter-spacing:.35em;text-transform:uppercase;font-weight:600;color:var(--accent);}
+.label{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--grey);font-weight:600;}
+
+/* =================== ACT I — HERO =================== */
+.act1{height:var(--vh);overflow:hidden;background:#000;}
+.act1 .bg{position:absolute;inset:0;}
+.act1 .bg img,.act1 .bg video{transform:scale(1.25);will-change:transform;}
+.act1 .bg video{width:100%;height:100%;object-fit:cover;}
+.act1 .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(0,0,0,.3) 60%,rgba(0,0,0,.55) 100%);}
+.act1 .lines{
+  position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  gap:0; padding:0 6vw;
+}
+.act1 .line{
+  font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-0.02em;line-height:.98;
+  font-size:clamp(34px,7.4vw,118px); overflow:hidden;
+}
+.act1 .line span{display:inline-block;will-change:transform;}
+.act1 .line.l2{padding-left:8vw;}
+.act1 .line.l3{padding-left:16vw;}
+.act1 .line.l3 span{
+  background:var(--accent);color:var(--ink);padding:0 .06em;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+.act1 .l3-reveal{
+  display:flex;flex-direction:column;gap:0;margin-top:24px;
+  font-size:clamp(20px,3.2vw,48px);font-weight:600;letter-spacing:-0.01em;line-height:1.25;
+}
+.act1 .l3-reveal .and-power{color:var(--accent);font-style:italic;font-weight:700;margin-top:14px;}
+.act1 .foot{
+  position:absolute;bottom:5vh;left:6vw;right:6vw;text-align:right;
+  font-size:12px;letter-spacing:.25em;text-transform:uppercase;opacity:.75;
+}
+
+/* =================== ACT II — FOUNDER =================== */
+.act2{min-height:var(--vh);background:var(--ink);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;}
+.act2 .media{position:relative;overflow:hidden;background:#000;}
+.act2 .media img{position:absolute;inset:0;width:100%;height:120%;object-fit:cover;}
+.act2 .copy{display:flex;flex-direction:column;justify-content:center;padding:0 6vw;gap:28px;position:relative;}
+.act2 .copy .eyebrow{margin-bottom:6px;}
+.act2 .copy h2{font-family:'Inter',sans-serif;font-size:clamp(40px,5.5vw,84px);font-weight:800;letter-spacing:-0.02em;line-height:1.02;}
+.act2 .bio{display:flex;flex-direction:column;gap:24px;max-width:520px;}
+.act2 .bio p{font-size:clamp(17px,1.9vw,24px);line-height:1.55;font-weight:400;color:var(--paper);}
+.act2 .bio .mono{font-family:'Inter',sans-serif;font-style:italic;color:var(--bone);}
+.act2 .bio-stats{display:flex;gap:40px;margin-top:8px;padding-top:24px;border-top:1px solid var(--line);}
+.act2 .bio-stats div{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);}
+.act2 .bio-stats b{display:block;font-family:'Inter',sans-serif;font-size:32px;font-weight:800;color:var(--paper);letter-spacing:-0.02em;}
+.act2 .crew-line{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);margin-bottom:14px;}
+.act2 .crew-photos{display:flex;gap:12px;margin-bottom:14px;}
+.act2 .crew-photos img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:1px solid var(--line);}
+@media (max-width:860px){
+  .act2{grid-template-columns:1fr;grid-template-rows:26vh 1fr;height:var(--vh);overflow:hidden;}
+  .act2 .media img{height:100%;object-position:center 30%;}
+  .act2 .copy{padding:24px 6vw 32px;gap:18px;overflow:hidden;display:flex;flex-direction:column;}
+  .act2 .copy h2{font-size:clamp(28px,8vw,44px);line-height:1.05;}
+  .act2 .bio{flex:1;display:flex;flex-direction:column;gap:18px;}
+  .act2 .bio p{font-size:clamp(13px,3.6vw,16px);line-height:1.5;}
+  .act2 .bio-stats{gap:20px;flex-wrap:wrap;padding-top:18px;margin-top:auto;}
+  .act2 .bio-stats b{font-size:22px;}
+}
+
+/* =================== ACT III — THE TEAM =================== */
+.act3{height:var(--vh);overflow:hidden;background:#000;position:relative;}
+.act3 .bg{position:absolute;inset:-15% 0;overflow:hidden;}
+.act3 .bg img{width:100%;height:calc(100% + 150px);object-fit:cover;transform:translateY(-150px);}
+.act3 .head{position:absolute;top:0;left:0;right:0;padding:60px 6vw 120px;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,.65) 0%,rgba(0,0,0,.35) 55%,rgba(0,0,0,0) 100%);}
+.act3 .head h2{font-size:clamp(32px,5.5vw,76px);font-weight:800;letter-spacing:-0.01em;max-width:760px;margin-top:14px;text-shadow:0 2px 24px rgba(0,0,0,.5);}
+.act3 .head .lead{font-size:clamp(13px,1.3vw,17px);font-weight:600;line-height:1.5;color:var(--paper);max-width:560px;margin-top:14px;text-shadow:0 2px 16px rgba(0,0,0,.5);}
+.act3 .roster{position:absolute;top:60px;right:12vw;display:grid;grid-template-columns:repeat(2,minmax(190px,220px));gap:20px;z-index:300;}
+.act3 .member{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:28px 18px;border-radius:24px;overflow:clip;background:rgba(28,28,30,.6);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 32px rgba(0,0,0,.35);text-decoration:none;transition:background .25s ease,transform .25s ease;}
+.act3 .member:hover{background:rgba(40,40,44,.7);transform:translateY(-4px);}
+.act3 .member .pic{position:relative;z-index:1;flex:none;width:84px;height:84px;border-radius:50%;overflow:hidden;border:1px solid rgba(255,255,255,.25);}
+.act3 .member .pic img{width:100%;height:100%;object-fit:cover;}
+.act3 .member .info{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;}
+.act3 .member .name{font-size:17px;font-weight:800;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--paper);}
+.act3 .member .handle{font-size:12px;letter-spacing:.08em;color:var(--accent);}
+.act3 .member .followers{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone);}
+@media (max-width:860px){
+  .act3{height:auto;min-height:var(--vh);overflow:visible;display:flex;flex-direction:column;}
+  .act3 .bg{position:absolute;top:0;left:0;right:0;height:115%;}
+  .act3 .bg img{height:100%;object-position:center 35%;}
+  .act3 .head{position:relative;padding:54px 6vw 32px;}
+  .act3 .head h2{font-size:clamp(28px,8vw,44px);}
+  .act3 .roster{position:relative;top:auto;left:auto;right:auto;margin:0 6vw 56px;grid-template-columns:repeat(2,1fr);gap:8px;}
+  .act3 .member{padding:16px 10px;gap:10px;aspect-ratio:1;justify-content:center;}
+  .act3 .member .pic{width:76px;height:76px;}
+  .act3 .member .name{font-size:15px;}
+  .act3 .member .handle{font-size:11px;}
+  .act3 .member .followers{font-size:10px;}
+}
+
+/* =================== ACT IV — THE WORK =================== */
+.act4{height:calc(var(--vh) + (var(--panels) - 1) * var(--vw));overflow:visible;background:var(--ink);}
+.act4-pin{height:var(--vh);position:sticky;top:0;overflow:hidden;}
+.act4 .head{
+  position:absolute;top:0;left:0;right:0;z-index:5;padding:40px 6vw 0;
+  display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;
+}
+.act4 .head h2{font-family:'Inter',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-0.01em;}
+.act4 .track{position:absolute;top:0;left:0;height:var(--vh);display:flex;will-change:transform;}
+.act4 .panel{
+  position:relative;flex:0 0 var(--vw);height:var(--vh);overflow:hidden;
+}
+.act4 .panel img{position:absolute;inset:0;}
+.act4 .panel .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,.85) 100%);}
+.act4 .panel .info{
+  position:absolute;left:6vw;right:6vw;bottom:8vh;display:flex;justify-content:space-between;
+  align-items:flex-end;gap:40px;flex-wrap:wrap;
+}
+.act4 .panel .info .loc{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:14px;}
+.act4 .panel .info h3{font-family:'Inter',sans-serif;font-size:clamp(34px,6vw,96px);font-weight:800;letter-spacing:-0.02em;line-height:1;margin-bottom:18px;}
+.act4 .panel .info .meta{display:flex;gap:48px;flex-wrap:wrap;}
+.act4 .panel .info .meta div{font-size:13px;color:var(--grey);}
+.act4 .panel .info .meta b{display:block;font-size:26px;font-weight:800;color:var(--paper);font-family:'Inter',sans-serif;}
+.act4 .panel .info .partner{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);text-align:right;}
+.act4 .progress-track{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.1);z-index:6;}
+.act4 .progress-fill{position:absolute;left:0;top:0;height:100%;background:var(--accent);width:0%;}
+
+/* =================== ACT V — AUDIENCE =================== */
+.act5{height:var(--vh);background:var(--paper);color:var(--ink);display:flex;flex-direction:column;justify-content:center;padding:48px 0;overflow:hidden;}
+.act5 .head{padding:0 6vw;margin-bottom:32px;}
+.act5 .head h2{font-size:clamp(24px,3.6vw,52px);font-weight:800;letter-spacing:-0.01em;max-width:900px;}
+.act5 .grid{padding:0 6vw;display:grid;grid-template-columns:1.3fr 1fr;gap:60px;}
+.act5 .counters{display:flex;flex-direction:column;gap:0;}
+.act5 .counter{display:flex;align-items:baseline;justify-content:space-between;border-top:1px solid var(--line-dark,rgba(10,10,10,.12));padding:14px 0;gap:24px;}
+.act5 .counters .counter:last-child{border-bottom:1px solid rgba(10,10,10,.12);}
+.act5 .counter .lbl{font-size:13px;font-weight:500;flex:1;min-width:160px;}
+.act5 .counter .val{font-size:clamp(28px,4vw,60px);font-weight:800;letter-spacing:-0.02em;line-height:1;}
+.act5 .counter .note{font-size:11px;color:var(--grey);max-width:190px;text-align:right;}
+.act5 .geo{position:relative;}
+.act5 .geo .tag{margin-bottom:14px;}
+.act5 .map-dots{position:relative;width:100%;aspect-ratio:16/10;border:1px solid rgba(10,10,10,.1);border-radius:4px;overflow:hidden;background:#e9e3d4;}
+.act5 .dot{position:absolute;border-radius:50%;background:var(--ink);transform:scale(0);transform-origin:center;}
+.act5 .interests{margin-top:14px;display:flex;flex-direction:column;gap:10px;}
+.act5 .interest .top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;}
+.act5 .interest .top b{font-weight:700;}
+.act5 .ibar{height:3px;background:rgba(10,10,10,.1);position:relative;}
+.act5 .ibar .fill{position:absolute;left:0;top:0;height:100%;background:var(--ink);width:0%;}
+@media (max-width:860px){
+  .act5{padding:80px 0 32px;height:auto;min-height:var(--vh);}
+  .act5 .grid{grid-template-columns:1fr;gap:36px;}
+  .act5 .counter{flex-wrap:wrap;gap:8px;padding:12px 0;}
+  .act5 .counter .lbl{min-width:0;flex:1 1 100%;order:1;}
+  .act5 .counter .val{order:2;}
+  .act5 .counter .note{order:3;flex:1 1 100%;text-align:left;max-width:none;}
+}
+
+/* =================== ACT VI — NEXT EXPEDITION =================== */
+.act6{height:160vh;background:var(--ink);position:relative;}
+.act6-pin{height:var(--vh);position:sticky;top:0;overflow:hidden;}
+.act6 .map-wrap{
+  position:absolute;inset:0;display:flex;justify-content:center;align-items:center;
+  background:url("assets/textures/tens_spectachrome_9-filtered-9093.png") center/cover;
+}
+.act6 .map-wrap::before{
+  content:'';position:absolute;inset:0;background:rgba(11,11,12,.6);
+}
+.act6 .map-wrap svg{position:relative;z-index:1;}
+.act6 svg{width:min(64vw,820px);height:auto;transform:translate(-4vw,2vh);}
+.act6 .route-path{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;}
+.act6 .node{fill:var(--paper);}
+.act6 .node-label{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;fill:var(--grey);}
+.act6 .head{position:absolute;top:60px;left:6vw;z-index:2;max-width:520px;}
+.act6 .head h2{font-family:'Inter',sans-serif;font-size:clamp(32px,5.5vw,76px);font-weight:800;letter-spacing:-0.01em;max-width:700px;margin-top:14px;text-shadow:0 2px 24px rgba(0,0,0,.6);}
+.act6 .head .sub{margin-top:16px;font-size:clamp(13px,1.3vw,16px);line-height:1.6;color:var(--bone);max-width:380px;}
+.act6 .objectives{
+  position:absolute;right:6vw;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;width:min(26vw,320px);z-index:2;
+}
+.act6 .obj{
+  border:1px solid var(--line);border-radius:4px;padding:16px 20px;background:rgba(11,11,12,.55);backdrop-filter:blur(6px);
+}
+.act6 .obj .n{font-family:'Inter',sans-serif;font-size:12px;color:var(--accent);margin-bottom:6px;}
+.act6 .obj p{font-size:13px;color:var(--bone);line-height:1.4;}
+@media (max-width:860px){
+  .act6 .head{max-width:88vw;}
+  .act6 .head .sub{max-width:none;}
+  .act6 svg{width:min(98vw,820px);transform:translate(0,-2vh);}
+  .act6 .route-path{stroke-width:4;}
+  .act6 .node{r:9px;}
+  .act6 .node-label{font-size:22px;letter-spacing:.08em;fill:var(--paper);}
+  .act6 .node-label[x="775"]{text-anchor:end;transform:translateX(-18px);}
+  .act6 .objectives{position:absolute;right:6vw;left:6vw;width:auto;top:auto;bottom:28px;height:130px;transform:none;display:block;}
+  .act6 .obj{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:20px 22px;background:rgba(11,11,12,.72);}
+  .act6 .obj .n{font-size:14px;}
+  .act6 .obj p{font-size:15px;line-height:1.5;}
+}
+
+/* =================== ACT VII — CHALLENGE =================== */
+.act7{height:var(--vh);background:var(--paper);color:var(--ink);display:flex;flex-direction:column;justify-content:center;padding:48px 0;overflow:hidden;}
+.act7 .head{padding:0 6vw;margin-bottom:40px;max-width:900px;}
+.act7 .head h2{font-size:clamp(24px,3.6vw,52px);font-weight:800;letter-spacing:-0.01em;}
+.act7 .grid{padding:0 6vw;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;position:relative;}
+.act7 .node{
+  aspect-ratio:1; border:1px solid rgba(10,10,10,.12); display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;
+  opacity:.25; transform:scale(.9);
+}
+.act7 .node .ic{width:28px;height:28px;stroke:var(--ink);fill:none;stroke-width:1.5;}
+.act7 .node .t{font-size:11px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;}
+.act7 .node .d{font-size:11px;color:var(--grey);}
+.act7 .line2{padding:0 6vw;margin-top:32px;max-width:760px;font-size:clamp(15px,1.8vw,22px);font-style:italic;line-height:1.4;color:#555;}
+
+@media (max-width:860px){
+  .act7{height:auto;min-height:var(--vh);padding:64px 0 48px;overflow:visible;}
+  .act7 .grid{grid-template-columns:repeat(2,1fr);}
+  .act7 .node{padding:12px;gap:6px;}
+  .act7 .node .ic{width:24px;height:24px;}
+  .act7 .line2{margin-top:24px;font-size:15px;}
+}
+
+/* =================== ACT VIII — SOLUTION =================== */
+.act8{height:160vh;background:var(--ink);}
+.act8-pin{height:var(--vh);position:sticky;top:0;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:0 6vw;gap:48px;}
+.act8 .head{max-width:560px;}
+.act8 .head h2{font-family:'Inter',sans-serif;font-size:clamp(32px,5.5vw,76px);font-weight:800;letter-spacing:-0.01em;max-width:760px;margin-top:14px;}
+.act8 .head .sub{margin-top:16px;font-size:clamp(13px,1.3vw,16px);line-height:1.6;color:var(--bone);max-width:420px;}
+.act8 .flow{
+  position:relative;width:100%;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6vw;
+}
+.act8 .hub{
+  position:relative;width:min(26vw,240px);aspect-ratio:1;border-radius:50%;
+  border:1px solid var(--accent);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.05),rgba(243,239,230,.02));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:10px;
+  opacity:.2;transform:scale(.85);
+}
+.act8 .hub .t{font-family:'Inter',sans-serif;font-size:clamp(15px,1.8vw,22px);font-weight:800;max-width:80%;}
+.act8 .hub .s{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);}
+.act8 .spokes{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+.act8 .fnode{
+  border:1px solid var(--line);border-radius:4px;padding:20px 22px;background:rgba(243,239,230,.03);
+  opacity:.2;transform:translateX(24px);
+}
+.act8 .fnode .t{font-family:'Inter',sans-serif;font-size:16px;font-weight:700;}
+.act8 .fnode .s{margin-top:6px;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);}
+.act8 .line2{font-size:clamp(15px,1.8vw,22px);line-height:1.5;color:var(--bone);max-width:760px;opacity:.2;transform:translateY(16px);}
+@media (max-width:860px){
+  .act8{height:auto;min-height:var(--vh);}
+  .act8-pin{position:relative;height:auto;gap:28px;padding:64px 6vw 48px;overflow:visible;}
+  .act8 .flow{grid-template-columns:1fr;gap:28px;justify-items:center;}
+  .act8 .hub{width:min(50vw,220px);opacity:1;transform:none;}
+  .act8 .spokes{grid-template-columns:1fr 1fr;width:100%;}
+  .act8 .fnode{opacity:1;transform:none;}
+  .act8 .line2{opacity:1;transform:none;}
+}
+
+/* =================== ACT IX — PARTNERSHIP =================== */
+.act9{
+  --ink:var(--paper);--paper:#16210f;--bone:#3c4a30;--grey:#6b7a5c;--line:rgba(22,33,15,.14);--accent:#3c5a26;
+  height:var(--vh);background:#eef2e4;color:var(--ink);position:relative;overflow:hidden;display:flex;align-items:center;padding:0;
+}
+.act9 .bg{position:absolute;inset:0;}
+.act9 .bg img{width:100%;height:100%;object-fit:cover;opacity:.1;mix-blend-mode:multiply;}
+.act9 .scrim{position:absolute;inset:0;background:linear-gradient(115deg,#eef2e4 38%,rgba(238,242,228,.85) 100%);}
+.act9 .wrap{position:relative;z-index:2;width:100%;padding:0 6vw;display:grid;grid-template-columns:1.15fr 1fr;gap:6vw;align-items:center;}
+.act9 .copy .eyebrow{margin-bottom:18px;color:var(--accent);}
+.act9 .copy h2{font-size:clamp(26px,4vw,58px);font-weight:800;letter-spacing:-0.02em;line-height:1.1;max-width:560px;color:var(--ink);}
+.act9 .copy p{margin-top:16px;font-size:clamp(13px,1.25vw,17px);line-height:1.65;color:#445034;max-width:500px;}
+.act9 .metrics{display:flex;gap:6vw;margin-top:40px;flex-wrap:wrap;}
+.act9 .metric{display:flex;flex-direction:column;gap:6px;opacity:0;transform:translateY(16px);}
+.act9 .metric .val{font-size:clamp(22px,3vw,40px);font-weight:800;letter-spacing:-0.02em;color:var(--ink);white-space:nowrap;}
+.act9 .metric .lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);max-width:150px;line-height:1.4;}
+
+.act9 .flow{display:flex;flex-direction:column;}
+.act9 .fnode{
+  display:flex;align-items:center;gap:16px;border:1px solid var(--line);border-radius:8px;
+  padding:16px 20px;background:rgba(60,90,38,.05);opacity:.2;transform:translateX(24px);
+}
+.act9 .fnode .ic-row{display:flex;gap:8px;flex-shrink:0;}
+.act9 .fnode .ic{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.5;flex-shrink:0;}
+.act9 .fnode .copytext{display:flex;flex-direction:column;gap:3px;}
+.act9 .fnode .t{font-size:15px;font-weight:700;letter-spacing:-0.01em;color:var(--ink);}
+.act9 .fnode .s{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);}
+.act9 .fconn{width:2px;height:30px;background:var(--line);margin-left:32px;position:relative;overflow:hidden;}
+.act9 .fconn .pulse{position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--accent);}
+
+@media (max-width:860px){
+  .act9{align-items:flex-start;height:auto;min-height:var(--vh);}
+  .act9 .wrap{grid-template-columns:1fr;gap:28px;padding:64px 6vw 48px;}
+  .act9 .copy h2{font-size:clamp(24px,6.5vw,40px);}
+  .act9 .metrics{gap:36px;margin-top:28px;}
+  .act9 .flow{gap:0;}
+  .act9 .fnode{opacity:1;transform:none;}
+  .act9 .fconn{opacity:1;}
+  .act9 .fconn .pulse{display:none;}
+}
+
+/* =================== ACT X — FINAL ASK =================== */
+.act10{height:var(--vh);background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:80px 6vw;}
+.act10 .eyebrow{margin-bottom:20px;}
+.act10 h2{font-family:'Inter',sans-serif;font-size:clamp(32px,6.5vw,108px);font-weight:800;letter-spacing:-0.02em;line-height:1.05;max-width:1100px;}
+.act10 h2 i{font-style:italic;color:var(--accent);font-weight:500;}
+.act10 p{margin-top:24px;font-size:clamp(14px,1.4vw,18px);color:var(--bone);max-width:520px;line-height:1.6;}
+.act10 .cta-line{margin-top:36px;display:flex;gap:20px;align-items:center;}
+.act10 .btn{
+  font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+  padding:18px 38px;border:1px solid var(--paper);border-radius:100px;color:var(--paper);
+}
+.act10 .ticker{
+  position:absolute;bottom:-6vw;left:0;width:100%;overflow:hidden;opacity:.08;
+}
+.act10 .ticker-track{
+  display:flex;width:max-content;white-space:nowrap;
+  animation:act10-ticker 40s linear infinite;
+}
+.act10 .ticker-track span{
+  font-family:'Inter',sans-serif;font-weight:900;letter-spacing:-0.02em;
+  font-size:clamp(100px,22vw,340px);line-height:1;color:var(--paper);padding-right:0.6em;
+}
+@keyframes act10-ticker{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<div class="progress" id="progress"></div>
+<nav>
+  <span class="act-label" id="actLabel">EcoFlow Sponsorship Deck</span>
+</nav>
+
+<!-- ============ ACT I — WHO WE ARE ============ -->
+<section class="act act1" id="act1">
+  <div class="bg"><video id="heroVid" autoplay muted loop playsinline src="assets/web/act1-bg.mp4"></video></div>
+  <div class="scrim"></div>
+  <div class="lines">
+    <div class="line l1"><span id="l1">Power the places</span></div>
+    <div class="line l2"><span id="l2">the grid can't reach,</span></div>
+    <div class="line l3"><span id="l3">and the stories that happen there.</span></div>
+  </div>
+  <div class="foot">
+    <div>Focus Finder Media</div>
+  </div>
+</section>
+
+<!-- ============ ACT II — THE FOUNDER ============ -->
+<section class="act act2" id="act2">
+    <div class="media"><img id="founderImg" src="assets/web/founder.jpg" alt=""></div>
+    <div class="copy">
+      <div class="eyebrow">The Founder</div>
+      <h2>Jonah<br>Castleberry</h2>
+      <div class="bio">
+        <p class="mono">"I started filming because I kept coming home unable to explain what happened out there. Every trip since has been an attempt to get closer to that feeling, and to bring people with me who'll never get the chance to go."</p>
+        <p>The best moments aren't planned. They're earned. You don't find them, you outlast everything that isn't them.</p>
+        <div class="bio-stats">
+          <div><b>6</b>Years Operating</div>
+          <div><b>40+</b>Films Delivered</div>
+          <div><b>12</b>Countries</div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-- ============ ACT III — THE TEAM ============ -->
+<section class="act act3" id="act3">
+  <div class="bg"><img src="assets/web/team-9224.jpg" alt=""></div>
+  <div class="head">
+    <div class="eyebrow">The Team</div>
+    <h2>Four creators.<br>One crew.</h2>
+    <p class="lead">Our content is designed to serve as a versatile asset for your brand: from promotional campaigns and social media marketing to event highlights, product showcases, and storytelling.</p>
+    <p class="lead">The footage carries an aesthetic that repurposes cleanly across Instagram, YouTube, TikTok, and your website, for paid ads, organic posts, or internal use, built to extend your reach across every channel that matters to your audience.</p>
+  </div>
+  <div class="roster">
+    <a class="member" href="https://www.instagram.com/jonahcastleberry/" target="_blank" rel="noopener">
+      <div class="pic"><img src="assets/web/team-jonah.jpg" alt="Jonah Castleberry"></div>
+      <div class="info">
+        <div class="name">Jonah Castleberry</div>
+        <div class="handle">@jonahcastleberry</div>
+        <div class="followers">9.7K Followers</div>
+      </div>
+    </a>
+    <a class="member" href="https://www.instagram.com/jeremiahmedlen/" target="_blank" rel="noopener">
+      <div class="pic"><img src="assets/web/team-jeremiah.jpg" alt="Jeremiah Medlen"></div>
+      <div class="info">
+        <div class="name">Jeremiah Medlen</div>
+        <div class="handle">@jeremiahmedlen</div>
+        <div class="followers">26.8K Followers</div>
+      </div>
+    </a>
+    <a class="member" href="https://www.instagram.com/lizchandlercreative/" target="_blank" rel="noopener">
+      <div class="pic"><img src="assets/web/team-liz.jpg" alt="Liz Chandler"></div>
+      <div class="info">
+        <div class="name">Liz Chandler</div>
+        <div class="handle">@lizchandlercreative</div>
+        <div class="followers">2.4K Followers</div>
+      </div>
+    </a>
+    <a class="member" href="https://www.instagram.com/evanchandlerr/" target="_blank" rel="noopener">
+      <div class="pic"><img src="assets/web/team-evan.jpg" alt="Evan Chandler"></div>
+      <div class="info">
+        <div class="name">Evan Chandler</div>
+        <div class="handle">@evanchandlerr</div>
+        <div class="followers">87.3K Followers</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ ACT IV — THE WORK ============ -->
+<section class="act act4" id="act4">
+  <div class="act4-pin" id="act4Pin">
+    <div class="head">
+      <div class="eyebrow">The Work</div>
+      <h2>The work<br>is the pitch.</h2>
+    </div>
+    <div class="track" id="workTrack">
+      <div class="panel">
+        <img src="assets/web/work-overland.jpg" alt="">
+        <div class="scrim"></div>
+        <div class="info">
+          <div>
+            <div class="loc">Overland Build, 2024</div>
+            <h3>Inspired<br>Overland</h3>
+          </div>
+          <div class="meta">
+            <div><b>1.4M</b>Views</div>
+            <div><b>6.1%</b>Engagement</div>
+            <div><b>68%</b>Retention</div>
+            <div class="partner">Partner<br>Inspired Overland</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <img src="assets/web/work-dzofilm.jpg" alt="">
+        <div class="scrim"></div>
+        <div class="info">
+          <div>
+            <div class="loc">Cinema Glass on Location, 2024</div>
+            <h3>DZOFILM<br>Field Test</h3>
+          </div>
+          <div class="meta">
+            <div><b>820K</b>Views</div>
+            <div><b>5.4%</b>Engagement</div>
+            <div><b>64%</b>Retention</div>
+            <div class="partner">Partner<br>DZOFILM</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <img src="assets/web/work-ulanzi.jpg" alt="">
+        <div class="scrim"></div>
+        <div class="info">
+          <div>
+            <div class="loc">Gear Showcase, 2023</div>
+            <h3>ULANZI<br>Kit Series</h3>
+          </div>
+          <div class="meta">
+            <div><b>640K</b>Views</div>
+            <div><b>5.9%</b>Engagement</div>
+            <div><b>61%</b>Retention</div>
+            <div class="partner">Partner<br>ULANZI</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <img src="assets/web/work-sixyears.jpg" alt="">
+        <div class="scrim"></div>
+        <div class="info">
+          <div>
+            <div class="loc">Series Reel, 2020-2026</div>
+            <h3>Six Years<br>in the Field</h3>
+          </div>
+          <div class="meta">
+            <div><b>40+</b>Films Delivered</div>
+            <div><b>12</b>Countries</div>
+            <div><b>4</b>Crew</div>
+            <div class="partner">Next<br>Yosemite Valley</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="workFill"></div></div>
+  </div>
+</section>
+
+<!-- ============ ACT V — THE AUDIENCE ============ -->
+<section class="act act5" id="act5">
+  <div class="head">
+    <div class="label">The Audience</div>
+    <h2 style="margin-top:14px;">Sponsors don't invest<br>in adventures. They invest<br>in audiences.</h2>
+  </div>
+  <div class="grid">
+    <div class="counters">
+      <div class="counter"><div class="lbl">Views, last 30 days (single channel)</div><div class="val" data-target="1.2" data-suffix="M">0</div><div class="note">Instagram Professional Dashboard insights</div></div>
+      <div class="counter"><div class="lbl">Interactions, last 30 days</div><div class="val" data-target="195.8" data-suffix="K">0</div><div class="note">Likes, comments, shares &amp; saves combined</div></div>
+      <div class="counter"><div class="lbl">New followers, last 30 days</div><div class="val" data-target="1.1" data-suffix="K">0</div><div class="note">Organic growth, no paid promotion</div></div>
+      <div class="counter"><div class="lbl">Combined crew following</div><div class="val" data-target="170" data-suffix="K+">0</div><div class="note">Across Jonah, Jeremiah, Liz &amp; Evan's channels</div></div>
+    </div>
+    <div class="geo">
+      <div class="label tag">Audience Breakdown</div>
+      <div class="map-dots" id="mapDots"></div>
+      <div class="interests">
+        <div class="interest"><div class="top"><span>Men</span><b>69.2%</b></div><div class="ibar"><div class="fill" data-w="69.2"></div></div></div>
+        <div class="interest"><div class="top"><span>Aged 25–34</span><b>49.6%</b></div><div class="ibar"><div class="fill" data-w="49.6"></div></div></div>
+        <div class="interest"><div class="top"><span>Aged 18–24</span><b>36.5%</b></div><div class="ibar"><div class="fill" data-w="36.5"></div></div></div>
+        <div class="interest"><div class="top"><span>United States</span><b>47.8%</b></div><div class="ibar"><div class="fill" data-w="47.8"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACT VI — THE NEXT EXPEDITION ============ -->
+<section class="act act6" id="act6">
+  <div class="act6-pin">
+    <div class="head">
+      <div class="label">The Next Expedition</div>
+      <h2>Now we go<br>to Yosemite.</h2>
+      <p class="sub">A full week in Yosemite Valley, sweeping wide shots of forest and granite balanced with the quieter moments: campfires, golden hour, the team on the move. Natural light, real conditions, no soundstage.</p>
+    </div>
+    <div class="map-wrap">
+      <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+        <path class="route-path" id="routePath" d="M120,420 C220,380 240,300 320,280 C420,255 440,180 520,150 C600,120 660,140 760,80"/>
+        <circle class="node" cx="120" cy="420" r="6"/>
+        <text class="node-label" x="135" y="425">Basecamp</text>
+        <circle class="node" cx="320" cy="280" r="6"/>
+        <text class="node-label" x="335" y="285">Valley Floor</text>
+        <circle class="node" cx="520" cy="150" r="6"/>
+        <text class="node-label" x="535" y="155">Glacier Point</text>
+        <circle class="node" cx="760" cy="80" r="6"/>
+        <text class="node-label" x="775" y="85">High Sierra</text>
+      </svg>
+    </div>
+    <div class="objectives">
+      <div class="obj"><div class="n">01 — Basecamp</div><p>Set up power, comms &amp; edit bay. Establish the off-grid workflow before first light.</p></div>
+      <div class="obj"><div class="n">02 — Valley Floor</div><p>Primary cinematography days: sunrise/sunset windows, drone sequences, macro detail work.</p></div>
+      <div class="obj"><div class="n">03 — Glacier Point</div><p>Hike-in shoot day. Battery weight and recovery time become critical here.</p></div>
+      <div class="obj"><div class="n">04 — High Sierra</div><p>Final capture &amp; wrap. Full footage backup and first edit pass, fully off-grid.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACT VII — THE CHALLENGE ============ -->
+<section class="act act7" id="act7">
+  <div class="head">
+    <div class="label">The Challenge</div>
+    <h2 style="margin-top:14px;">Four days. Zero grid.<br>Everything still has to run.</h2>
+  </div>
+  <div class="grid" id="challengeGrid">
+    <div class="node"><svg class="ic" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg><div class="t">Cameras</div><div class="d">2x cinema bodies, all-day shooting</div></div>
+    <div class="node"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8 6h8M6 8v8M18 8v8M8 18h8"/></svg><div class="t">Drones</div><div class="d">Multiple battery cycles per day</div></div>
+    <div class="node"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 20h8M12 16v4"/></svg><div class="t">Edit Bay</div><div class="d">On-site review &amp; first cuts</div></div>
+    <div class="node"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h8M8 11h8M8 15h4"/></svg><div class="t">Storage</div><div class="d">Redundant backup, every night</div></div>
+    <div class="node"><svg class="ic" viewBox="0 0 24 24"><path d="M12 20v-6"/><circle cx="12" cy="11" r="3"/><path d="M7 8a7 7 0 0110 0M4.5 5.5a10.5 10.5 0 0115 0"/></svg><div class="t">Comms</div><div class="d">Satellite check-ins &amp; safety</div></div>
+  </div>
+  <div class="line2">"Without power, none of this runs. Without any of this running, there is no film, and without the film, there's no audience to reach."</div>
+</section>
+
+<!-- ============ ACT VIII — THE SOLUTION ============ -->
+<section class="act act8" id="act8">
+  <div class="act8-pin">
+    <div class="head">
+      <div class="label">The Solution</div>
+      <h2>EcoFlow is the<br>mission's power layer.</h2>
+      <p class="sub">Four days off-grid means every camera, drone, and drive depends on one thing staying alive. The DELTA Pro 3 is the hub that keeps the entire kit running.</p>
+    </div>
+    <div class="flow" id="flow">
+      <div class="hub"><div class="t">EcoFlow DELTA Pro 3</div><div class="s">4.0 kWh + Solar Input</div></div>
+      <div class="spokes">
+        <div class="fnode" data-i="0"><div class="t">Cinema Cameras</div><div class="s">All-day shooting power</div></div>
+        <div class="fnode" data-i="1"><div class="t">Drones</div><div class="s">Rapid battery swaps</div></div>
+        <div class="fnode" data-i="2"><div class="t">Edit Bay</div><div class="s">Laptops + on-site review</div></div>
+        <div class="fnode" data-i="3"><div class="t">Storage &amp; Comms</div><div class="s">Backup drives + satellite</div></div>
+      </div>
+    </div>
+    <div class="line2">No power, no cameras. No cameras, no film. EcoFlow is what keeps this expedition shootable from sunrise to sunrise.</div>
+  </div>
+</section>
+
+<!-- ============ ACT IX — THE PARTNERSHIP ============ -->
+<section class="act act9" id="act9">
+  <div class="bg"><img src="assets/web/team-9224.jpg" alt=""></div>
+  <div class="scrim"></div>
+  <div class="wrap">
+    <div class="copy">
+      <div class="eyebrow">The Partnership</div>
+      <h2>Powering the story is more powerful than sponsoring it.</h2>
+      <p>People don't follow us for product placements. They follow us for the places we go, the stories we tell, and the experiences we share.</p>
+      <p>This expedition gets documented exactly like every other adventure we post: raw, real, and as it happens. EcoFlow shows up naturally in that content, on camera when it's keeping us running, in the Stories where we're actually using it, because that's the kind of thing our audience already asks us about.</p>
+      <div class="metrics" id="act9Metrics">
+        <div class="metric"><div class="val" data-target="3.1" data-suffix="M+">0</div><div class="lbl">Monthly Views</div></div>
+        <div class="metric"><div class="val" data-target="4" data-suffix="">0</div><div class="lbl">Creators Posting In-Field</div></div>
+        <div class="metric"><div class="val" data-static="true">Outdoor + Travel</div><div class="lbl">Core Audience</div></div>
+        <div class="metric"><div class="val" data-target="100" data-suffix="%">0</div><div class="lbl">Organic, Unpaid Reach</div></div>
+      </div>
+    </div>
+    <div class="flow" id="act9Flow">
+      <div class="fnode" data-i="0">
+        <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="7" width="18" height="10" rx="2"/><rect x="20" y="10" width="2" height="4"/><path d="M7 10v4M11 10v4"/></svg>
+        <div class="copytext"><div class="t">EcoFlow DELTA Pro 3</div><div class="s">Running the whole trip</div></div>
+      </div>
+      <div class="fconn"><div class="pulse"></div></div>
+      <div class="fnode" data-i="1">
+        <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg>
+        <div class="copytext"><div class="t">In the Field</div><div class="s">Daily Stories, Reels &amp; BTS</div></div>
+      </div>
+      <div class="fconn"><div class="pulse"></div></div>
+      <div class="fnode" data-i="2">
+        <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M10 8l6 4-6 4z"/></svg>
+        <div class="copytext"><div class="t">Organic Posts</div><div class="s">Shared live, no paid promo</div></div>
+      </div>
+      <div class="fconn"><div class="pulse"></div></div>
+      <div class="fnode" data-i="3">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M14.5 13.5c2.5.3 4.5 2.3 4.5 5.5"/></svg>
+        <div class="copytext"><div class="t">Our Audience</div><div class="s">3.1M+ monthly views</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACT X — FINAL ASK ============ -->
+<section class="act act10" id="act10">
+  <div class="eyebrow">The Final Ask</div>
+  <h2>The story exists.<br>The audience exists.<br><i>Now we need the power.</i></h2>
+  <p>Every story needs a catalyst. This expedition runs on power. The content runs on curiosity. The audience runs on inspiration.</p>
+  <div class="cta-line">
+    <div class="btn">Let's build the next chapter</div>
+  </div>
+  <div class="ticker"><div class="ticker-track">
+    <span>FOCUS FINDER MEDIA</span><span>FOCUS FINDER MEDIA</span><span>FOCUS FINDER MEDIA</span><span>FOCUS FINDER MEDIA</span>
+  </div></div>
+</section>
+
+</div><!-- /#app -->
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+const app = document.getElementById('app');
+function setWinH(){
+  const h = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+  document.documentElement.style.setProperty('--winh', h + 'px');
+}
+function setFrameVars(){
+  setWinH();
+  document.documentElement.style.setProperty('--vh', app.clientHeight + 'px');
+  document.documentElement.style.setProperty('--vw', app.clientWidth + 'px');
+}
+setFrameVars();
+function onViewportChange(){
+  requestAnimationFrame(() => {
+    setFrameVars();
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+  });
+}
+window.addEventListener('resize', onViewportChange);
+window.addEventListener('orientationchange', onViewportChange);
+if (window.visualViewport){
+  window.visualViewport.addEventListener('resize', onViewportChange);
+}
+
+ScrollTrigger.defaults({ scroller: app, pinType: 'transform' });
+ScrollTrigger.scrollerProxy(app, {
+  scrollTop(value){ return arguments.length ? (app.scrollTop = value) : app.scrollTop; },
+  getBoundingClientRect(){ return { top:0, left:0, width: app.clientWidth, height: app.clientHeight }; }
+});
+
+/* images affect pinned scroll-distances (act4's track width, etc) — refresh once
+   everything has its real size, otherwise pins can engage/release at the wrong
+   scroll offset and feel like scrolling "jumps" between sections */
+window.addEventListener('load', () => ScrollTrigger.refresh());
+Promise.all(Array.from(document.images).map(img => img.decode ? img.decode().catch(()=>{}) : Promise.resolve()))
+  .then(() => ScrollTrigger.refresh());
+
+/* progress bar + act label */
+const acts = gsap.utils.toArray('.act');
+const actNames = ['EcoFlow Sponsorship Deck','The Founder','The Team','The Work','The Audience','The Next Expedition','The Challenge','The Solution','The Partnership','The Final Ask'];
+const progress = document.getElementById('progress');
+const actLabel = document.getElementById('actLabel');
+const roman = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+app.addEventListener('scroll', ()=>{
+  const total = app.scrollHeight - app.clientHeight;
+  progress.style.width = (app.scrollTop/total*100) + '%';
+  let cur = 0;
+  acts.forEach((a,i)=>{ if(a.getBoundingClientRect().top <= app.clientHeight*0.5) cur = i; });
+  actLabel.textContent = actNames[cur];
+}, {passive:true});
+
+/* ===== ACT I — kinetic hero ===== */
+gsap.to('#heroVid', {
+  scale:1, ease:'none',
+  scrollTrigger:{ trigger:'#act1', start:'top top', end:'bottom top', scrub:true }
+});
+gsap.to('#l1', { x:'-12vw', ease:'none', scrollTrigger:{ trigger:'#act1', start:'top top', end:'bottom top', scrub:true } });
+gsap.to('#l2', { x:'10vw', ease:'none', scrollTrigger:{ trigger:'#act1', start:'top top', end:'bottom top', scrub:true } });
+gsap.to('#l3', { x:'-6vw', opacity:0.3, ease:'none', scrollTrigger:{ trigger:'#act1', start:'top top', end:'bottom top', scrub:true } });
+gsap.to('.act1 .scrim', { opacity:1, ease:'none', scrollTrigger:{ trigger:'#act1', start:'top top', end:'bottom top', scrub:true } });
+
+/* ===== ACT II — founder, gentle image parallax ===== */
+gsap.to('#founderImg', {
+  yPercent:-12, ease:'none',
+  scrollTrigger:{ trigger:'#act2', start:'top bottom', end:'bottom top', scrub:true }
+});
+gsap.from('.act2 .bio > *', {
+  opacity:0, y:30, duration:0.8, stagger:0.12, ease:'power3.out',
+  scrollTrigger:{ trigger:'.act2 .bio', start:'top 75%' }
+});
+
+/* ===== ACT III — team photo parallax ===== */
+gsap.to('.act3 .bg img', {
+  yPercent: 15, ease:'none',
+  scrollTrigger:{ trigger:'#act3', start:'top bottom', end:'bottom top', scrub:true }
+});
+gsap.from('.act3 .member', {
+  opacity:0, y:30, duration:0.7, stagger:0.1, ease:'power3.out',
+  scrollTrigger:{ trigger:'.act3 .roster', start:'top 90%' }
+});
+
+/* ===== ACT IV — horizontal scroll project archive =====
+   .act4 is taller than the viewport (extra height = (panels-1) * vw) and
+   .act4-pin is CSS position:sticky, so it naturally holds in place while
+   that extra scroll distance is consumed — no GSAP pin needed, which avoids
+   the pin engaging/releasing mid-scroll on the custom #app scroller. */
+const track = document.getElementById('workTrack');
+const panels = gsap.utils.toArray('.act4 .panel');
+const act4El = document.getElementById('act4');
+const workFill = document.getElementById('workFill');
+function updateAct4(){
+  const appRect = app.getBoundingClientRect();
+  const elRect = act4El.getBoundingClientRect();
+  const scrollLen = act4El.offsetHeight - app.clientHeight;
+  const traveled = appRect.top - elRect.top;
+  const progress = scrollLen > 0 ? gsap.utils.clamp(0, 1, traveled / scrollLen) : 0;
+  const trackLen = track.scrollWidth - app.clientWidth;
+  gsap.set(track, { x: -progress * trackLen });
+  workFill.style.width = (progress*100)+'%';
+  panels.forEach(p=>{
+    const img = p.querySelector('img');
+    const rect = p.getBoundingClientRect();
+    const t = gsap.utils.clamp(0, 1, 1 - Math.abs(rect.left - appRect.left) / app.clientWidth);
+    gsap.set(img, { scale: 1 + 0.12*t });
+  });
+}
+app.addEventListener('scroll', updateAct4, {passive:true});
+window.addEventListener('resize', updateAct4);
+updateAct4();
+
+/* ===== ACT V — counters, geo dots, interest bars ===== */
+gsap.utils.toArray('.act5 .val').forEach(el=>{
+  const target = parseFloat(el.dataset.target);
+  const suffix = el.dataset.suffix;
+  ScrollTrigger.create({
+    trigger: el, start:'top 80%', once:true,
+    onEnter: () => {
+      gsap.to(el, {
+        textContent: target, duration:1.6, ease:'power2.out', snap:{textContent: target % 1 === 0 ? 1 : 0.1},
+        onUpdate: function(){ el.textContent = (Math.round(this.targets()[0].textContent*10)/10) + suffix; }
+      });
+    }
+  });
+});
+const dotData = [
+  {x:14,y:30,r:14},{x:22,y:55,r:9},{x:48,y:24,r:22},{x:55,y:60,r:12},
+  {x:70,y:38,r:18},{x:80,y:65,r:8},{x:35,y:75,r:7},{x:60,y:18,r:10}
+];
+const mapDots = document.getElementById('mapDots');
+dotData.forEach((d,i)=>{
+  const el = document.createElement('div');
+  el.className='dot';
+  el.style.left = d.x+'%'; el.style.top = d.y+'%';
+  el.style.width = d.r*2+'px'; el.style.height = d.r*2+'px';
+  el.style.opacity = 0.15 + (d.r/22)*0.5;
+  mapDots.appendChild(el);
+});
+ScrollTrigger.create({
+  trigger:'#mapDots', start:'top 75%', once:true,
+  onEnter: () => gsap.to('.act5 .dot', { scale:1, duration:0.8, ease:'back.out(2)', stagger:0.06 })
+});
+ScrollTrigger.create({
+  trigger:'.act5 .interests', start:'top 80%', once:true,
+  onEnter: () => gsap.utils.toArray('.act5 .ibar .fill').forEach(f=>{
+    gsap.to(f, { width: f.dataset.w+'%', duration:1.2, ease:'power3.out' });
+  })
+});
+
+/* shared: scroll progress through a sticky-pinned section (0 = pin engages, 1 = pin releases) */
+function pinProgress(el){
+  const appRect = app.getBoundingClientRect();
+  const elRect = el.getBoundingClientRect();
+  const scrollLen = el.offsetHeight - app.clientHeight;
+  if (scrollLen <= 0) return 0;
+  const traveled = appRect.top - elRect.top;
+  return gsap.utils.clamp(0, 1, traveled / scrollLen);
+}
+
+/* ===== ACT VI — sticky map draw + route reveal ===== */
+const routePath = document.getElementById('routePath');
+const pathLen = routePath.getTotalLength();
+const act6El = document.getElementById('act6');
+gsap.set(routePath, { strokeDasharray: pathLen, strokeDashoffset: pathLen });
+function updateAct6(){
+  gsap.set(routePath, { strokeDashoffset: pathLen * (1 - pinProgress(act6El)) });
+}
+app.addEventListener('scroll', updateAct6, {passive:true});
+window.addEventListener('resize', updateAct6);
+updateAct6();
+const act6Objs = gsap.utils.toArray('.act6 .obj');
+act6Objs.forEach(o => gsap.set(o, { opacity:0, x:40 }));
+function updateAct6Objs(){
+  const p = pinProgress(act6El);
+  if (window.innerWidth <= 860) {
+    const active = Math.min(act6Objs.length-1, Math.floor(p * act6Objs.length));
+    act6Objs.forEach((o,i)=>{
+      gsap.set(o, { opacity: i===active ? 1 : 0, x:0 });
+    });
+    return;
+  }
+  act6Objs.forEach((o,i)=>{
+    const start = i*0.2, end = start+0.25;
+    const t = gsap.utils.clamp(0,1,(p-start)/(end-start));
+    gsap.set(o, { opacity:t, x:40*(1-t) });
+  });
+}
+app.addEventListener('scroll', updateAct6Objs, {passive:true});
+window.addEventListener('resize', updateAct6Objs);
+updateAct6Objs();
+
+/* ===== ACT VII — challenge nodes light up sequentially ===== */
+gsap.utils.toArray('.act7 .node').forEach((n,i)=>{
+  ScrollTrigger.create({
+    trigger:'#challengeGrid', start:'top 75%', once:true,
+    onEnter: () => gsap.to(n, { opacity:1, scale:1, duration:0.6, delay:i*0.12, ease:'back.out(1.7)' })
+  });
+});
+gsap.set('.act7 .line2', { opacity:0, y:20 });
+ScrollTrigger.create({
+  trigger:'.act7 .line2', start:'top 85%', once:true,
+  onEnter: () => gsap.to('.act7 .line2', { opacity:1, y:0, duration:0.9, ease:'power3.out' })
+});
+
+/* ===== ACT VIII — sticky power-flow diagram ===== */
+const act8El = document.getElementById('act8');
+const act8Hub = document.querySelector('.act8 .hub');
+const fnodes = gsap.utils.toArray('.act8 .fnode');
+const act8Line2 = document.querySelector('.act8 .line2');
+function updateAct8(){
+  const p = pinProgress(act8El);
+  const hubT = gsap.utils.clamp(0,1,p/0.25);
+  gsap.set(act8Hub, { opacity:0.2+0.8*hubT, scale:0.85+0.15*hubT });
+  fnodes.forEach((n,i)=>{
+    const start = 0.15+i*0.15, end = start+0.25;
+    const t = gsap.utils.clamp(0,1,(p-start)/(end-start));
+    gsap.set(n, { opacity:0.2+0.8*t, x:24*(1-t) });
+  });
+  const lineT = gsap.utils.clamp(0,1,(p-0.75)/0.25);
+  gsap.set(act8Line2, { opacity:0.2+0.8*lineT, y:16*(1-lineT) });
+}
+app.addEventListener('scroll', updateAct8, {passive:true});
+window.addEventListener('resize', updateAct8);
+updateAct8();
+
+/* ===== ACT IX — partnership: metrics + power-flow diagram ===== */
+gsap.utils.toArray('.act9 .metric').forEach((m,i)=>{
+  ScrollTrigger.create({
+    trigger:'#act9Metrics', start:'top 85%', once:true,
+    onEnter: () => gsap.to(m, { opacity:1, y:0, duration:0.7, delay:i*0.1, ease:'power3.out' })
+  });
+});
+gsap.utils.toArray('.act9 .metric .val[data-target]').forEach(el=>{
+  const target = parseFloat(el.dataset.target);
+  const suffix = el.dataset.suffix;
+  ScrollTrigger.create({
+    trigger: el, start:'top 90%', once:true,
+    onEnter: () => {
+      gsap.to(el, {
+        textContent: target, duration:1.4, ease:'power2.out', snap:{textContent: target % 1 === 0 ? 1 : 0.1},
+        onUpdate: function(){ el.textContent = (Math.round(this.targets()[0].textContent*10)/10) + suffix; }
+      });
+    }
+  });
+});
+
+const act9fnodes = gsap.utils.toArray('.act9 .fnode');
+const act9fconns = gsap.utils.toArray('.act9 .fconn');
+ScrollTrigger.create({
+  trigger:'#act9Flow', start:'top 75%', once:true,
+  onEnter: () => {
+    gsap.to(act9fnodes, { opacity:1, x:0, duration:0.7, stagger:0.15, ease:'power3.out' });
+    act9fconns.forEach((c,i)=>{
+      gsap.fromTo(c.querySelector('.pulse'), { top:'-100%' }, {
+        top:'100%', duration:1.1, ease:'power1.inOut', repeat:-1, repeatDelay:1.6, delay:0.6 + i*0.35
+      });
+    });
+  }
+});
+
+</script>
+</body>
+</html>

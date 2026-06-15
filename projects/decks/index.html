@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focus Finder Media — Sponsorship Decks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f3efe6;
+  --bone:#d8d2c4;
+  --grey:#8b877c;
+  --line:rgba(243,239,230,.14);
+  --accent:#cfc8b8;
+  --panel:#141414;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--ink);height:100%;}
+body{
+  font-family:'Inter',sans-serif;
+  color:var(--paper);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+::selection{background:var(--accent);color:var(--ink);}
+
+/* ---- Gate ---- */
+#gate{
+  position:fixed; inset:0; z-index:100;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    linear-gradient(180deg, rgba(11,11,12,.55), rgba(11,11,12,.8)),
+    url('decks/assets/web/team-9224.jpg') center/cover no-repeat;
+  transition:opacity .5s ease, visibility .5s ease;
+}
+#gate.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+.gate-card{
+  background:rgba(11,11,12,.82);
+  border:1px solid var(--line);
+  backdrop-filter:blur(12px);
+  padding:48px 40px;
+  border-radius:18px;
+  width:90%;
+  max-width:380px;
+  text-align:center;
+  box-shadow:0 40px 100px -20px rgba(0,0,0,.7);
+}
+.gate-card .eyebrow{
+  font-size:11px; letter-spacing:.35em; text-transform:uppercase;
+  color:var(--accent); font-weight:600; margin-bottom:14px;
+}
+.gate-card h1{
+  font-family:'Inter',sans-serif; font-weight:800; letter-spacing:-0.02em;
+  font-size:30px; margin-bottom:8px;
+}
+.gate-card p.sub{ font-size:13px; color:var(--grey); margin-bottom:28px; line-height:1.5; }
+.gate-card input{
+  width:100%; padding:14px 16px; font-size:15px;
+  border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--paper);
+  border-radius:100px; font-family:'Inter',sans-serif;
+  text-align:center; letter-spacing:.08em;
+}
+.gate-card input::placeholder{ color:var(--grey); }
+.gate-card input:focus{ outline:none; border-color:var(--accent); }
+.gate-card button{
+  width:100%; margin-top:12px; padding:14px 16px;
+  background:var(--accent); color:var(--ink); border:none;
+  border-radius:100px; font-size:13px; letter-spacing:.2em; text-transform:uppercase;
+  cursor:pointer; font-weight:700; transition:opacity .2s; font-family:'Inter',sans-serif;
+}
+.gate-card button:hover{ opacity:.85; }
+.gate-error{ margin-top:14px; font-size:12px; color:#e0786a; min-height:16px; }
+
+/* ---- App shell ---- */
+#shell{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  height:100vh;
+}
+
+/* ---- Sidebar ---- */
+aside{
+  border-right:1px solid var(--line);
+  display:flex; flex-direction:column;
+  overflow:hidden;
+}
+aside .side-head{
+  padding:28px 28px 20px;
+  border-bottom:1px solid var(--line);
+  flex-shrink:0;
+}
+aside .eyebrow-small{
+  font-size:11px; letter-spacing:.35em; text-transform:uppercase;
+  color:var(--accent); font-weight:600; margin-bottom:10px;
+}
+aside h1{
+  font-family:'Inter',sans-serif; font-weight:800; letter-spacing:-0.02em;
+  font-size:22px; line-height:1.2;
+}
+aside .nav-scroll{ flex:1; overflow-y:auto; padding:8px 0 24px; }
+aside .nav-scroll::-webkit-scrollbar{ width:0; }
+
+.nav-group{ margin-top:20px; }
+.nav-group:first-child{ margin-top:14px; }
+.nav-group .group-label{
+  padding:0 28px 10px;
+  font-size:11px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--grey); font-weight:600;
+}
+.deck-row{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  width:100%; text-align:left; appearance:none; border:none; background:none; cursor:pointer;
+  padding:12px 28px; color:var(--bone); font-family:'Inter',sans-serif;
+  border-left:2px solid transparent;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.deck-row:hover{ background:rgba(255,255,255,.03); color:var(--paper); }
+.deck-row.active{
+  background:rgba(255,255,255,.05); color:var(--paper);
+  border-left-color:var(--accent);
+}
+.deck-row .name{ font-size:14px; font-weight:600; letter-spacing:-0.01em; }
+.deck-row .status{
+  font-size:9px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
+  color:var(--grey); flex-shrink:0;
+}
+.deck-row.active .status{ color:var(--accent); }
+.deck-row .status.draft{ opacity:.6; }
+
+/* ---- Preview pane ---- */
+main{ display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+.preview-toolbar{
+  flex-shrink:0;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:18px 28px; border-bottom:1px solid var(--line);
+  flex-wrap:wrap;
+}
+.preview-info .label{
+  font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--grey); font-weight:600; margin-bottom:4px;
+}
+.preview-info .title{
+  font-family:'Inter',sans-serif; font-weight:800; letter-spacing:-0.01em; font-size:18px;
+}
+.preview-actions{ display:flex; gap:10px; flex-shrink:0; }
+.btn{
+  appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--bone);
+  font-family:'Inter',sans-serif; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  font-weight:600; padding:10px 16px; border-radius:100px; cursor:pointer;
+  text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+  transition:border-color .2s ease, color .2s ease;
+}
+.btn:hover{ border-color:var(--accent); color:var(--paper); }
+.btn.copied{ border-color:var(--accent); color:var(--accent); }
+.btn.primary{ background:var(--accent); color:var(--ink); border-color:var(--accent); }
+.btn.primary:hover{ opacity:.85; color:var(--ink); }
+
+.preview-stage{
+  flex:1; position:relative; background:#000;
+  overflow:hidden;
+}
+.preview-stage iframe{
+  position:absolute; inset:0; width:100%; height:100%; border:none; background:#000;
+}
+.preview-empty{
+  position:absolute; inset:0; overflow:hidden; background:#000;
+}
+.preview-empty video{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transform:scale(1.08); animation:empty-zoom 30s ease-in-out infinite alternate;
+}
+@keyframes empty-zoom{
+  from{ transform:scale(1.08); }
+  to{ transform:scale(1.18); }
+}
+.preview-empty .scrim{
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,.35) 45%, rgba(0,0,0,.8) 100%);
+}
+.preview-empty .content{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+  gap:18px; padding:0 6vw; max-width:760px;
+}
+.preview-empty .label{
+  font-size:11px; letter-spacing:.35em; text-transform:uppercase; color:var(--accent); font-weight:700;
+}
+.preview-empty h2{
+  font-family:'Inter',sans-serif; font-weight:800; letter-spacing:-0.02em;
+  font-size:clamp(32px,5vw,64px); line-height:1.08; color:var(--paper); max-width:640px;
+}
+.preview-empty p{ font-size:14px; max-width:420px; line-height:1.65; color:var(--bone); }
+
+footer{
+  flex-shrink:0; border-top:1px solid var(--line); padding:14px 28px;
+  display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--grey); letter-spacing:.05em; flex-wrap:wrap; gap:8px;
+}
+
+/* ---- Mobile ---- */
+.nav-toggle{ display:none; }
+.mobile-actionbar{ display:none; }
+@media (max-width:860px){
+  body{ overflow:hidden; }
+  #shell{
+    grid-template-columns:1fr; grid-template-rows:auto 1fr; height:100vh;
+  }
+  aside{
+    border-right:none; border-bottom:1px solid var(--line);
+    flex-shrink:0;
+  }
+  aside .side-head{
+    padding:18px 20px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer;
+  }
+  aside .side-head .head-text{ display:flex; flex-direction:column; }
+  .nav-toggle{
+    display:flex; align-items:center; gap:8px; flex-shrink:0;
+    font-size:11px; letter-spacing:.2em; text-transform:uppercase; font-weight:700; color:var(--accent);
+  }
+  .nav-toggle .chev{ display:inline-block; transition:transform .3s ease; font-size:14px; }
+  aside.collapsed .nav-toggle .chev{ transform:rotate(-90deg); }
+  aside .nav-scroll{
+    max-height:60vh; overflow-y:auto; transition:max-height .32s ease, opacity .25s ease;
+  }
+  aside.collapsed .nav-scroll{ max-height:0; opacity:0; }
+  aside.collapsed{ border-bottom:none; }
+  .deck-row{ padding:12px 20px; }
+  .nav-group .group-label{ padding:0 20px 8px; }
+
+  main{ height:100%; min-height:0; }
+  .preview-toolbar{ display:none; }
+  .preview-stage{ flex:1; min-height:0; height:auto; }
+  footer{ display:none; }
+
+  .mobile-actionbar{
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-shrink:0;
+    padding:14px 20px calc(12px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--line); background:var(--ink);
+  }
+  .mobile-actionbar .preview-info{ min-width:0; overflow:hidden; }
+  .mobile-actionbar .preview-info .label{ font-size:9px; }
+  .mobile-actionbar .preview-info .title{ font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .mobile-actionbar-btns{ display:flex; gap:8px; flex-shrink:0; }
+  .mobile-actionbar .btn{ padding:10px 14px; }
+  .mobile-actionbar .btn span{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Password Gate -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="eyebrow">Focus Finder Media</div>
+    <h1>Sponsorship Decks</h1>
+    <p class="sub">Enter the access code to view active sponsorship decks.</p>
+    <form id="gate-form" autocomplete="off">
+      <input type="password" id="gate-pass" placeholder="Access code" autocomplete="off">
+      <button type="submit">Enter</button>
+      <div class="gate-error" id="gate-error"></div>
+    </form>
+  </div>
+</div>
+
+<div id="shell">
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="side-head" id="navToggle">
+      <div class="head-text">
+        <div class="eyebrow-small">Focus Finder Media</div>
+        <h1>Sponsorship Decks</h1>
+      </div>
+      <div class="nav-toggle"><span>Browse</span><span class="chev">▾</span></div>
+    </div>
+    <nav class="nav-scroll" id="navScroll">
+
+      <div class="nav-group">
+        <div class="group-label">Power &amp; Energy</div>
+        <button class="deck-row" data-file="ecoflow.html" data-title="EcoFlow" data-meta="Portable Power · Active">
+          <span class="name">EcoFlow</span><span class="status">Active</span>
+        </button>
+        <button class="deck-row" data-file="anker-solix.html" data-title="Anker SOLIX" data-meta="Portable Power · Active">
+          <span class="name">Anker SOLIX</span><span class="status">Active</span>
+        </button>
+        <button class="deck-row" data-file="bluetti.html" data-title="Bluetti" data-meta="Portable Power · Active">
+          <span class="name">Bluetti</span><span class="status">Active</span>
+        </button>
+        <button class="deck-row" data-file="jackery.html" data-title="Jackery" data-meta="Portable Power · Active">
+          <span class="name">Jackery</span><span class="status">Active</span>
+        </button>
+        <button class="deck-row" data-file="pecron.html" data-title="Pecron" data-meta="Portable Power · Active">
+          <span class="name">Pecron</span><span class="status">Active</span>
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div class="group-label">Camera &amp; Field Gear</div>
+        <button class="deck-row" data-file="dji.html" data-title="DJI" data-meta="Power &amp; Cinema Gear · Active">
+          <span class="name">DJI</span><span class="status">Active</span>
+        </button>
+        <button class="deck-row" data-file="laowa.html" data-title="LAOWA" data-meta="Cinema &amp; Macro Lenses · Active">
+          <span class="name">LAOWA</span><span class="status">Active</span>
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div class="group-label">Reference</div>
+        <button class="deck-row" data-file="ffm-experience.html" data-title="The Experience" data-meta="Original Acts I–X template">
+          <span class="name">The Experience</span><span class="status">—</span>
+        </button>
+        <button class="deck-row" data-file="yosemite-batterypack.html" data-title="Yosemite — Battery Pack" data-meta="Earlier standalone proposal">
+          <span class="name">Yosemite — Battery Pack</span><span class="status">—</span>
+        </button>
+      </div>
+
+    </nav>
+  </aside>
+
+  <!-- Preview -->
+  <main>
+    <div class="preview-toolbar">
+      <div class="preview-info">
+        <div class="label" id="previewLabel">No deck selected</div>
+        <div class="title" id="previewTitle">Choose a deck to preview</div>
+      </div>
+      <div class="preview-actions" id="previewActions" style="display:none;">
+        <button class="btn" id="copyBtn" type="button">Copy Link</button>
+        <a class="btn primary" id="openBtn" href="#" target="_blank" rel="noopener">Open Full ↗</a>
+      </div>
+    </div>
+    <div class="preview-stage">
+      <div class="preview-empty" id="previewEmpty">
+        <video autoplay muted loop playsinline src="decks/assets/web/test-bg.mp4"></video>
+        <div class="scrim"></div>
+        <div class="content">
+          <div class="label">Every story runs on something</div>
+          <h2>Select a deck to bring it to life.</h2>
+          <p>Scroll and review decks without leaving this tab. Use "Open Full" to present, or "Copy Link" to share directly with a brand contact.</p>
+        </div>
+      </div>
+      <iframe id="previewFrame" style="display:none;"></iframe>
+    </div>
+    <div class="mobile-actionbar" id="mobileActions" style="display:none;">
+      <div class="preview-info">
+        <div class="label" id="previewLabelMobile"></div>
+        <div class="title" id="previewTitleMobile"></div>
+      </div>
+      <div class="mobile-actionbar-btns">
+        <button class="btn" id="copyBtnMobile" type="button">Copy Link</button>
+        <a class="btn primary" id="openBtnMobile" href="#" target="_blank" rel="noopener">Open Full ↗</a>
+      </div>
+    </div>
+    <footer>
+      <span>© Focus Finder Media</span>
+      <span>Confidential — for intended recipients only</span>
+    </footer>
+  </main>
+
+</div>
+
+<script>
+  const PASSCODE = "ffm2026"; // change as needed
+  const gate = document.getElementById('gate');
+  const form = document.getElementById('gate-form');
+  const input = document.getElementById('gate-pass');
+  const err = document.getElementById('gate-error');
+
+  if(sessionStorage.getItem('ffm_unlocked') === 'true'){
+    gate.classList.add('hidden');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(input.value.trim().toLowerCase() === PASSCODE){
+      sessionStorage.setItem('ffm_unlocked','true');
+      gate.classList.add('hidden');
+    } else {
+      err.textContent = 'Incorrect code — please try again.';
+      input.value='';
+      input.focus();
+    }
+  });
+
+  /* ---- Deck preview ---- */
+  const rows = document.querySelectorAll('.deck-row');
+  const frame = document.getElementById('previewFrame');
+  const empty = document.getElementById('previewEmpty');
+  const label = document.getElementById('previewLabel');
+  const title = document.getElementById('previewTitle');
+  const actions = document.getElementById('previewActions');
+  const copyBtn = document.getElementById('copyBtn');
+  const openBtn = document.getElementById('openBtn');
+
+  const sidebar = document.getElementById('sidebar');
+  const navToggle = document.getElementById('navToggle');
+  const mobileActions = document.getElementById('mobileActions');
+  const labelMobile = document.getElementById('previewLabelMobile');
+  const titleMobile = document.getElementById('previewTitleMobile');
+  const copyBtnMobile = document.getElementById('copyBtnMobile');
+  const openBtnMobile = document.getElementById('openBtnMobile');
+
+  navToggle.addEventListener('click', ()=>{
+    sidebar.classList.toggle('collapsed');
+  });
+
+  rows.forEach(row=>{
+    row.addEventListener('click', ()=>{
+      rows.forEach(r=>r.classList.remove('active'));
+      row.classList.add('active');
+
+      const file = row.dataset.file;
+      const url = 'decks/' + file;
+
+      frame.src = url;
+      frame.style.display = 'block';
+      empty.style.display = 'none';
+      actions.style.display = 'flex';
+      mobileActions.style.display = 'flex';
+
+      label.textContent = row.dataset.meta;
+      title.textContent = row.dataset.title;
+      labelMobile.textContent = row.dataset.meta;
+      titleMobile.textContent = row.dataset.title;
+      openBtn.href = url;
+      openBtnMobile.href = url;
+      copyBtn.textContent = 'Copy Link';
+      copyBtn.classList.remove('copied');
+      copyBtnMobile.textContent = 'Copy Link';
+      copyBtnMobile.classList.remove('copied');
+      const fullUrl = new URL(url, window.location.href).href;
+      copyBtn.dataset.url = fullUrl;
+      copyBtnMobile.dataset.url = fullUrl;
+
+      if (window.innerWidth <= 860) {
+        sidebar.classList.add('collapsed');
+      }
+    });
+  });
+
+  function wireCopy(btn){
+    btn.addEventListener('click', ()=>{
+      navigator.clipboard.writeText(btn.dataset.url || '').then(()=>{
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(()=>{
+          btn.textContent = 'Copy Link';
+          btn.classList.remove('copied');
+        }, 1600);
+      });
+    });
+  }
+  wireCopy(copyBtnMobile);
+
+  copyBtn.addEventListener('click', ()=>{
+    const url = copyBtn.dataset.url;
+    if(!url) return;
+    navigator.clipboard.writeText(url).then(()=>{
+      copyBtn.textContent = 'Copied!';
+      copyBtn.classList.add('copied');
+      setTimeout(()=>{ copyBtn.textContent = 'Copy Link'; copyBtn.classList.remove('copied'); }, 1600);
+    });
+  });
+</script>
+
+</body>
+</html>
