@@ -1,0 +1,75 @@
+{
+  "_comment": "DZOFILM - cinema lens partner. We've already shot with their glass (see global work panel 'DZOFILM Field Test'), so this deck leans on a proven track record rather than a cold pitch. FFM facts live in data/global.json.",
+
+  "key": "dzofilm",
+  "name": "DZOFILM",
+  "accent": "#d6463c",
+  "navLabel": "DZOFILM Partnership Deck",
+
+  "meta": {
+    "title": "Focus Finder Media - DZOFILM Partnership Deck",
+    "description": "A scroll-driven look at the DZOFILM x Focus Finder Media partnership.",
+    "image": "assets/web/og-dzofilm.jpg"
+  },
+
+  "og": {
+    "baseImage": "assets/web/team-9224.jpg",
+    "kicker": "FOCUS FINDER MEDIA",
+    "headline": "DZOFILM\nPartnership Deck"
+  },
+
+  "hero": {
+    "lines": ["Cinema glass,", "field-tested,", "frame after frame."],
+    "highlightLast": true
+  },
+
+  "challenge": {
+    "label": "The Challenge",
+    "heading": "Anyone can show a lens.<br>Few can show what it sees.",
+    "nodes": [
+      { "icon": "camera",  "t": "Real Conditions", "d": "Glass tested on location, not in a studio", "img": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "monitor", "t": "Look &amp; Feel", "d": "Color rendition, contrast, and character that read on screen", "img": "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "drone",   "t": "Wide to Long", "d": "A full set that covers a story, not just one shot", "img": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "storage", "t": "Built to Travel", "d": "Durable enough for back-to-back field days", "img": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "comms",   "t": "Audience Proof", "d": "Footage that performs, not just footage that exists", "img": "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&w=800&q=80" }
+    ],
+    "quote": "\"A spec sheet tells you what a lens can do. Footage from the field tells you what it actually feels like. That's the difference an audience notices.\""
+  },
+
+  "solution": {
+    "label": "The Proof",
+    "heading": "We've already shot<br>on DZOFILM glass.",
+    "sub": "Our first field test with DZOFILM cinema lenses became one of our best-performing pieces of gear content: real footage, real conditions, and an audience that responded. This partnership builds on that, not from a pitch deck, but from a deck of footage that already exists.",
+    "hubTitle": "DZOFILM Field Test",
+    "hubSpec": "820K Views · 5.4% Engagement",
+    "spokes": [
+      { "t": "On Location", "s": "Shot during an active expedition, not a controlled set" },
+      { "t": "Full Coverage", "s": "Wide, standard, and long focal lengths in one kit" },
+      { "t": "Cinematic Color", "s": "A look that holds up against bigger-budget glass" },
+      { "t": "Proven Reach", "s": "820K views on the first piece alone" }
+    ],
+    "line2": "The next chapter isn't a test anymore. It's a full expedition built around the lineup, with the kind of coverage that turns DZOFILM from a name in the credits into the reason the footage looks the way it does."
+  },
+
+  "partnership": {
+    "eyebrow": "The Partnership",
+    "heading": "The first field test was the pitch. This is the follow-through.",
+    "paragraphs": [
+      "DZOFILM glass already has a track record with our audience: a single field test reached 820K views with strong engagement and retention, all organic, no paid promotion. That's not a projection, it's a result.",
+      "The next step is deeper integration: DZOFILM as the primary glass on our next expedition, with creator-led BTS, lens-specific breakdowns, and long-form cinematic work that shows the full range of the lineup in real conditions."
+    ],
+    "flow": [
+      { "icon": "battery",  "t": "DZOFILM Lens Kit", "s": "Primary glass for the expedition" },
+      { "icon": "camera",   "t": "In the Field", "s": "Cinematic coverage, BTS &amp; stills" },
+      { "icon": "play",     "t": "Organic + Original Work", "s": "Shared live, and built into films" },
+      { "icon": "audience", "t": "Our Audience", "s": "3.1M+ monthly views" }
+    ]
+  },
+
+  "finalAsk": {
+    "eyebrow": "The Final Ask",
+    "heading": "One field test got<br>820K views.<br><i>Let's see what a full expedition does.</i>",
+    "paragraph": "Focus Finder Media already proved DZOFILM glass performs in front of our audience. Now let's build the next chapter around it, fully, from first frame to final cut.",
+    "cta": "Let's build the next chapter"
+  }
+}

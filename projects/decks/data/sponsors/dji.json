@@ -1,5 +1,5 @@
 {
-  "_comment": "DJI — ecosystem partner, led by power with cinema gimbal/camera gear as secondary. Drones de-emphasized given the current US DJI drone restrictions. FFM facts live in data/global.json.",
+  "_comment": "DJI - ecosystem partner, led by power with cinema gimbal/camera gear as secondary. Drones de-emphasized given the current US DJI drone restrictions. FFM facts live in data/global.json.",
 
   "key": "dji",
   "name": "DJI",
@@ -7,7 +7,7 @@
   "navLabel": "DJI Sponsorship Deck",
 
   "meta": {
-    "title": "Focus Finder Media — DJI Sponsorship Deck",
+    "title": "Focus Finder Media - DJI Sponsorship Deck",
     "description": "A scroll-driven look at the DJI x Focus Finder Media partnership.",
     "image": "assets/web/og-dji.jpg"
   },

@@ -1,11 +1,11 @@
 {
-  "_comment": "Portable power category — Bluetti. FFM facts live in data/global.json.",
+  "_comment": "Portable power category - Bluetti. FFM facts live in data/global.json.",
   "key": "bluetti",
   "name": "Bluetti",
   "accent": "#2fb66a",
   "navLabel": "Bluetti Sponsorship Deck",
   "meta": {
-    "title": "Focus Finder Media — Bluetti Sponsorship Deck",
+    "title": "Focus Finder Media - Bluetti Sponsorship Deck",
     "description": "A scroll-driven look at the Bluetti x Focus Finder Media partnership.",
     "image": "assets/web/og-bluetti.jpg"
   },

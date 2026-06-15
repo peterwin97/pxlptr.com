@@ -118,10 +118,10 @@
       { "cx": 760, "cy": 80, "lx": 775, "ly": 85, "label": "High Sierra" }
     ],
     "objectives": [
-      { "n": "01 — Basecamp", "text": "Set up power, comms &amp; edit bay. Establish the off-grid workflow before first light." },
-      { "n": "02 — Valley Floor", "text": "Primary cinematography days: sunrise/sunset windows, drone sequences, macro detail work." },
-      { "n": "03 — Glacier Point", "text": "Hike-in shoot day. Battery weight and recovery time become critical here." },
-      { "n": "04 — High Sierra", "text": "Final capture &amp; wrap. Full footage backup and first edit pass, fully off-grid." }
+      { "n": "01 - Basecamp", "text": "Set up power, comms &amp; edit bay. Establish the off-grid workflow before first light." },
+      { "n": "02 - Valley Floor", "text": "Primary cinematography days: sunrise/sunset windows, drone sequences, macro detail work." },
+      { "n": "03 - Glacier Point", "text": "Hike-in shoot day. Battery weight and recovery time become critical here." },
+      { "n": "04 - High Sierra", "text": "Final capture &amp; wrap. Full footage backup and first edit pass, fully off-grid." }
     ]
   },
 

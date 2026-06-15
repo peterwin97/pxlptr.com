@@ -1,5 +1,5 @@
 {
-  "_comment": "LAOWA — cinema/macro lens partner. Positions FFM as a cinematography-first creative agency; LAOWA glass is the enabler of perspectives, not a travel sponsor. FFM facts live in data/global.json.",
+  "_comment": "LAOWA - cinema/macro lens partner. Positions FFM as a cinematography-first creative agency; LAOWA glass is the enabler of perspectives, not a travel sponsor. FFM facts live in data/global.json.",
 
   "key": "laowa",
   "name": "LAOWA",
@@ -7,7 +7,7 @@
   "navLabel": "LAOWA Partnership Deck",
 
   "meta": {
-    "title": "Focus Finder Media — LAOWA Partnership Deck",
+    "title": "Focus Finder Media - LAOWA Partnership Deck",
     "description": "A scroll-driven look at the LAOWA x Focus Finder Media partnership.",
     "image": "assets/web/og-laowa.jpg"
   },
@@ -49,15 +49,15 @@
       { "t": "Zero-D", "s": "True-to-life wides, no warped edges" },
       { "t": "Anamorphic", "s": "A cinematic signature, frame after frame" }
     ],
-    "line2": "Some perspectives only exist because of the lens. LAOWA is the optical signature behind every frame we deliver — not a product in the shot, but the reason the shot exists at all."
+    "line2": "Some perspectives only exist because of the lens. LAOWA is the optical signature behind every frame we deliver, not a product in the shot, but the reason the shot exists at all."
   },
 
   "partnership": {
     "eyebrow": "The Partnership",
     "heading": "The best lens marketing doesn't look like marketing.",
     "paragraphs": [
-      "The most effective lens marketing doesn't happen through advertisements. It happens when filmmakers use the glass to create imagery people have never seen before — and the audience doesn't just see the product, they experience what it makes possible.",
-      "Every partnership begins with creator-led content shared organically across our personal and agency channels: authentic, documentary, in-field, with LAOWA glass actively part of the creative process. The strongest partnerships go further — dedicated short films, optical demonstrations, product showcases, and long-form cinematic work built around the lens itself."
+      "The most effective lens marketing doesn't happen through advertisements. It happens when filmmakers use the glass to create imagery people have never seen before, and the audience doesn't just see the product, they experience what it makes possible.",
+      "Every partnership begins with creator-led content shared organically across our personal and agency channels: authentic, documentary, in-field, with LAOWA glass actively part of the creative process. The strongest partnerships go further, with dedicated short films, optical demonstrations, product showcases, and long-form cinematic work built around the lens itself."
     ],
     "flow": [
       { "icon": "battery",  "t": "LAOWA Lens Kit", "s": "Shooting the whole project" },

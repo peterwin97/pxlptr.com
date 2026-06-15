@@ -1,5 +1,5 @@
 {
-  "_comment": "Portable power category — Anker SOLIX. FFM facts live in data/global.json.",
+  "_comment": "Portable power category - Anker SOLIX. FFM facts live in data/global.json.",
 
   "key": "anker-solix",
   "name": "Anker SOLIX",
@@ -7,7 +7,7 @@
   "navLabel": "Anker SOLIX Sponsorship Deck",
 
   "meta": {
-    "title": "Focus Finder Media — Anker SOLIX Sponsorship Deck",
+    "title": "Focus Finder Media - Anker SOLIX Sponsorship Deck",
     "description": "A scroll-driven look at the Anker SOLIX x Focus Finder Media partnership.",
     "image": "assets/web/og-anker-solix.jpg"
   },

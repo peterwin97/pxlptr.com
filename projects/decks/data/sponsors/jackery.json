@@ -1,11 +1,11 @@
 {
-  "_comment": "Portable power category — Jackery. FFM facts live in data/global.json.",
+  "_comment": "Portable power category - Jackery. FFM facts live in data/global.json.",
   "key": "jackery",
   "name": "Jackery",
   "accent": "#ff7a1a",
   "navLabel": "Jackery Sponsorship Deck",
   "meta": {
-    "title": "Focus Finder Media — Jackery Sponsorship Deck",
+    "title": "Focus Finder Media - Jackery Sponsorship Deck",
     "description": "A scroll-driven look at the Jackery x Focus Finder Media partnership.",
     "image": "assets/web/og-jackery.jpg"
   },
