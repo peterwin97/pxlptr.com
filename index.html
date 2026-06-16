@@ -64,7 +64,7 @@
 
 <style>
   :root{
-    --ink:#0a0a0b;
+    --ink:#000000;
     --ink-2:#101012;
     --paper:#ece9e0;     /* warm off-white — editorial */
     --grey:#76767b;
@@ -625,7 +625,7 @@
       var cw=c.clientWidth,ch=c.clientHeight;
       var s=Math.min(cw/iw,ch/ih)*0.82;
       ctx.clearRect(0,0,cw,ch);
-      ctx.drawImage(img,(cw-iw*s)/2,(ch-ih*s)/2 - ch*0.08,iw*s,ih*s);
+      ctx.drawImage(img,(cw-iw*s)/2 + cw*0.18,(ch-ih*s)/2 - ch*0.08,iw*s,ih*s);
     }
 
     function tick(now){
