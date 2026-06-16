@@ -605,9 +605,9 @@
   (function(){
     var c=document.getElementById("seqbg"); if(!c) return;
     var ctx=c.getContext("2d");
-    var BASE="frames/main-screen-export/hf_20260616_212223_152bf553-15de-44ea-8106-acd94eae5d13";
-    var TOTAL=242, FPS=24, interval=1000/FPS;
-    var frame=TOTAL-1, last=0, loaded=0;
+    var BASE="frames/main-new/hf_20260616_214309_83b6815c-e8db-4886-bb76-aeabd75f5dbb_";
+    var TOTAL=1210, FPS=24, interval=1000/FPS;
+    var frame=0, last=0, loaded=0;
     var imgs=new Array(TOTAL);
 
     function size(){
@@ -617,7 +617,7 @@
     }
     size(); window.addEventListener("resize",size);
 
-    function pad(n){return("000"+n).slice(-3);}
+    function pad(n){return("0000"+n).slice(-4);}
 
     function draw(idx){
       var img=imgs[idx]; if(!img||!img.complete) return;
@@ -633,7 +633,7 @@
       if(loaded<TOTAL) return;
       if(now-last<interval) return;
       last=now; draw(frame);
-      frame--; if(frame<0) frame=TOTAL-1;
+      frame++; if(frame>=TOTAL) frame=0;
     }
 
     for(var i=0;i<TOTAL;i++){
