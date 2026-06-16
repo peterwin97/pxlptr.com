@@ -153,6 +153,8 @@
   /* ---- intro panel ---- */
   #intro{display:flex;align-items:flex-end}
   #intro canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.8}
+  #seqbg{opacity:.55;z-index:0}
+  #stage3d{z-index:1}
   #intro .grain{position:absolute;inset:0;opacity:.045;pointer-events:none;background-image:radial-gradient(circle,#fff .5px,transparent .6px);background-size:3px 3px}
   #intro .pad{position:relative;z-index:2;width:100%;padding:0 var(--gut) clamp(80px,12vh,150px)}
   #intro .kick{margin-bottom:clamp(20px,4vh,40px)}
@@ -409,6 +411,7 @@
 
     <!-- 0 — INTRO -->
     <section class="panel" id="intro" data-label="INTRO" data-count="">
+      <canvas id="seqbg" aria-hidden="true"></canvas>
       <canvas id="stage3d"></canvas>
       <div class="grain"></div>
       <div class="pad">
@@ -917,6 +920,52 @@
     });
   }
   var s3=document.getElementById("stage3d"); if(s3) stageWireframe(s3);
+
+  /* ---- background image sequence (reverse playback) ---- */
+  (function(){
+    var c=document.getElementById("seqbg"); if(!c) return;
+    var ctx=c.getContext("2d");
+    var BASE="frames/main-screen-export/hf_20260616_212223_152bf553-15de-44ea-8106-acd94eae5d13";
+    var TOTAL=242, FPS=24, interval=1000/FPS;
+    var frame=TOTAL-1, last=0, loaded=0;
+    var imgs=new Array(TOTAL);
+
+    function size(){
+      var dpr=Math.min(devicePixelRatio||1,2);
+      c.width=c.clientWidth*dpr; c.height=c.clientHeight*dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    size(); window.addEventListener("resize",size);
+
+    function pad(n){return("000"+n).slice(-3);}
+
+    function draw(idx){
+      var img=imgs[idx]; if(!img||!img.complete) return;
+      var iw=img.naturalWidth,ih=img.naturalHeight;
+      var cw=c.clientWidth,ch=c.clientHeight;
+      var s=Math.max(cw/iw,ch/ih);
+      ctx.clearRect(0,0,cw,ch);
+      ctx.drawImage(img,(cw-iw*s)/2,(ch-ih*s)/2,iw*s,ih*s);
+    }
+
+    function tick(now){
+      requestAnimationFrame(tick);
+      if(loaded<TOTAL) return;
+      if(now-last<interval) return;
+      last=now; draw(frame);
+      frame--; if(frame<0) frame=TOTAL-1;
+    }
+
+    for(var i=0;i<TOTAL;i++){
+      (function(idx){
+        var img=new Image();
+        img.onload=function(){loaded++;};
+        img.src=BASE+pad(idx)+".jpg";
+        imgs[idx]=img;
+      })(i);
+    }
+    requestAnimationFrame(tick);
+  })();
 
   /* ---------- footer local clock ---------- */
   var fR=document.getElementById("fRight");
