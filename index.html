@@ -409,7 +409,7 @@
 
     <!-- 0 — INTRO -->
     <section class="panel" id="intro" data-label="INTRO" data-count="">
-      <canvas id="beams"></canvas>
+      <canvas id="stage3d"></canvas>
       <div class="grain"></div>
       <div class="pad">
         <p class="lab kick">Lighting Design · Programming · Broadcast</p>
@@ -576,6 +576,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="vendor/three.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -597,59 +598,185 @@
     });
   }
 
-  /* ---------- intro moving-head beam grid (monochrome, mouse-reactive) ---------- */
-  function beams(canvas){
-    var ctx=canvas.getContext("2d"),w,h,dpr,fx=[],t=0;
-    var mx=-9999,my=-9999,hasMouse=false;
-    function size(){dpr=Math.min(devicePixelRatio||1,2);w=canvas.clientWidth;h=canvas.clientHeight;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);build();}
-    function build(){
-      fx=[];
-      var cols=Math.max(2,Math.round(w/420)),rows=Math.max(1,Math.round(h/420));
-      for(var r=0;r<rows;r++){for(var c=0;c<cols;c++){
-        fx.push({
-          x:(c+0.5)/cols*w,y:(r+0.5)/rows*h,
-          angle:Math.random()*6.28,
-          idle:Math.random()*6.28,
-          idleSp:0.04+Math.random()*0.05,
-          len:Math.max(w,h)*0.9
-        });
-      }}
+  /* ---------- stage wireframe (Three.js, mouse-reactive) ---------- */
+  function stageWireframe(canvas){
+    if(!window.THREE) return;
+    var T=THREE;
+    var W=canvas.clientWidth, H=canvas.clientHeight;
+    var scene=new T.Scene();
+    var camera=new T.PerspectiveCamera(42, W/H, 0.1, 500);
+    camera.position.set(22, 8, 22);
+    camera.lookAt(0, 4, -2);
+
+    var renderer=new T.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+    renderer.setSize(W,H);
+    renderer.setClearColor(0x000000,0);
+
+    var LN  =new T.LineBasicMaterial({color:0xece9e0,transparent:true,opacity:.55});
+    var LND =new T.LineBasicMaterial({color:0xece9e0,transparent:true,opacity:.18});
+    var LNF =new T.LineBasicMaterial({color:0xece9e0,transparent:true,opacity:.08});
+    var PT  =new T.PointsMaterial({color:0xece9e0,size:.12,transparent:true,opacity:.6});
+
+    var root=new T.Group();
+    scene.add(root);
+
+    function box(w,h,d,x,y,z,mat){
+      var m=new T.LineSegments(new T.EdgesGeometry(new T.BoxGeometry(w,h,d)),mat||LN);
+      m.position.set(x,y,z); root.add(m); return m;
     }
-    canvas.addEventListener("mousemove",function(e){var b=canvas.getBoundingClientRect();mx=e.clientX-b.left;my=e.clientY-b.top;hasMouse=true;});
-    canvas.addEventListener("mouseleave",function(){hasMouse=false;});
-    function draw(){t+=reduce?0:0.016;ctx.clearRect(0,0,w,h);
-      ctx.globalCompositeOperation="lighter";
-      for(var i=0;i<fx.length;i++){var f=fx[i];
-        var target;
-        if(hasMouse) target=Math.atan2(my-f.y,mx-f.x);
-        else target=f.idle+Math.sin(t*f.idleSp+i)*1.1;
-        if(!reduce){
-          var da=target-f.angle;
-          while(da>Math.PI)da-=6.2832; while(da<-Math.PI)da+=6.2832;
-          f.angle+=da*0.015;
-        } else f.angle=target;
+    function grid(nx,ny,w,h,x,y,z,rot,mat){
+      var g=new T.BufferGeometry(), pts=[];
+      for(var i=0;i<=nx;i++){var u=i/nx*w-w/2; pts.push(u,y,z-h/2,u,y,z+h/2);}
+      for(var j=0;j<=ny;j++){var v=z+j/ny*h-h/2; pts.push(-w/2,y,v,w/2,y,v);}
+      g.setAttribute("position",new T.Float32BufferAttribute(pts,3));
+      var l=new T.LineSegments(g,mat||LND);
+      if(rot) l.rotation.set(rot[0],rot[1],rot[2]);
+      root.add(l); return l;
+    }
+    function vline(x,y0,y1,z,mat){
+      var g=new T.BufferGeometry();
+      g.setAttribute("position",new T.Float32BufferAttribute([x,y0,z,x,y1,z],3));
+      root.add(new T.LineSegments(g,mat||LND));
+    }
+    function hring(x,y,z,r,seg,mat){
+      var pts=[];
+      for(var i=0;i<=seg;i++){var a=i/seg*Math.PI*2; pts.push(x+Math.cos(a)*r,y,z+Math.sin(a)*r);}
+      var g=new T.BufferGeometry(); g.setAttribute("position",new T.Float32BufferAttribute(pts,3));
+      root.add(new T.Line(g,mat||LND));
+    }
 
-        var ex=f.x+Math.cos(f.angle)*f.len, ey=f.y+Math.sin(f.angle)*f.len;
-        var spread=0.05;
-        var ex1=f.x+Math.cos(f.angle-spread)*f.len, ey1=f.y+Math.sin(f.angle-spread)*f.len;
-        var ex2=f.x+Math.cos(f.angle+spread)*f.len, ey2=f.y+Math.sin(f.angle+spread)*f.len;
+    /* ── floor grid ── */
+    grid(20,14,20,14, 0,0,0, null, LNF);
 
-        var g=ctx.createLinearGradient(f.x,f.y,ex,ey);
-        g.addColorStop(0,"rgba(236,233,224,0.05)");
-        g.addColorStop(1,"rgba(236,233,224,0)");
-        ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(ex1,ey1);ctx.lineTo(ex2,ey2);ctx.closePath();
-        ctx.fillStyle=g;ctx.fill();
+    /* ── main stage deck ── */
+    box(20,0.5,14, 0,0.25,0);
 
-        // fixture base
-        ctx.globalCompositeOperation="source-over";
-        ctx.beginPath();ctx.arc(f.x,f.y,2,0,6.28);ctx.fillStyle="rgba(236,233,224,0.35)";ctx.fill();
-        ctx.globalCompositeOperation="lighter";
+    /* ── thrust left arm ── */
+    box(4,0.5,8, -8,0.25,9);
+    /* ── thrust right arm ── */
+    box(4,0.5,8, 8,0.25,9);
+    /* ── thrust front bar ── */
+    box(12,0.5,3.5, 0,0.25,12);
+
+    /* ── FOH desk platform (front-left) ── */
+    box(3,0.6,2, -7,0.3,14.5, LND);
+    box(1.4,0.5,0.8, -7,0.85,14.5, LND); // console
+
+    /* ── upstage towers (4 legs) ── */
+    var tX=9.2, tZ=-6.5, tH=10.5;
+    [[-tX,tZ],[tX,tZ],[-tX,0],[tX,0]].forEach(function(p){
+      box(0.6,tH,0.6, p[0],tH/2,p[1]);
+      // bracing
+      var bg=new T.BufferGeometry();
+      var bpts=[ p[0],0,p[1], p[0],tH/3*2,p[1]+1.5, p[0],tH/3,p[1]+3, p[0],tH,p[1] ];
+      bg.setAttribute("position",new T.Float32BufferAttribute(bpts,3));
+      root.add(new T.Line(bg,LND));
+    });
+
+    /* ── overhead roof truss ── */
+    // front truss bar
+    box(20,0.5,0.5, 0,tH,0, LN);
+    // back truss bar
+    box(20,0.5,0.5, 0,tH,-6.5, LN);
+    // side truss bars
+    box(0.5,0.5,7, -9.2,tH,-3.25, LN);
+    box(0.5,0.5,7,  9.2,tH,-3.25, LN);
+    // cross members on roof
+    for(var ci=-8;ci<=8;ci+=4){
+      box(0.3,0.3,7, ci,tH,-3.25, LND);
+    }
+    // diagonal roof bracing
+    (function(){
+      var pts=[-10,tH,0, -10,tH,-6.5, 10,tH,-6.5, 10,tH,0, -10,tH,0];
+      var g=new T.BufferGeometry(); g.setAttribute("position",new T.Float32BufferAttribute(pts,3));
+      root.add(new T.Line(g,LN));
+    })();
+
+    /* ── back LED wall grid ── */
+    for(var vi=0;vi<=9;vi++) vline(vi*2-9, 0.5, tH-0.3, -6.7, LND);
+    for(var hi=0;hi<=6;hi++){
+      var yy=0.5+hi*(tH-0.5)/6;
+      var hg=new T.BufferGeometry();
+      hg.setAttribute("position",new T.Float32BufferAttribute([-9,yy,-6.7, 9,yy,-6.7],3));
+      root.add(new T.LineSegments(hg,LND));
+    }
+
+    /* ── hung moving heads on front truss ── */
+    for(var mx2=-8;mx2<=8;mx2+=2.3){
+      box(0.4,0.5,0.4, mx2,tH-0.6,0.1, LND);
+      // beam line down
+      var dg=new T.BufferGeometry();
+      dg.setAttribute("position",new T.Float32BufferAttribute([mx2,tH-1.1,0.1, mx2+Math.sin(mx2*.3)*1.5,2,mx2*.1],3));
+      root.add(new T.LineSegments(dg,LNF));
+    }
+
+    /* ── floor movers ── */
+    [[-4,0.9,4],[0,0.9,3.5],[4,0.9,4],[-2,0.9,5.5],[2,0.9,5.5]].forEach(function(p){
+      box(0.45,0.55,0.45, p[0],p[1],p[2], LN);
+    });
+
+    /* ── line array speaker hangs ── */
+    [-9.8,9.8].forEach(function(sx){
+      for(var si=0;si<6;si++){
+        box(0.5,0.45,0.9, sx, tH-si*0.52-0.4, -1.5+si*0.15, LND);
       }
-      ctx.globalCompositeOperation="source-over";
-      requestAnimationFrame(draw);}
-    addEventListener("resize",size);size();draw();
+      // rigging line
+      var rg=new T.BufferGeometry();
+      rg.setAttribute("position",new T.Float32BufferAttribute([sx,tH,0, sx,tH-6*0.52-0.4,-1.5+6*0.15],3));
+      root.add(new T.LineSegments(rg,LNF));
+    });
+
+    /* ── point cloud scatter ── */
+    (function(){
+      var ppts=[];
+      for(var i=0;i<600;i++){
+        var px=( Math.random()-.5)*22;
+        var pz=( Math.random()-.5)*16;
+        var py= Math.random()*tH;
+        // bias toward structure
+        ppts.push(px,py,pz);
+      }
+      var pg=new T.BufferGeometry();
+      pg.setAttribute("position",new T.Float32BufferAttribute(ppts,3));
+      root.add(new T.Points(pg,PT));
+    })();
+
+    /* ── camera framing ── */
+    // tilt so stage fills the panel nicely
+    root.rotation.x=-0.04;
+
+    /* ── mouse reactive ── */
+    var targetRY=0.28, targetRX=-0.08, curRY=0.28, curRX=-0.08;
+    var hasM=false;
+    document.addEventListener("mousemove",function(e){
+      if(!hasM) hasM=true;
+      targetRY= 0.38 + (e.clientX/window.innerWidth - .5)*0.5;
+      targetRX=-0.12 + (e.clientY/window.innerHeight-.5)*0.18;
+    });
+
+    /* ── animate ── */
+    var t=0;
+    function tick(){
+      requestAnimationFrame(tick);
+      t+=0.004;
+      if(!hasM) targetRY=0.28+Math.sin(t)*0.14;
+      curRY+=(targetRY-curRY)*0.04;
+      curRX+=(targetRX-curRX)*0.04;
+      root.rotation.y=curRY;
+      root.rotation.x=curRX;
+      renderer.render(scene,camera);
+    }
+    tick();
+
+    /* ── resize ── */
+    window.addEventListener("resize",function(){
+      var nw=canvas.clientWidth, nh=canvas.clientHeight;
+      camera.aspect=nw/nh; camera.updateProjectionMatrix();
+      renderer.setSize(nw,nh);
+    });
   }
-  var bc=document.getElementById("beams");if(bc)beams(bc);
+  var s3=document.getElementById("stage3d"); if(s3) stageWireframe(s3);
 
   /* ---------- footer local clock ---------- */
   var fR=document.getElementById("fRight");
