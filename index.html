@@ -602,195 +602,317 @@
   function stageWireframe(canvas){
     if(!window.THREE) return;
     var T=THREE;
-    var W=canvas.clientWidth, H=canvas.clientHeight;
+    var W=canvas.clientWidth,H=canvas.clientHeight;
     var scene=new T.Scene();
-    var camera=new T.PerspectiveCamera(40,W/H,0.1,600);
-    camera.position.set(24,10,24);
-    camera.lookAt(0,4,-1);
+
+    /* Camera — front-right elevated, looking at center of stage */
+    var camera=new T.PerspectiveCamera(30,W/H,0.1,800);
+    camera.position.set(22,42,72);
+    camera.lookAt(-2,10,4);
 
     var renderer=new T.WebGLRenderer({canvas:canvas,alpha:true,antialias:true});
     renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
     renderer.setSize(W,H);
     renderer.setClearColor(0x000000,0);
 
-    var LNB=new T.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.9});
-    var LN =new T.LineBasicMaterial({color:0xece9e0,transparent:true,opacity:.55});
-    var LND=new T.LineBasicMaterial({color:0xece9e0,transparent:true,opacity:.22});
-    var LNF=new T.LineBasicMaterial({color:0xece9e0,transparent:true,opacity:.07});
-    var PT =new T.PointsMaterial({color:0xece9e0,size:.08,transparent:true,opacity:.55,sizeAttenuation:true});
-    var PTB=new T.PointsMaterial({color:0xffffff,size:.16,transparent:true,opacity:.9,sizeAttenuation:true});
+    /* materials */
+    var M={
+      hi: new T.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.85}),
+      md: new T.LineBasicMaterial({color:0xddd9cc,transparent:true,opacity:.45}),
+      lo: new T.LineBasicMaterial({color:0xbbb5a5,transparent:true,opacity:.18}),
+      gh: new T.LineBasicMaterial({color:0xece9e0,transparent:true,opacity:.08}),
+      pt: new T.PointsMaterial({color:0xddd9cc,size:.07,transparent:true,opacity:.5,sizeAttenuation:true}),
+      ptH:new T.PointsMaterial({color:0xffffff,size:.14,transparent:true,opacity:.85,sizeAttenuation:true}),
+      ptD:new T.PointsMaterial({color:0xece9e0,size:.05,transparent:true,opacity:.28,sizeAttenuation:true})
+    };
 
     var root=new T.Group();
     scene.add(root);
 
-    function seg(arr,mat){var g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(arr,3));root.add(new T.LineSegments(g,mat||LN));}
-    function lp(arr,mat){var g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(arr,3));root.add(new T.Line(g,mat||LN));}
-    function box(w,h,d,x,y,z,mat){var m=new T.LineSegments(new T.EdgesGeometry(new T.BoxGeometry(w,h,d)),mat||LN);m.position.set(x,y,z);root.add(m);}
-    function addPts(arr,mat){var g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(arr,3));root.add(new T.Points(g,mat||PT));}
-    function flatGrid(x0,x1,z0,z1,nx,nz,y,mat){
+    /* ---- helpers ---- */
+    function seg(arr,m){var g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(arr,3));root.add(new T.LineSegments(g,m||M.md));}
+    function lp(arr,m){var g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(arr,3));root.add(new T.Line(g,m||M.md));}
+    function box(w,h,d,x,y,z,m){var o=new T.LineSegments(new T.EdgesGeometry(new T.BoxGeometry(w,h,d)),m||M.md);o.position.set(x,y,z);root.add(o);}
+    function pts(arr,m){var g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(arr,3));root.add(new T.Points(g,m||M.pt));}
+
+    /* dense surface fill: random points in an axis-aligned rectangle */
+    function surfXZ(x0,x1,z0,z1,y,n,m){
+      var p=[];for(var i=0;i<n;i++)p.push(x0+(x1-x0)*Math.random(),y,z0+(z1-z0)*Math.random());
+      pts(p,m||M.ptD);
+    }
+    function surfXY(x0,x1,y0,y1,z,n,m){
+      var p=[];for(var i=0;i<n;i++)p.push(x0+(x1-x0)*Math.random(),y0+(y1-y0)*Math.random(),z);
+      pts(p,m||M.ptD);
+    }
+    function surfYZ(y0,y1,z0,z1,x,n,m){
+      var p=[];for(var i=0;i<n;i++)p.push(x,y0+(y1-y0)*Math.random(),z0+(z1-z0)*Math.random());
+      pts(p,m||M.ptD);
+    }
+
+    /* truss chord tube — 4 corner chords + zigzag diagonals */
+    function trussH(x0,x1,y,z,m){
+      var s=.26,n=Math.max(2,Math.round(Math.abs(x1-x0)/1.1)),p=[];
+      p.push(x0,y+s,z+s,x1,y+s,z+s, x0,y+s,z-s,x1,y+s,z-s,
+             x0,y-s,z+s,x1,y-s,z+s, x0,y-s,z-s,x1,y-s,z-s);
+      for(var i=0;i<n;i++){
+        var xa=x0+(x1-x0)*i/n,xb=x0+(x1-x0)*(i+1)/n;
+        p.push(xa,y+s,z+s,xb,y-s,z-s, xa,y+s,z-s,xb,y-s,z+s);
+        if(i%2===0){p.push(xa,y+s,z+s,xb,y+s,z-s, xa,y-s,z+s,xb,y-s,z-s);}
+        else{p.push(xa,y+s,z-s,xb,y+s,z+s, xa,y-s,z-s,xb,y-s,z+s);}
+      }
+      seg(p,m||M.hi);
+    }
+    function trussV(x,y0,y1,z,m){
+      var s=.26,n=Math.max(2,Math.round((y1-y0)/0.85)),p=[];
+      p.push(x+s,y0,z+s,x+s,y1,z+s, x+s,y0,z-s,x+s,y1,z-s,
+             x-s,y0,z+s,x-s,y1,z+s, x-s,y0,z-s,x-s,y1,z-s);
+      for(var i=0;i<n;i++){
+        var ya=y0+(y1-y0)*i/n,yb=y0+(y1-y0)*(i+1)/n;
+        p.push(x+s,ya,z+s,x-s,yb,z-s, x+s,ya,z-s,x-s,yb,z+s);
+        if(i%2===0){p.push(x+s,ya,z+s,x+s,yb,z-s, x-s,ya,z+s,x-s,yb,z-s);}
+        else{p.push(x+s,ya,z-s,x+s,yb,z+s, x-s,ya,z-s,x-s,yb,z+s);}
+      }
+      seg(p,m||M.md);
+    }
+    function flatGrid(x0,x1,z0,z1,nx,nz,y,m){
       var p=[];
       for(var i=0;i<=nx;i++){var x=x0+(x1-x0)*i/nx;p.push(x,y,z0,x,y,z1);}
       for(var j=0;j<=nz;j++){var z=z0+(z1-z0)*j/nz;p.push(x0,y,z,x1,y,z);}
-      seg(p,mat||LNF);
-    }
-    function trussH(x0,x1,y,z,mat){
-      var s=0.28,n=Math.round(Math.abs(x1-x0)/1.1),p=[];
-      p.push(x0,y+s,z,x1,y+s,z,x0,y-s,z,x1,y-s,z,x0,y,z+s,x1,y,z+s,x0,y,z-s,x1,y,z-s);
-      for(var i=0;i<n;i++){
-        var xa=x0+(x1-x0)*i/n,xb=x0+(x1-x0)*(i+1)/n;
-        p.push(xa,y+s,z,xb,y-s,z,xa,y,z+s,xb,y,z-s);
-        if(i%2===0){p.push(xa,y+s,z,xb,y,z+s,xa,y-s,z,xb,y,z-s);}
-        else{p.push(xa,y+s,z,xb,y,z-s,xa,y-s,z,xb,y,z+s);}
-      }
-      seg(p,mat||LN);
-    }
-    function trussV(x,y0,y1,z,mat){
-      var s=0.25,n=Math.round(Math.abs(y1-y0)/0.9),p=[];
-      p.push(x+s,y0,z,x+s,y1,z,x-s,y0,z,x-s,y1,z,x,y0,z+s,x,y1,z+s,x,y0,z-s,x,y1,z-s);
-      for(var i=0;i<n;i++){
-        var ya=y0+(y1-y0)*i/n,yb=y0+(y1-y0)*(i+1)/n;
-        p.push(x+s,ya,z,x-s,yb,z,x,ya,z+s,x,yb,z-s);
-        if(i%2===0){p.push(x+s,ya,z,x,yb,z+s);}else{p.push(x-s,ya,z,x,yb,z-s);}
-      }
-      seg(p,mat||LND);
+      seg(p,m||M.lo);
     }
 
-    var tH=10.5,tX=9.4,tZ=-6.6;
+    /* ======================== GEOMETRY ======================== */
+    /* coordinate system: X=left/right, Y=up, Z=front(+)/back(-)
+       stage face at Z=6, back wall at Z=-7, width X=-10..10, floor Y=0 */
 
-    /* ground terrain */
-    (function(){var p=[];for(var i=0;i<3000;i++){var gx=(Math.random()-.5)*44,gz=(Math.random()-.5)*36,gy=-0.5+Math.sin(gx*.4)*Math.cos(gz*.3)*.6+(Math.random()-.5)*.4;p.push(gx,gy,gz);}addPts(p,new T.PointsMaterial({color:0xece9e0,size:.06,transparent:true,opacity:.18,sizeAttenuation:true}));}());
+    var SX=10, SZf=6, SZb=-7, tH=11, stageY=1.4;
 
-    /* main stage deck */
-    flatGrid(-10,10,-6.5,6.5,20,13,0.5,LNF);
-    box(20,0.5,13,0,0.25,0,LND);
-    (function(){var p=[];for(var lx=-9;lx<=9;lx+=3)for(var lz=-5.5;lz<=5.5;lz+=3)p.push(lx,0,lz,lx,-1.2,lz);seg(p,LNF);}());
-
-    /* thrust */
-    flatGrid(-10,-6,6.5,13.5,4,7,0.5,LNF); box(4,0.5,7,-8,0.25,10,LND);
-    flatGrid(6,10,6.5,13.5,4,7,0.5,LNF);   box(4,0.5,7,8,0.25,10,LND);
-    flatGrid(-6,6,12.5,16,12,3,0.5,LNF);   box(12,0.5,3.5,0,0.25,14,LND);
-
-    /* FOH + console + operator */
-    box(3,0.6,2,-6.5,0.3,16.5,LND);
-    box(1.2,0.4,0.7,-6.5,0.9,16.5,LN);
-    box(1.2,0.08,0.5,-6.5,1.1,16.2,LN);
-    (function(){var bx=-6.5,by=1.3,bz=16.5;lp([bx,by+.5,bz,bx,by,bz,bx-.2,by-.5,bz,bx+.2,by-.5,bz,bx,by,bz,bx-.25,by+.2,bz,bx+.25,by+.2,bz],LNB);lp([bx-.06,by+.7,bz,bx+.06,by+.7,bz,bx+.06,by+.56,bz,bx-.06,by+.56,bz,bx-.06,by+.7,bz],LNB);}());
-
-    /* stairs */
-    for(var si=0;si<4;si++) box(1.8,0.18,0.55,-11.5,0.09+si*.18,6.5-si*.55,LND);
-
-    /* towers */
-    [[-tX,tZ],[tX,tZ],[-tX,6.5],[tX,6.5]].forEach(function(p){trussV(p[0],0,tH,p[1]);});
-    seg([-tX,0,6.5,tX,tH*.5,6.5,tX,0,6.5,-tX,tH*.5,6.5],LNF);
-    seg([-tX,0,tZ,tX,tH*.5,tZ,tX,0,tZ,-tX,tH*.5,tZ],LNF);
-    [-tX,tX].forEach(function(x){seg([x,0,tZ,x,tH*.5,6.5,x,0,6.5,x,tH*.5,tZ],LNF);});
-
-    /* roof truss */
-    trussH(-tX,tX,tH,0);
-    trussH(-tX,tX,tH,tZ);
-    trussH(-tX,tX,tH,tZ/2);
-    seg([-tX,tH,tZ,-tX,tH,6.5,tX,tH,tZ,tX,tH,6.5],LN);
-    seg([-tX,tH,tZ,tX,tH,6.5,tX,tH,tZ,-tX,tH,6.5],LND);
-    (function(){var p=[];for(var rc=-8;rc<=8;rc+=2)p.push(rc,tH,tZ,rc,tH,6.5);seg(p,LNF);}());
-    (function(){var p=[];for(var i=0;i<400;i++)p.push((Math.random()-.5)*18.8,tH+(Math.random()-.5)*.1,tZ+Math.random()*(6.5-tZ));addPts(p,new T.PointsMaterial({color:0xece9e0,size:.06,transparent:true,opacity:.28,sizeAttenuation:true}));}());
-
-    /* LED wall */
+    /* --- GROUND TERRAIN --- */
     (function(){
       var p=[];
-      for(var vi=0;vi<=18;vi++){var x=-9+vi;p.push(x,0.5,tZ-.05,x,tH-.5,tZ-.05);}
-      for(var hi=0;hi<=10;hi++){var y=0.5+hi*(tH-1)/10;p.push(-9,y,tZ-.05,9,y,tZ-.05);}
-      seg(p,LND);
-      var pp=[];for(var i=0;i<800;i++)pp.push((Math.random()-.5)*18,0.5+Math.random()*(tH-1),tZ-.08);
-      addPts(pp,new T.PointsMaterial({color:0xece9e0,size:.07,transparent:true,opacity:.32,sizeAttenuation:true}));
+      for(var i=0;i<4000;i++){
+        var gx=(Math.random()-.5)*50,gz=(Math.random()-.5)*42;
+        var gy=-stageY+Math.sin(gx*.35+1)*Math.cos(gz*.28+.5)*.9+(Math.random()-.5)*.5;
+        p.push(gx,gy,gz);
+      }
+      pts(p,new T.PointsMaterial({color:0xece9e0,size:.055,transparent:true,opacity:.2,sizeAttenuation:true}));
     }());
 
-    /* hung movers — front truss */
-    for(var mh=-8;mh<=8;mh+=1.8){
-      box(0.35,0.45,0.35,mh,tH-.55,0,LN);
-      seg([mh-.18,tH-.32,0,mh-.18,tH-.78,0,mh+.18,tH-.32,0,mh+.18,tH-.78,0],LND);
-      seg([mh,tH-.78,0,mh+Math.sin(mh*.4)*2.5,2.5,mh*.08],new T.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.05}));
+    /* --- MAIN STAGE DECK --- */
+    var dY=stageY;
+    flatGrid(-SX,SX,SZb,SZf,20,13,dY,M.lo);
+    box(SX*2,.4,SZf-SZb,0,dY-.2,-.5,M.lo);
+    surfXZ(-SX,SX,SZb,SZf,dY,1200,new T.PointsMaterial({color:0xddd9cc,size:.055,transparent:true,opacity:.22,sizeAttenuation:true}));
+    /* stage edge highlight */
+    seg([-SX,dY,SZf, SX,dY,SZf, SX,dY,SZb, -SX,dY,SZb, -SX,dY,SZf],M.hi);
+    /* legs under stage */
+    (function(){var p=[];for(var lx=-9;lx<=9;lx+=3)for(var lz=SZb+1;lz<=SZf-1;lz+=2.5)p.push(lx,dY-.4,lz,lx,0,lz);seg(p,M.gh);}());
+
+    /* --- THRUST --- */
+    /* left arm */
+    flatGrid(-SX,-SX+4,SZf,SZf+7,4,7,dY,M.lo);
+    box(4,.4,7,-SX+2,dY-.2,SZf+3.5,M.lo);
+    surfXZ(-SX,-SX+4,SZf,SZf+7,dY,200,M.ptD);
+    seg([-SX,dY,SZf+7,-SX+4,dY,SZf+7,-SX+4,dY,SZf],M.hi);
+    /* right arm */
+    flatGrid(SX-4,SX,SZf,SZf+7,4,7,dY,M.lo);
+    box(4,.4,7,SX-2,dY-.2,SZf+3.5,M.lo);
+    surfXZ(SX-4,SX,SZf,SZf+7,dY,200,M.ptD);
+    seg([SX,dY,SZf+7,SX-4,dY,SZf+7,SX-4,dY,SZf],M.hi);
+    /* front connector */
+    flatGrid(-SX+4,SX-4,SZf+7,SZf+11,12,4,dY,M.lo);
+    box(12,.4,4,0,dY-.2,SZf+9,M.lo);
+    surfXZ(-SX+4,SX-4,SZf+7,SZf+11,dY,300,M.ptD);
+    seg([-SX+4,dY,SZf+11,SX-4,dY,SZf+11],M.hi);
+    /* thrust legs */
+    (function(){
+      var p=[];
+      [[-SX+2,SZf+4],[-SX+2,SZf+7],[SX-2,SZf+4],[SX-2,SZf+7],[0,SZf+9],[4,SZf+9],[-4,SZf+9]].forEach(function(c){
+        p.push(c[0],dY-.4,c[1],c[0],0,c[1]);
+      });
+      seg(p,M.gh);
+    }());
+
+    /* --- FOH PLATFORM --- */
+    box(3,.5,2,-SX-1.5,dY-.05,SZf+8.5,M.lo);
+    box(1.3,.35,.65,-SX-1.5,dY+.5,SZf+8.2,M.md); /* console */
+    box(1.3,.06,.5,-SX-1.5,dY+.68,SZf+7.95,M.hi);
+    /* stairs */
+    for(var si=0;si<5;si++) box(1.8,.15,.5,-SX-1.5,dY-.25+si*.15,SZf+si*.5+5.5,M.lo);
+    /* operator stick */
+    (function(){
+      var bx=-SX-1.5,by=dY+.85,bz=SZf+8.2;
+      lp([bx,by+.48,bz,bx,by,bz,bx-.18,by-.42,bz,bx+.18,by-.42,bz,bx,by,bz,bx-.22,by+.18,bz,bx+.22,by+.18,bz],M.hi);
+      lp([bx-.05,by+.62,bz,bx+.05,by+.62,bz,bx+.05,by+.5,bz,bx-.05,by+.5,bz,bx-.05,by+.62,bz],M.hi);
+    }());
+
+    /* --- TRUSS TOWERS (4 corners) --- */
+    /* Back pair: x=±SX, z=SZb */
+    trussV(-SX,0,tH+dY,SZb);
+    trussV( SX,0,tH+dY,SZb);
+    /* Front pair: x=±SX, z=SZf  (these anchor the front truss bar) */
+    trussV(-SX,0,tH+dY,SZf);
+    trussV( SX,0,tH+dY,SZf);
+    /* tower surface points */
+    [-SX,SX].forEach(function(tx){[SZb,SZf].forEach(function(tz){
+      surfYZ(0,tH+dY,tz-.3,tz+.3,tx,60,M.pt);
+    });});
+    /* cross-bracing between pairs */
+    seg([-SX,0,SZb,SX,tH*.5+dY,SZb, SX,0,SZb,-SX,tH*.5+dY,SZb],M.gh);
+    seg([-SX,0,SZf,SX,tH*.5+dY,SZf, SX,0,SZf,-SX,tH*.5+dY,SZf],M.gh);
+    [-SX,SX].forEach(function(tx){
+      seg([tx,0,SZb,tx,tH*.5+dY,SZf, tx,0,SZf,tx,tH*.5+dY,SZb],M.gh);
+    });
+
+    /* --- ROOF TRUSS --- */
+    /* main perimeter */
+    trussH(-SX,SX,tH+dY,SZb);  /* back */
+    trussH(-SX,SX,tH+dY,SZf);  /* front */
+    trussH(-SX,SX,tH+dY,(SZb+SZf)/2); /* mid */
+    /* side bars */
+    trussH(SZb,SZf,-SX,tH+dY); /* wrong axis — use seg instead */
+    seg([-SX,tH+dY,SZb,-SX,tH+dY,SZf, SX,tH+dY,SZb,SX,tH+dY,SZf],M.hi);
+    /* roof diagonals */
+    seg([-SX,tH+dY,SZb,SX,tH+dY,SZf, SX,tH+dY,SZb,-SX,tH+dY,SZf],M.lo);
+    /* secondary cross members every 2m */
+    (function(){var p=[];for(var rc=-9;rc<=9;rc+=2)p.push(rc,tH+dY,SZb,rc,tH+dY,SZf);seg(p,M.gh);}());
+    /* roof surface — dense point cloud */
+    surfXZ(-SX,SX,SZb,SZf,tH+dY,600,new T.PointsMaterial({color:0xddd9cc,size:.07,transparent:true,opacity:.35,sizeAttenuation:true}));
+
+    /* --- BACK LED WALL --- */
+    /* wall grid */
+    (function(){
+      var p=[];
+      for(var vi=0;vi<=20;vi++){var x=-SX+vi;p.push(x,dY,SZb-.05,x,tH+dY,SZb-.05);}
+      for(var hi=0;hi<=12;hi++){var y=dY+hi*(tH)/12;p.push(-SX,y,SZb-.05,SX,y,SZb-.05);}
+      seg(p,M.md);
+    }());
+    /* LED wall dense fill */
+    surfXY(-SX,SX,dY,tH+dY,SZb-.05,1500,new T.PointsMaterial({color:0xddd9cc,size:.065,transparent:true,opacity:.38,sizeAttenuation:true}));
+    /* LED wall edge highlight */
+    seg([-SX,dY,SZb,SX,dY,SZb,SX,tH+dY,SZb,-SX,tH+dY,SZb,-SX,dY,SZb],M.hi);
+
+    /* --- HUNG MOVING HEADS — front truss --- */
+    for(var mh=-8.5;mh<=8.5;mh+=1.7){
+      box(.32,.42,.32,mh,tH+dY-.52,SZf,M.md);
+      seg([mh-.16,tH+dY-.3,SZf,mh-.16,tH+dY-.72,SZf,mh+.16,tH+dY-.3,SZf,mh+.16,tH+dY-.72,SZf],M.lo);
+      seg([mh,tH+dY-.72,SZf,mh+Math.sin(mh*.38)*2,2.8,SZf+mh*.05],new T.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.04}));
     }
     /* mid truss row */
-    for(var mh2=-6;mh2<=6;mh2+=2.5){
-      box(0.35,0.45,0.35,mh2,tH-.55,tZ/2,LND);
-      seg([mh2-.18,tH-.32,tZ/2,mh2-.18,tH-.78,tZ/2,mh2+.18,tH-.32,tZ/2,mh2+.18,tH-.78,tZ/2],LNF);
+    for(var mh2=-7;mh2<=7;mh2+=2.2){
+      box(.32,.42,.32,mh2,tH+dY-.52,(SZb+SZf)/2,M.lo);
+      seg([mh2-.16,tH+dY-.3,(SZb+SZf)/2,mh2-.16,tH+dY-.72,(SZb+SZf)/2,mh2+.16,tH+dY-.3,(SZb+SZf)/2,mh2+.16,tH+dY-.72,(SZb+SZf)/2],M.gh);
     }
+    /* bright fixture points */
+    (function(){var bp=[];for(var j=-8.5;j<=8.5;j+=1.7)bp.push(j,tH+dY-.52,SZf);pts(bp,M.ptH);}());
 
-    /* floor movers */
-    [[-5,4],[-2.5,3],[0,2.8],[2.5,3],[5,4],[-3.5,5.5],[3.5,5.5]].forEach(function(p){
-      box(0.5,0.12,0.5,p[0],.56,p[1],LN);
-      seg([p[0]-.2,.68,p[1],p[0]-.2,1.0,p[1],p[0]+.2,.68,p[1],p[0]+.2,1.0,p[1]],LN);
-      box(0.38,0.38,0.38,p[0],1.2,p[1],LN);
+    /* --- FLOOR MOVERS --- */
+    [[-6,SZf-1],[-3,SZf-1.5],[0,SZf-2],[3,SZf-1.5],[6,SZf-1],[-4,SZf-3.5],[4,SZf-3.5],[0,SZf-4]].forEach(function(p){
+      box(.48,.1,.48,p[0],dY+.05,p[1],M.hi);
+      seg([p[0]-.18,dY+.15,p[1],p[0]-.18,dY+.45,p[1],p[0]+.18,dY+.15,p[1],p[0]+.18,dY+.45,p[1]],M.md);
+      box(.36,.36,.36,p[0],dY+.63,p[1],M.hi);
     });
 
-    /* line arrays */
-    [-tX,tX].forEach(function(sx,si){
-      var c=si===0?1:-1;
-      for(var la=0;la<10;la++){
-        var ang=la*.12*c,lx=sx+Math.sin(ang)*.3,ly=tH-la*.55-.4,lz=-1.5+la*.18;
-        box(0.55,0.5,1.0,lx,ly,lz,LN);
+    /* --- SUBWOOFER STACKS (stage L/R inside towers) --- */
+    [-SX+2,SX-2].forEach(function(sx){
+      for(var row=0;row<3;row++) for(var col=0;col<2;col++){
+        box(.95,1.1,.9,sx+(col-.5)*1.05,dY+row*1.1+.55,SZb+1.5,M.md);
       }
-      var arcP=[];
-      for(var ai=0;ai<=8;ai++){var aa=(ai/8)*Math.PI*.6-Math.PI*.3;arcP.push(sx+Math.cos(aa)*1.2,tH-5.5+Math.sin(aa)*1.2,-4);}
-      lp(arcP,LND);
-      seg([sx,tH,-1.5,sx,tH-10*.55-.4,-1.5+10*.18],new T.LineBasicMaterial({color:0xece9e0,transparent:true,opacity:.1}));
+      surfYZ(dY,dY+3.3,SZb+1,SZb+2.1,sx,80,M.pt);
     });
 
-    /* side wings */
-    [[-12,3],[-12,-1],[12,3],[12,-1]].forEach(function(p){box(2,0.25,3,p[0],.12,p[1],LND);});
-
-    /* rigging cables */
+    /* --- LINE ARRAYS --- */
+    /* Stage LEFT — vertical stack */
     (function(){
-      var anch=[[-7,tH,tZ/2],[7,tH,tZ/2],[-4,tH,2],[4,tH,2],[0,tH,tZ+1]];
-      var targ=[[-6,.5,0],[6,.5,0],[-3,3.5,-1],[3,3.5,-1],[0,4,-4]];
-      anch.forEach(function(a,i){var b=targ[i];seg([a[0],a[1],a[2],b[0],b[1],b[2]],new T.LineBasicMaterial({color:0xece9e0,transparent:true,opacity:.1}));});
+      var sx=-SX+.4;
+      for(var la=0;la<12;la++){
+        var ly=tH+dY-la*.58-.5;
+        box(.55,.52,1.1,sx,ly,SZb+2.5,M.md);
+      }
+      /* rigging */
+      seg([sx,tH+dY,SZb+2.5,sx,tH+dY-12*.58-.5,SZb+2.5+12*.1],M.gh);
+      /* dense points on stack */
+      (function(){var p=[];for(var i=0;i<120;i++)p.push(sx+(Math.random()-.5)*.5,dY+Math.random()*(tH),SZb+2.5+(Math.random()-.5)*.6);pts(p,M.pt);}());
+    }());
+    /* Stage RIGHT — curved arc array */
+    (function(){
+      var sx=SX-.4;
+      /* vertical hang top section */
+      for(var la=0;la<7;la++){
+        box(.55,.52,1.1,sx,tH+dY-la*.58-.5,SZb+2.5,M.md);
+      }
+      /* arc bottom section */
+      var arcR=3.2, arcCX=sx-arcR, arcCY=tH+dY-7*.58-.5, arcCZ=SZb+2.5;
+      for(var ai=0;ai<=8;ai++){
+        var ang=-Math.PI*.05+ai*(Math.PI*.55/8);
+        var ax=arcCX+arcR*Math.cos(ang), ay=arcCY+arcR*Math.sin(ang);
+        box(.55,.52,1.1,ax,ay,arcCZ,M.md);
+      }
+      /* arc spine */
+      (function(){
+        var ap=[];
+        for(var i=0;i<=16;i++){var ang=-Math.PI*.05+i*(Math.PI*.55/16);ap.push(arcCX+arcR*Math.cos(ang),arcCY+arcR*Math.sin(ang),arcCZ);}
+        lp(ap,M.lo);
+      }());
+      seg([sx,tH+dY,SZb+2.5,sx,tH+dY-7*.58-.5,SZb+2.5],M.gh);
     }());
 
-    /* dense structure point cloud */
+    /* --- RIGGING CABLES --- */
+    (function(){
+      var anch=[[-7,tH+dY,-.5],[7,tH+dY,-.5],[-4,tH+dY,2.5],[4,tH+dY,2.5],[0,tH+dY,SZb+1]];
+      var targ=[[-6,dY+1,2],[6,dY+1,2],[-3,dY+4,0],[3,dY+4,0],[0,dY+5,SZb+3]];
+      anch.forEach(function(a,i){var b=targ[i];seg([a[0],a[1],a[2],b[0],b[1],b[2]],new T.LineBasicMaterial({color:0xece9e0,transparent:true,opacity:.09}));});
+    }());
+
+    /* --- STRUCTURE POINT CLOUD (bias toward edges/truss) --- */
     (function(){
       var p=[];
-      for(var i=0;i<1400;i++){
-        var w=Math.floor(Math.random()*5),x,y,z;
-        if(w===0){x=(Math.random()-.5)*18.8;y=tH;z=tZ+Math.random()*(6.5-tZ);}
-        else if(w===1){x=-tX+(Math.random()-.5)*.6;y=Math.random()*tH;z=tZ+Math.random()*(6.5-tZ);}
-        else if(w===2){x=tX+(Math.random()-.5)*.6;y=Math.random()*tH;z=tZ+Math.random()*(6.5-tZ);}
-        else if(w===3){x=(Math.random()-.5)*18;y=.5+Math.random()*(tH-1);z=tZ;}
-        else{x=(Math.random()-.5)*20;y=.5;z=(Math.random()-.5)*13;}
+      for(var i=0;i<2000;i++){
+        var r=Math.random();
+        var x,y,z;
+        if(r<.22){x=(Math.random()-.5)*SX*2;y=tH+dY;z=SZb+(Math.random())*(SZf-SZb);}        /* roof */
+        else if(r<.36){x=-SX;y=Math.random()*(tH+dY);z=SZb+Math.random()*(SZf-SZb);}         /* left tower */
+        else if(r<.50){x=SX;y=Math.random()*(tH+dY);z=SZb+Math.random()*(SZf-SZb);}          /* right tower */
+        else if(r<.65){x=(Math.random()-.5)*SX*2;y=Math.random()*(tH+dY);z=SZb;}             /* back wall */
+        else if(r<.78){x=(Math.random()-.5)*SX*1.8;y=dY;z=SZb+Math.random()*(SZf-SZb);}     /* floor */
+        else{x=(Math.random()-.5)*SX*2.2;y=Math.random()*(tH+dY)*.7;z=SZb+Math.random()*(SZf-SZb+8);}
         p.push(x,y,z);
       }
-      addPts(p,PT);
-      var bp=[];
-      for(var j=-8;j<=8;j+=1.8)bp.push(j,tH-.55,0,j,1.2,Math.sin(j*.5)*1.5+3);
-      addPts(bp,PTB);
+      pts(p,M.pt);
     }());
 
-    /* mouse + scroll reactive */
-    var autoRY=0.3,curRY=0.3,curRX=-0.06,targetRY=0.3,targetRX=-0.06,velY=0,hasM=false;
+    /* ======================== ANIMATION ======================== */
+    /* Start angle: front-right view matching reference photo */
+    var autoRY=-0.22,curRY=-0.22,curRX=-0.06,targetRY=-0.22,targetRX=-0.06;
+    var velY=0,hasM=false;
+
     document.addEventListener("mousemove",function(e){
       hasM=true;
-      targetRY=0.3+(e.clientX/window.innerWidth-.5)*.55;
-      targetRX=-0.06+(e.clientY/window.innerHeight-.5)*.15;
+      targetRY=-0.22+(e.clientX/window.innerWidth-.5)*.4;
+      targetRX=-0.05+(e.clientY/window.innerHeight-.5)*.12;
     });
 
     var t=0;
     function tick(){
       requestAnimationFrame(tick);
       t+=0.005;
-      autoRY+=0.0025;
+      /* continuous right orbit */
+      autoRY-=0.0018;
+      /* scroll velocity */
       var sv=window._stageScrollVel||0;
-      velY+=sv*.00004; velY*=.88; autoRY+=velY;
+      velY-=sv*.000035; velY*=.9; autoRY+=velY;
       if(!hasM) targetRY=autoRY;
-      curRY+=(targetRY-curRY)*.045;
-      curRX+=(targetRX-curRX)*.045;
+      curRY+=(targetRY-curRY)*.04;
+      curRX+=(targetRX-curRX)*.04;
       root.rotation.y=curRY;
-      root.rotation.x=curRX-.04;
+      root.rotation.x=curRX;
       renderer.render(scene,camera);
     }
     tick();
 
     window.addEventListener("resize",function(){
       var nw=canvas.clientWidth,nh=canvas.clientHeight;
-      camera.aspect=nw/nh; camera.updateProjectionMatrix();
+      camera.aspect=nw/nh;camera.updateProjectionMatrix();
       renderer.setSize(nw,nh);
     });
   }
