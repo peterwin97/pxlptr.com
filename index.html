@@ -152,9 +152,15 @@
 
   /* ---- intro panel ---- */
   #intro{display:flex;align-items:flex-end}
-  #seqbg{position:absolute;inset:0;width:100%;height:100%;opacity:1;z-index:0}
+  #seqbg{position:absolute;inset:0;width:100%;height:100%;opacity:1;z-index:0;object-fit:contain;object-position:center 42%;transform:scale(.82) translateX(12%)}
+  @media(max-width:768px){
+    #seqbg{object-fit:cover;object-position:38% 22%;transform:none}
+    .seq-veil{background:linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.7) 35%,rgba(0,0,0,.2) 60%,transparent 80%)}
+  }
   .seq-veil{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to right,rgba(10,10,11,.93) 0%,rgba(10,10,11,.72) 38%,rgba(10,10,11,.28) 62%,transparent 80%)}
-  .seq-vign{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 78% 68% at 62% 44%,transparent 22%,rgba(10,10,11,.5) 55%,rgba(10,10,11,.92) 76%,#0a0a0b 100%)}
+  .seq-vign{position:absolute;inset:0;z-index:2;pointer-events:none;background:
+    linear-gradient(to bottom,#000 0%,transparent 22%,transparent 72%,#000 100%),
+    radial-gradient(ellipse 78% 68% at 62% 44%,transparent 22%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.88) 76%,#000 100%)}
   #intro .grain{position:absolute;inset:0;opacity:.045;pointer-events:none;background-image:radial-gradient(circle,#fff .5px,transparent .6px);background-size:3px 3px}
   #intro .pad{position:relative;z-index:2;width:100%;padding:0 var(--gut) clamp(80px,12vh,150px)}
   #intro .kick{margin-bottom:clamp(20px,4vh,40px)}
@@ -411,7 +417,10 @@
 
     <!-- 0 — INTRO -->
     <section class="panel" id="intro" data-label="INTRO" data-count="">
-      <canvas id="seqbg" aria-hidden="true"></canvas>
+      <video id="seqbg" autoplay loop muted playsinline aria-hidden="true">
+        <source src="frames/main-new.webm" type="video/webm">
+        <source src="frames/main-new.mp4" type="video/mp4">
+      </video>
       <div class="seq-veil" aria-hidden="true"></div>
       <div class="seq-vign" aria-hidden="true"></div>
       <div class="grain"></div>
@@ -601,51 +610,6 @@
     });
   }
 
-  /* ---- background image sequence (reverse playback) ---- */
-  (function(){
-    var c=document.getElementById("seqbg"); if(!c) return;
-    var ctx=c.getContext("2d");
-    var BASE="frames/main-new/hf_20260616_214309_83b6815c-e8db-4886-bb76-aeabd75f5dbb_";
-    var TOTAL=1210, FPS=24, interval=1000/FPS;
-    var frame=0, last=0, loaded=0;
-    var imgs=new Array(TOTAL);
-
-    function size(){
-      var dpr=Math.min(devicePixelRatio||1,2);
-      c.width=c.clientWidth*dpr; c.height=c.clientHeight*dpr;
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-    }
-    size(); window.addEventListener("resize",size);
-
-    function pad(n){return("0000"+n).slice(-4);}
-
-    function draw(idx){
-      var img=imgs[idx]; if(!img||!img.complete) return;
-      var iw=img.naturalWidth,ih=img.naturalHeight;
-      var cw=c.clientWidth,ch=c.clientHeight;
-      var s=Math.min(cw/iw,ch/ih)*0.82;
-      ctx.clearRect(0,0,cw,ch);
-      ctx.drawImage(img,(cw-iw*s)/2 + cw*0.18,(ch-ih*s)/2 - ch*0.08,iw*s,ih*s);
-    }
-
-    function tick(now){
-      requestAnimationFrame(tick);
-      if(loaded<TOTAL) return;
-      if(now-last<interval) return;
-      last=now; draw(frame);
-      frame++; if(frame>=TOTAL) frame=0;
-    }
-
-    for(var i=0;i<TOTAL;i++){
-      (function(idx){
-        var img=new Image();
-        img.onload=function(){loaded++;};
-        img.src=BASE+pad(idx)+".jpg";
-        imgs[idx]=img;
-      })(i);
-    }
-    requestAnimationFrame(tick);
-  })();
 
   /* ---------- footer local clock ---------- */
   var fR=document.getElementById("fRight");
