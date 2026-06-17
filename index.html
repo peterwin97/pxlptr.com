@@ -95,33 +95,37 @@
   body.hov .cursor{width:60px;height:60px;background:rgba(236,233,224,.08)}
   @media (hover:none),(pointer:coarse){body{cursor:auto}.cursor,.cursor-dot{display:none}}
 
-  /* ===================== LOADER (SMPTE) ===================== */
-  #loader{position:fixed;inset:0;z-index:1000;background:var(--ink);display:flex;align-items:center;justify-content:center}
-  #loader .slate{position:absolute;inset:0;padding:var(--gut);pointer-events:none}
-  #loader .slate .tl,#loader .slate .tr,#loader .slate .bl,#loader .slate .br{position:absolute;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--grey)}
-  #loader .slate .tl{top:var(--gut);left:var(--gut)}
-  #loader .slate .tr{top:var(--gut);right:var(--gut);text-align:right}
-  #loader .slate .bl{bottom:var(--gut);left:var(--gut)}
-  #loader .slate .br{bottom:var(--gut);right:var(--gut);text-align:right}
-  /* corner ticks */
-  #loader .slate::before,#loader .slate::after{content:"";position:absolute;width:18px;height:18px;border:1px solid var(--line)}
-  #loader .slate::before{top:calc(var(--gut) - 14px);left:calc(var(--gut) - 14px);border-right:0;border-bottom:0}
-  #loader .slate::after{bottom:calc(var(--gut) - 14px);right:calc(var(--gut) - 14px);border-left:0;border-top:0}
-
-  #loader .center{display:flex;flex-direction:column;align-items:center;gap:34px}
-  .leader{position:relative;width:clamp(120px,22vw,190px);aspect-ratio:1}
-  .leader .ring{position:absolute;inset:0;border-radius:50%;border:1px solid var(--line)}
-  .leader .sweep{position:absolute;inset:-1px;border-radius:50%;
-    background:conic-gradient(from 0deg, rgba(236,233,224,.5), rgba(236,233,224,0) 28%, rgba(236,233,224,0) 100%);
-    -webkit-mask:radial-gradient(transparent 60%, #000 61%);mask:radial-gradient(transparent 60%, #000 61%)}
-  .leader .cross{position:absolute;inset:0}
-  .leader .cross::before,.leader .cross::after{content:"";position:absolute;background:var(--line)}
-  .leader .cross::before{left:50%;top:0;bottom:0;width:1px;transform:translateX(-.5px)}
-  .leader .cross::after{top:50%;left:0;right:0;height:1px;transform:translateY(-.5px)}
-  .leader .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(40px,7vw,64px);color:var(--paper)}
-  .tc{font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(28px,7vw,62px);letter-spacing:.04em;color:var(--paper)}
-  .tc .fr{color:var(--grey)}
-  #loader .wordmark{position:absolute;font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(44px,12vw,128px);letter-spacing:-.02em;display:flex;align-items:flex-end;opacity:0}
+  /* ===================== LOADER (grandMA3) ===================== */
+  #loader{position:fixed;inset:0;z-index:1000;background:#0a0c0e;display:flex;flex-direction:column;font-family:"Space Mono",ui-monospace,monospace}
+  /* title bar */
+  #loader .ma-bar{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;background:#131619;border-bottom:1px solid #1e2328;flex-shrink:0}
+  #loader .ma-bar .ma-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7a8290}
+  #loader .ma-bar .ma-tc{font-size:12px;letter-spacing:.12em;color:#c8a84b;font-weight:700}
+  #loader .ma-bar .ma-tc .fr{color:#7a5e1a}
+  /* log pane */
+  #loader .ma-log{flex:1;overflow:hidden;padding:14px 18px 8px;display:flex;flex-direction:column;justify-content:flex-end;gap:3px}
+  #loader .ma-log .ma-line{font-size:11px;line-height:1.55;display:flex;gap:10px;opacity:0;transition:opacity .08s}
+  #loader .ma-log .ma-line.show{opacity:1}
+  #loader .ma-log .ts{color:#3d4450;flex-shrink:0}
+  #loader .ma-log .tag{flex-shrink:0;min-width:52px}
+  #loader .ma-log .tag.sys{color:#4e9acd}
+  #loader .ma-log .tag.net{color:#6baf72}
+  #loader .ma-log .tag.dmx{color:#c8a84b}
+  #loader .ma-log .tag.err{color:#c85a4e}
+  #loader .ma-log .tag.ok {color:#6baf72}
+  #loader .ma-log .msg{color:#9aa4b0}
+  #loader .ma-log .val{color:#c8a84b}
+  /* command line */
+  #loader .ma-cmd{display:flex;align-items:center;gap:8px;padding:10px 18px;background:#0f1214;border-top:1px solid #1e2328;flex-shrink:0}
+  #loader .ma-cmd .prompt{color:#4e9acd;font-size:11px;white-space:nowrap}
+  #loader .ma-cmd .input{color:#ecebe0;font-size:11px;flex:1}
+  #loader .ma-cmd .cursor-bl{display:inline-block;width:7px;height:12px;background:#c8a84b;vertical-align:middle;animation:mabl .9s steps(1) infinite}
+  @keyframes mabl{50%{opacity:0}}
+  /* progress bar */
+  #loader .ma-prog{height:2px;background:#1e2328;flex-shrink:0}
+  #loader .ma-prog i{display:block;height:100%;width:0;background:#c8a84b;transition:width .18s linear}
+  /* wordmark (end slate) */
+  #loader .wordmark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(44px,12vw,128px);letter-spacing:-.02em;color:var(--paper);opacity:0;background:#0a0c0e}
   #loader .wordmark b{width:.5em;height:.78em;background:var(--paper);margin-left:.1em;margin-bottom:.06em;display:inline-block}
 
   /* ===================== PERSISTENT FRAME ===================== */
@@ -304,20 +308,15 @@
 
 <!-- ===================== LOADER ===================== -->
 <div id="loader" aria-hidden="true">
-  <div class="slate">
-    <div class="tl">PXLPTR<br>LD / Programmer</div>
-    <div class="tr">SMPTE<br>29.97 FPS</div>
-    <div class="bl" id="ldStage">Loading showfile</div>
-    <div class="br">Dallas–Fort Worth</div>
+  <div class="ma-bar">
+    <span class="ma-title">grandMA3 onPC &nbsp;·&nbsp; PXLPTR.SHOWFILE &nbsp;·&nbsp; v2.1.4.2</span>
+    <span class="ma-tc" id="ldTC">00:00:00:<span class="fr">00</span></span>
   </div>
-  <div class="center">
-    <div class="leader">
-      <div class="ring"></div>
-      <div class="sweep" id="ldSweep"></div>
-      <div class="cross"></div>
-      <div class="num" id="ldNum">5</div>
-    </div>
-    <div class="tc" id="ldTC">00:00:00:<span class="fr">00</span></div>
+  <div class="ma-prog"><i id="ldProg"></i></div>
+  <div class="ma-log" id="ldLog"></div>
+  <div class="ma-cmd">
+    <span class="prompt">MA3&gt; Fixture 1 Thru 512 At Full Please</span>
+    <span class="input">&nbsp;<span class="cursor-bl"></span></span>
   </div>
   <div class="wordmark" id="ldWord">PXLPTR<b></b></div>
 </div>
@@ -630,36 +629,88 @@
     tick();setInterval(tick,1000);
   }
 
-  /* ===================== LOADER (SMPTE) ===================== */
+  /* ===================== LOADER (grandMA3) ===================== */
   document.body.classList.add("is-loading");
-  var ldTC=document.getElementById("ldTC"),ldNum=document.getElementById("ldNum"),ldSweep=document.getElementById("ldSweep"),ldStage=document.getElementById("ldStage"),ldWord=document.getElementById("ldWord");
-  var TARGET=5; // 5-second leader
-  function fmt(totalFrames){var fps=30;var tf=Math.floor(totalFrames);var f=tf%fps,sec=Math.floor(tf/fps),s=sec%60,m=Math.floor(sec/60)%60,h=Math.floor(sec/3600);function p(x){return("0"+x).slice(-2);}return p(h)+":"+p(m)+":"+p(s)+':<span class="fr">'+p(f)+"</span>";}
+  var ldTC=document.getElementById("ldTC"),ldProg=document.getElementById("ldProg"),ldLog=document.getElementById("ldLog"),ldWord=document.getElementById("ldWord");
+  var FPS=30;
+  function fmtTC(totalFrames){var tf=Math.floor(totalFrames);var f=tf%FPS,sec=Math.floor(tf/FPS),s=sec%60,m=Math.floor(sec/60)%60,h=Math.floor(sec/3600);function p(x){return("0"+x).slice(-2);}return p(h)+":"+p(m)+":"+p(s)+':<span class="fr">'+p(f)+"</span>";}
+  function fmtWall(){var n=new Date();function p(x){return("0"+x).slice(-2);}return p(n.getHours())+":"+p(n.getMinutes())+":"+p(n.getSeconds())+"."+("00"+n.getMilliseconds()).slice(-3);}
+
+  var LOG_LINES=[
+    {tag:"sys", cls:"sys", msg:"grandMA3 onPC kernel boot", val:"OK"},
+    {tag:"[NET]", cls:"net", msg:"Discovering network nodes on", val:"192.168.1.0/24"},
+    {tag:"[SYS]", cls:"sys", msg:"Session token assigned", val:"MA3-NODE-7F2A"},
+    {tag:"[DMX]", cls:"dmx", msg:"Patching universe 1–64 via sACN", val:"512 ch each"},
+    {tag:"[NET]", cls:"net", msg:"CITP peer handshake", val:"ESTABLISHED"},
+    {tag:"[SYS]", cls:"sys", msg:"Loading fixture library", val:"v1.97.0.3 (48,212 types)"},
+    {tag:"[DMX]", cls:"dmx", msg:"Calculating dimmer curves for", val:"Fixture 1 Thru 512"},
+    {tag:"[SYS]", cls:"sys", msg:"Reading show file", val:"PXLPTR.showfile"},
+    {tag:"[NET]", cls:"net", msg:"Sync pool ready — latency", val:"0.4 ms"},
+    {tag:"[SYS]", cls:"sys", msg:"Cue stack loaded — sequences", val:"84 / 84"},
+    {tag:"[DMX]", cls:"dmx", msg:"Output hold active — universe", val:"1 Thru 64"},
+    {tag:"[SYS]", cls:"sys", msg:"Timecode source locked", val:"LTC 30 FPS"},
+    {tag:"[NET]", cls:"net", msg:"MA-Net3 group membership", val:"CONFIRMED"},
+    {tag:"[SYS]", cls:"sys", msg:"Plugin executor ready", val:"PXLPTR.lua"},
+    {tag:"[ OK]", cls:"ok",  msg:"System clear — handover complete", val:""},
+  ];
+  var MAX_VISIBLE=9;
+
+  function addLine(i){
+    var d=LOG_LINES[i];
+    var row=document.createElement("div");row.className="ma-line";
+    row.innerHTML='<span class="ts">'+fmtWall()+'</span>'
+      +'<span class="tag '+d.cls+'">'+d.tag+'</span>'
+      +'<span class="msg">'+d.msg+' <span class="val">'+d.val+'</span></span>';
+    ldLog.appendChild(row);
+    // trim to MAX_VISIBLE
+    while(ldLog.children.length>MAX_VISIBLE)ldLog.removeChild(ldLog.firstChild);
+    requestAnimationFrame(function(){row.classList.add("show");});
+  }
 
   function finishLoad(){document.body.classList.remove("is-loading");revealIntro();buildHorizontal();}
 
+  // gate: both animation floor AND video canplaythrough must pass
+  var _animDone=false,_videoDone=false;
+  function maybeFinish(){if(_animDone&&_videoDone)finishLoad();}
+
+  var _v=document.getElementById("seqbg");
+  if(_v){
+    if(_v.readyState>=3){_videoDone=true;}
+    else{_v.addEventListener("canplaythrough",function(){_videoDone=true;maybeFinish();},{once:true});}
+    // safety: if video never fires (format unsupported etc), ungate after 12s
+    setTimeout(function(){_videoDone=true;maybeFinish();},12000);
+  } else {_videoDone=true;}
+
   if(hasGSAP && !reduce){
     var counter={fr:0};
-    var total=TARGET*30;
-    var stages=["Patching rig","Loading showfile","Reading timecode","Clear & go"];
     var tl=gsap.timeline();
-    tl.to(counter,{fr:total,duration:2.2,ease:"power1.inOut",onUpdate:function(){
-        var v=counter.fr;ldTC.innerHTML=fmt(v);
-        var cd=TARGET-Math.floor(v/30);ldNum.textContent=Math.max(1,cd);
-        ldStage.textContent=stages[Math.min(stages.length-1,Math.floor(v/total*stages.length))];
-    }});
-    // sweep: one full rotation per second of leader
-    tl.to(ldSweep,{rotation:360*TARGET,duration:2.2,ease:"power1.inOut",transformOrigin:"50% 50%"},0);
-    // snap to wordmark
-    tl.set(".leader,#ldTC",{display:"none"})
-      .set(ldWord,{opacity:1})
-      .from(ldWord,{scale:0.92,duration:0.4,ease:"power3.out"})
-      .to({},{duration:0.35})
-      .to("#loader",{yPercent:-100,duration:0.85,ease:"power4.inOut",onStart:finishLoad});
+    var _nextLine=0;
+    // drive timecode + log lines over ~3s minimum floor
+    tl.to(counter,{fr:LOG_LINES.length*FPS,duration:3,ease:"none",onUpdate:function(){
+      ldTC.innerHTML=fmtTC(counter.fr);
+      var idx=Math.min(LOG_LINES.length-1,Math.floor(counter.fr/FPS));
+      while(_nextLine<=idx){addLine(_nextLine);_nextLine++;}
+      ldProg.style.width=(Math.min(1,counter.fr/(LOG_LINES.length*FPS))*100)+"%";
+    }})
+    // hold until video is ready
+    .call(function(){_animDone=true;maybeFinish();})
+    // once maybeFinish fires finishLoad, we then wipe loader — watch for flag
+    .call(function checkReady(){
+      if(_animDone&&_videoDone){
+        gsap.set(ldWord,{opacity:1});
+        gsap.from(ldWord,{scale:0.94,duration:0.4,ease:"power3.out"});
+        gsap.to("#loader",{yPercent:-100,duration:0.85,delay:0.45,ease:"power4.inOut"});
+      } else {
+        setTimeout(checkReady,100);
+      }
+    });
   } else {
-    ldTC.innerHTML=fmt(TARGET*30);ldNum.textContent="0";
-    document.querySelector(".leader").style.display="none";ldTC.style.display="none";ldWord.style.opacity=1;
-    document.getElementById("loader").style.display="none";finishLoad();
+    for(var _i=0;_i<LOG_LINES.length;_i++)addLine(_i);
+    ldProg.style.width="100%";
+    ldTC.innerHTML=fmtTC(LOG_LINES.length*FPS);
+    _animDone=true;
+    if(_videoDone){ldWord.style.opacity=1;document.getElementById("loader").style.display="none";finishLoad();}
+    else{_v&&_v.addEventListener("canplaythrough",function(){ldWord.style.opacity=1;document.getElementById("loader").style.display="none";finishLoad();},{once:true});}
   }
 
   /* ---------- intro reveal ---------- */
