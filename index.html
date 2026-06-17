@@ -95,37 +95,39 @@
   body.hov .cursor{width:60px;height:60px;background:rgba(236,233,224,.08)}
   @media (hover:none),(pointer:coarse){body{cursor:auto}.cursor,.cursor-dot{display:none}}
 
-  /* ===================== LOADER (grandMA3) ===================== */
-  #loader{position:fixed;inset:0;z-index:1000;background:#0a0c0e;display:flex;flex-direction:column;font-family:"Space Mono",ui-monospace,monospace}
+  /* ===================== LOADER (grandMA3 System Monitor) ===================== */
+  #loader{position:fixed;inset:0;z-index:1000;background:#111;display:flex;flex-direction:column;font-family:"Space Mono",ui-monospace,monospace}
   /* title bar */
-  #loader .ma-bar{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;background:#131619;border-bottom:1px solid #1e2328;flex-shrink:0}
-  #loader .ma-bar .ma-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7a8290}
-  #loader .ma-bar .ma-tc{font-size:12px;letter-spacing:.12em;color:#c8a84b;font-weight:700}
-  #loader .ma-bar .ma-tc .fr{color:#7a5e1a}
+  #loader .ma-bar{display:flex;align-items:center;gap:10px;padding:5px 12px;background:#1a1a1a;border-bottom:1px solid #2a2a2a;flex-shrink:0}
+  #loader .ma-bar .ma-badge{display:flex;align-items:center;justify-content:center;width:28px;height:20px;background:#555;color:#fff;font-size:10px;font-weight:700;letter-spacing:.05em;flex-shrink:0}
+  #loader .ma-bar .ma-icon{width:18px;height:14px;border:1px solid #666;flex-shrink:0}
+  #loader .ma-bar .ma-title{font-size:11px;color:#ccc;letter-spacing:.04em;flex:1}
   /* log pane */
-  #loader .ma-log{flex:1;overflow:hidden;padding:14px 18px 8px;display:flex;flex-direction:column;justify-content:flex-end;gap:3px}
-  #loader .ma-log .ma-line{font-size:11px;line-height:1.55;display:flex;gap:10px;opacity:0;transition:opacity .08s}
+  #loader .ma-log{flex:1;overflow:hidden;padding:6px 0 4px;display:flex;flex-direction:column;justify-content:flex-end}
+  #loader .ma-log .ma-line{font-size:11px;line-height:1.6;display:grid;grid-template-columns:11em 9em 12px 1fr;gap:0;padding:0 14px;white-space:nowrap;overflow:hidden;opacity:0;transition:opacity .06s}
   #loader .ma-log .ma-line.show{opacity:1}
-  #loader .ma-log .ts{color:#3d4450;flex-shrink:0}
-  #loader .ma-log .tag{flex-shrink:0;min-width:52px}
-  #loader .ma-log .tag.sys{color:#4e9acd}
-  #loader .ma-log .tag.net{color:#6baf72}
-  #loader .ma-log .tag.dmx{color:#c8a84b}
-  #loader .ma-log .tag.err{color:#c85a4e}
-  #loader .ma-log .tag.ok {color:#6baf72}
-  #loader .ma-log .msg{color:#9aa4b0}
-  #loader .ma-log .val{color:#c8a84b}
+  #loader .ma-log .ma-line.ok  .msg{color:#3db83d}
+  #loader .ma-log .ma-line.err .msg{color:#d94040}
+  #loader .ma-log .ma-line.sep .msg{color:#3db83d}
+  #loader .ma-log .ma-line.dim .msg{color:#666}
+  #loader .ma-log .ts {color:#ccc;padding-right:8px}
+  #loader .ma-log .task{color:#ccc;padding-right:4px}
+  #loader .ma-log .col {color:#666}
+  #loader .ma-log .msg {color:#ccc;overflow:hidden;text-overflow:ellipsis}
+  #loader .ma-log .ok-kw{color:#3db83d}
+  /* status bar */
+  #loader .ma-status{display:flex;align-items:center;gap:0;padding:4px 0 0;border-top:1px solid #2a2a2a;flex-shrink:0}
+  #loader .ma-status .ma-prog-wrap{flex:1;height:3px;background:#2a2a2a}
+  #loader .ma-status .ma-prog-wrap i{display:block;height:100%;width:0;background:#3db83d;transition:width .18s linear}
+  #loader .ma-status .ma-sel{font-size:10px;color:#888;padding:0 12px;white-space:nowrap}
   /* command line */
-  #loader .ma-cmd{display:flex;align-items:center;gap:8px;padding:10px 18px;background:#0f1214;border-top:1px solid #1e2328;flex-shrink:0}
-  #loader .ma-cmd .prompt{color:#4e9acd;font-size:11px;white-space:nowrap}
-  #loader .ma-cmd .input{color:#ecebe0;font-size:11px;flex:1}
-  #loader .ma-cmd .cursor-bl{display:inline-block;width:7px;height:12px;background:#c8a84b;vertical-align:middle;animation:mabl .9s steps(1) infinite}
+  #loader .ma-cmd{display:flex;align-items:center;gap:0;padding:5px 12px;background:#1a1a1a;border-top:1px solid #2a2a2a;flex-shrink:0}
+  #loader .ma-cmd .prompt{color:#ccc;font-size:11px;white-space:nowrap}
+  #loader .ma-cmd .cmd-text{color:#3db83d;font-size:11px;flex:1;padding-left:6px}
+  #loader .ma-cmd .cursor-bl{display:inline-block;width:7px;height:11px;background:#ccc;vertical-align:middle;animation:mabl .9s steps(1) infinite}
   @keyframes mabl{50%{opacity:0}}
-  /* progress bar */
-  #loader .ma-prog{height:2px;background:#1e2328;flex-shrink:0}
-  #loader .ma-prog i{display:block;height:100%;width:0;background:#c8a84b;transition:width .18s linear}
   /* wordmark (end slate) */
-  #loader .wordmark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(44px,12vw,128px);letter-spacing:-.02em;color:var(--paper);opacity:0;background:#0a0c0e}
+  #loader .wordmark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(44px,12vw,128px);letter-spacing:-.02em;color:var(--paper);opacity:0;background:#111}
   #loader .wordmark b{width:.5em;height:.78em;background:var(--paper);margin-left:.1em;margin-bottom:.06em;display:inline-block}
 
   /* ===================== PERSISTENT FRAME ===================== */
@@ -309,14 +311,18 @@
 <!-- ===================== LOADER ===================== -->
 <div id="loader" aria-hidden="true">
   <div class="ma-bar">
-    <span class="ma-title">grandMA3 onPC &nbsp;·&nbsp; PXLPTR.SHOWFILE &nbsp;·&nbsp; v2.1.4.2</span>
-    <span class="ma-tc" id="ldTC">00:00:00:<span class="fr">00</span></span>
+    <div class="ma-badge">M A</div>
+    <div class="ma-icon"></div>
+    <span class="ma-title">System Monitor</span>
   </div>
-  <div class="ma-prog"><i id="ldProg"></i></div>
   <div class="ma-log" id="ldLog"></div>
+  <div class="ma-status">
+    <div class="ma-prog-wrap"><i id="ldProg"></i></div>
+    <span class="ma-sel" id="ldTC">0h00m00.000s</span>
+  </div>
   <div class="ma-cmd">
-    <span class="prompt">MA3&gt; Fixture 1 Thru 512 At Full Please</span>
-    <span class="input">&nbsp;<span class="cursor-bl"></span></span>
+    <span class="prompt">Command Line Input</span>
+    <span class="cmd-text" id="ldCmd">&nbsp;<span class="cursor-bl"></span></span>
   </div>
   <div class="wordmark" id="ldWord">PXLPTR<b></b></div>
 </div>
@@ -629,47 +635,58 @@
     tick();setInterval(tick,1000);
   }
 
-  /* ===================== LOADER (grandMA3) ===================== */
+  /* ===================== LOADER (grandMA3 System Monitor) ===================== */
   document.body.classList.add("is-loading");
-  var ldTC=document.getElementById("ldTC"),ldProg=document.getElementById("ldProg"),ldLog=document.getElementById("ldLog"),ldWord=document.getElementById("ldWord");
-  var FPS=30;
-  function fmtTC(totalFrames){var tf=Math.floor(totalFrames);var f=tf%FPS,sec=Math.floor(tf/FPS),s=sec%60,m=Math.floor(sec/60)%60,h=Math.floor(sec/3600);function p(x){return("0"+x).slice(-2);}return p(h)+":"+p(m)+":"+p(s)+':<span class="fr">'+p(f)+"</span>";}
-  function fmtWall(){var n=new Date();function p(x){return("0"+x).slice(-2);}return p(n.getHours())+":"+p(n.getMinutes())+":"+p(n.getSeconds())+"."+("00"+n.getMilliseconds()).slice(-3);}
+  var ldTC=document.getElementById("ldTC"),ldProg=document.getElementById("ldProg"),ldLog=document.getElementById("ldLog"),ldWord=document.getElementById("ldWord"),ldCmd=document.getElementById("ldCmd");
+  var _t0=Date.now();
+  function fmtElapsed(){var ms=Date.now()-_t0;var h=Math.floor(ms/3600000);var m=Math.floor((ms%3600000)/60000);var s=((ms%60000)/1000).toFixed(3);return h+"h"+("0"+m).slice(-2)+"m"+("0"+parseFloat(s).toFixed(3)).slice(-6)+"s";}
 
+  // grandMA3 System Monitor log entries
+  // cls: "" normal | "ok" green | "err" red | "sep" green separator | "dim" dim
   var LOG_LINES=[
-    {tag:"sys", cls:"sys", msg:"grandMA3 onPC kernel boot", val:"OK"},
-    {tag:"[NET]", cls:"net", msg:"Discovering network nodes on", val:"192.168.1.0/24"},
-    {tag:"[SYS]", cls:"sys", msg:"Session token assigned", val:"MA3-NODE-7F2A"},
-    {tag:"[DMX]", cls:"dmx", msg:"Patching universe 1–64 via sACN", val:"512 ch each"},
-    {tag:"[NET]", cls:"net", msg:"CITP peer handshake", val:"ESTABLISHED"},
-    {tag:"[SYS]", cls:"sys", msg:"Loading fixture library", val:"v1.97.0.3 (48,212 types)"},
-    {tag:"[DMX]", cls:"dmx", msg:"Calculating dimmer curves for", val:"Fixture 1 Thru 512"},
-    {tag:"[SYS]", cls:"sys", msg:"Reading show file", val:"PXLPTR.showfile"},
-    {tag:"[NET]", cls:"net", msg:"Sync pool ready — latency", val:"0.4 ms"},
-    {tag:"[SYS]", cls:"sys", msg:"Cue stack loaded — sequences", val:"84 / 84"},
-    {tag:"[DMX]", cls:"dmx", msg:"Output hold active — universe", val:"1 Thru 64"},
-    {tag:"[SYS]", cls:"sys", msg:"Timecode source locked", val:"LTC 30 FPS"},
-    {tag:"[NET]", cls:"net", msg:"MA-Net3 group membership", val:"CONFIRMED"},
-    {tag:"[SYS]", cls:"sys", msg:"Plugin executor ready", val:"PXLPTR.lua"},
-    {tag:"[ OK]", cls:"ok",  msg:"System clear — handover complete", val:""},
+    {task:"Kernel",   cls:"",    msg:"grandMA3 onPC v2.1.4.2 boot sequence started"},
+    {task:"Kernel",   cls:"",    msg:"Loading kernel modules and device drivers"},
+    {task:"NetPool",  cls:"",    msg:"Initialising MA-Net3 session on adapter eth0"},
+    {task:"NetPool",  cls:"",    msg:"Broadcasting session discovery 192.168.1.255:8078"},
+    {task:"MANet3",   cls:"ok",  msg:'<span class="ok-kw">OK:</span>MA-Net3 session established — peer count: 3'},
+    {task:"Kernel",   cls:"",    msg:"Mounting show file system PXLPTR.showfile"},
+    {task:"DBWorker", cls:"",    msg:"Reading fixture library v1.97.0.3 — 48212 types"},
+    {task:"DBWorker", cls:"",    msg:"Resolving fixture patch Fixture 1 Thru 512"},
+    {task:"DBWorker", cls:"",    msg:"Calculating dimmer curves and colour transforms"},
+    {task:"MANet3",   cls:"",    msg:"Syncing data pool 1 'Default' from session host"},
+    {task:"Root",     cls:"sep", msg:"================Loading Sequence Data================"},
+    {task:"Executor", cls:"",    msg:"Reading cue stack — sequences found: 84"},
+    {task:"Executor", cls:"",    msg:"Executor 1.1 — sequence 'MAIN LOOK' assigned"},
+    {task:"Executor", cls:"",    msg:"Timecode source: LTC 30fps — input locked"},
+    {task:"MainTask", cls:"ok",  msg:'<span class="ok-kw">OK:</span>Store Sequence 1 Cue 1 Thru 84 Please'},
+    {task:"NetPool",  cls:"",    msg:"sACN output universe 1 Thru 64 — 512 ch each"},
+    {task:"MainTask", cls:"ok",  msg:'<span class="ok-kw">OK:</span>Patch Fixture 1 Thru 512 Universe 1 Please'},
+    {task:"Root",     cls:"sep", msg:"================TRU Finished================"},
+    {task:"MainTask", cls:"ok",  msg:'<span class="ok-kw">OK:</span>Edit DataPool 1 Please'},
+    {task:"DBWorker", cls:"",    msg:"Syncing file system"},
+    {task:"MainTask", cls:"ok",  msg:'<span class="ok-kw">OK:</span>Set ScreenContent Default \"WindowSystemMonitor\"'},
   ];
-  var MAX_VISIBLE=9;
+  var CMD_STEPS=[
+    'Fixture 1 Thru 512<span class="cursor-bl"></span>',
+    'Fixture 1 Thru 512 At Full<span class="cursor-bl"></span>',
+    'Fixture 1 Thru 512 At Full Please<span class="cursor-bl"></span>',
+  ];
+  var MAX_VISIBLE=12;
 
   function addLine(i){
     var d=LOG_LINES[i];
-    var row=document.createElement("div");row.className="ma-line";
-    row.innerHTML='<span class="ts">'+fmtWall()+'</span>'
-      +'<span class="tag '+d.cls+'">'+d.tag+'</span>'
-      +'<span class="msg">'+d.msg+' <span class="val">'+d.val+'</span></span>';
+    var row=document.createElement("div");row.className="ma-line"+(d.cls?" "+d.cls:"");
+    row.innerHTML='<span class="ts">'+fmtElapsed()+'</span>'
+      +'<span class="task">'+d.task+'</span>'
+      +'<span class="col"> : </span>'
+      +'<span class="msg">'+d.msg+'</span>';
     ldLog.appendChild(row);
-    // trim to MAX_VISIBLE
     while(ldLog.children.length>MAX_VISIBLE)ldLog.removeChild(ldLog.firstChild);
     requestAnimationFrame(function(){row.classList.add("show");});
   }
 
   function finishLoad(){document.body.classList.remove("is-loading");revealIntro();buildHorizontal();}
 
-  // gate: both animation floor AND video canplaythrough must pass
   var _animDone=false,_videoDone=false;
   function maybeFinish(){if(_animDone&&_videoDone)finishLoad();}
 
@@ -677,37 +694,34 @@
   if(_v){
     if(_v.readyState>=3){_videoDone=true;}
     else{_v.addEventListener("canplaythrough",function(){_videoDone=true;maybeFinish();},{once:true});}
-    // safety: if video never fires (format unsupported etc), ungate after 12s
     setTimeout(function(){_videoDone=true;maybeFinish();},12000);
   } else {_videoDone=true;}
 
   if(hasGSAP && !reduce){
     var counter={fr:0};
+    var FPS=30;
     var tl=gsap.timeline();
-    var _nextLine=0;
-    // drive timecode + log lines over ~3s minimum floor
-    tl.to(counter,{fr:LOG_LINES.length*FPS,duration:3,ease:"none",onUpdate:function(){
-      ldTC.innerHTML=fmtTC(counter.fr);
+    var _nextLine=0,_cmdStep=0;
+    tl.to(counter,{fr:LOG_LINES.length*FPS,duration:3.5,ease:"none",onUpdate:function(){
+      ldTC.textContent=fmtElapsed();
       var idx=Math.min(LOG_LINES.length-1,Math.floor(counter.fr/FPS));
       while(_nextLine<=idx){addLine(_nextLine);_nextLine++;}
+      // update command line in thirds
+      var cs=Math.min(CMD_STEPS.length-1,Math.floor(counter.fr/FPS/(LOG_LINES.length/CMD_STEPS.length)));
+      if(cs!==_cmdStep){_cmdStep=cs;ldCmd.innerHTML=" "+CMD_STEPS[cs];}
       ldProg.style.width=(Math.min(1,counter.fr/(LOG_LINES.length*FPS))*100)+"%";
     }})
-    // hold until video is ready
     .call(function(){_animDone=true;maybeFinish();})
-    // once maybeFinish fires finishLoad, we then wipe loader — watch for flag
     .call(function checkReady(){
       if(_animDone&&_videoDone){
         gsap.set(ldWord,{opacity:1});
         gsap.from(ldWord,{scale:0.94,duration:0.4,ease:"power3.out"});
-        gsap.to("#loader",{yPercent:-100,duration:0.85,delay:0.45,ease:"power4.inOut"});
-      } else {
-        setTimeout(checkReady,100);
-      }
+        gsap.to("#loader",{yPercent:-100,duration:0.85,delay:0.55,ease:"power4.inOut"});
+      } else {setTimeout(checkReady,100);}
     });
   } else {
     for(var _i=0;_i<LOG_LINES.length;_i++)addLine(_i);
     ldProg.style.width="100%";
-    ldTC.innerHTML=fmtTC(LOG_LINES.length*FPS);
     _animDone=true;
     if(_videoDone){ldWord.style.opacity=1;document.getElementById("loader").style.display="none";finishLoad();}
     else{_v&&_v.addEventListener("canplaythrough",function(){ldWord.style.opacity=1;document.getElementById("loader").style.display="none";finishLoad();},{once:true});}
