@@ -644,7 +644,9 @@
   function maybeFinish(){
     if(!_animDone||!_videoDone||_dismissed)return;
     _dismissed=true;
-    // if still on the leader, snap to wordmark first
+    // Ensure video is actually playing before the loader wipes — Chrome can
+    // silently drop the initial play() call while the loader is covering the page.
+    if(_v&&_v.paused){_v.play().catch(function(){});}
     ldRing.classList.remove("waiting");
     gsap.set(".leader,#ldTC",{display:"none"});
     gsap.set(ldWord,{opacity:1});
@@ -654,10 +656,13 @@
 
   var _v=document.getElementById("seqbg");
   if(_v){
-    if(_v.readyState>=3){_videoDone=true;}
-    else{_v.addEventListener("canplaythrough",function(){_videoDone=true;maybeFinish();},{once:true});}
-    // safety fallback — never block forever if format unsupported
-    setTimeout(function(){_videoDone=true;maybeFinish();},12000);
+    // canplay (not canplaythrough) — fires as soon as playback can start,
+    // not when the whole file is estimated buffered. Chrome is very slow to
+    // fire canplaythrough on large files; canplay is enough to guarantee
+    // the video will actually be visible when the loader wipes away.
+    if(_v.readyState>=2){_videoDone=true;}
+    else{_v.addEventListener("canplay",function(){_videoDone=true;maybeFinish();},{once:true});}
+    setTimeout(function(){_videoDone=true;maybeFinish();},10000);
   } else {_videoDone=true;}
 
   if(hasGSAP && !reduce){
