@@ -417,7 +417,7 @@
 
     <!-- 0 — INTRO -->
     <section class="panel" id="intro" data-label="INTRO" data-count="">
-      <video id="seqbg" autoplay loop muted playsinline aria-hidden="true">
+      <video id="seqbg" autoplay loop muted playsinline preload="auto" aria-hidden="true">
         <source src="frames/main-new.webm" type="video/webm">
         <source src="frames/main-new.mp4" type="video/mp4">
       </video>
@@ -594,6 +594,13 @@
   "use strict";
   if("scrollRestoration" in history) history.scrollRestoration="manual";
   window.scrollTo(0,0);
+  // Force autoplay — browsers can silently reject the attribute on first cold load
+  var _v=document.getElementById("seqbg");
+  if(_v){var _p=_v.play();if(_p&&_p.catch)_p.catch(function(){
+    var _resume=function(){_v.play();document.removeEventListener("pointerdown",_resume);document.removeEventListener("keydown",_resume);};
+    document.addEventListener("pointerdown",_resume,{once:true});
+    document.addEventListener("keydown",_resume,{once:true});
+  });}
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   var hasGSAP = !!window.gsap;
   if (hasGSAP && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
