@@ -95,39 +95,34 @@
   body.hov .cursor{width:60px;height:60px;background:rgba(236,233,224,.08)}
   @media (hover:none),(pointer:coarse){body{cursor:auto}.cursor,.cursor-dot{display:none}}
 
-  /* ===================== LOADER (grandMA3 System Monitor) ===================== */
-  #loader{position:fixed;inset:0;z-index:1000;background:#111;display:flex;flex-direction:column;font-family:"Space Mono",ui-monospace,monospace}
-  /* title bar */
-  #loader .ma-bar{display:flex;align-items:center;gap:10px;padding:5px 12px;background:#1a1a1a;border-bottom:1px solid #2a2a2a;flex-shrink:0}
-  #loader .ma-bar .ma-badge{display:flex;align-items:center;justify-content:center;width:28px;height:20px;background:#555;color:#fff;font-size:10px;font-weight:700;letter-spacing:.05em;flex-shrink:0}
-  #loader .ma-bar .ma-icon{width:18px;height:14px;border:1px solid #666;flex-shrink:0}
-  #loader .ma-bar .ma-title{font-size:11px;color:#ccc;letter-spacing:.04em;flex:1}
-  /* log pane */
-  #loader .ma-log{flex:1;overflow:hidden;padding:6px 0 4px;display:flex;flex-direction:column;justify-content:flex-end}
-  #loader .ma-log .ma-line{font-size:11px;line-height:1.6;display:grid;grid-template-columns:11em 9em 12px 1fr;gap:0;padding:0 14px;white-space:nowrap;overflow:hidden;opacity:0;transition:opacity .06s}
-  #loader .ma-log .ma-line.show{opacity:1}
-  #loader .ma-log .ma-line.ok  .msg{color:#3db83d}
-  #loader .ma-log .ma-line.err .msg{color:#d94040}
-  #loader .ma-log .ma-line.sep .msg{color:#3db83d}
-  #loader .ma-log .ma-line.dim .msg{color:#666}
-  #loader .ma-log .ts {color:#ccc;padding-right:8px}
-  #loader .ma-log .task{color:#ccc;padding-right:4px}
-  #loader .ma-log .col {color:#666}
-  #loader .ma-log .msg {color:#ccc;overflow:hidden;text-overflow:ellipsis}
-  #loader .ma-log .ok-kw{color:#3db83d}
-  /* status bar */
-  #loader .ma-status{display:flex;align-items:center;gap:0;padding:4px 0 0;border-top:1px solid #2a2a2a;flex-shrink:0}
-  #loader .ma-status .ma-prog-wrap{flex:1;height:3px;background:#2a2a2a}
-  #loader .ma-status .ma-prog-wrap i{display:block;height:100%;width:0;background:#3db83d;transition:width .18s linear}
-  #loader .ma-status .ma-sel{font-size:10px;color:#888;padding:0 12px;white-space:nowrap}
-  /* command line */
-  #loader .ma-cmd{display:flex;align-items:center;gap:0;padding:5px 12px;background:#1a1a1a;border-top:1px solid #2a2a2a;flex-shrink:0}
-  #loader .ma-cmd .prompt{color:#ccc;font-size:11px;white-space:nowrap}
-  #loader .ma-cmd .cmd-text{color:#3db83d;font-size:11px;flex:1;padding-left:6px}
-  #loader .ma-cmd .cursor-bl{display:inline-block;width:7px;height:11px;background:#ccc;vertical-align:middle;animation:mabl .9s steps(1) infinite}
-  @keyframes mabl{50%{opacity:0}}
-  /* wordmark (end slate) */
-  #loader .wordmark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(44px,12vw,128px);letter-spacing:-.02em;color:var(--paper);opacity:0;background:#111}
+  /* ===================== LOADER (SMPTE) ===================== */
+  #loader{position:fixed;inset:0;z-index:1000;background:var(--ink);display:flex;align-items:center;justify-content:center}
+  #loader .slate{position:absolute;inset:0;padding:var(--gut);pointer-events:none}
+  #loader .slate .tl,#loader .slate .tr,#loader .slate .bl,#loader .slate .br{position:absolute;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--grey)}
+  #loader .slate .tl{top:var(--gut);left:var(--gut)}
+  #loader .slate .tr{top:var(--gut);right:var(--gut);text-align:right}
+  #loader .slate .bl{bottom:var(--gut);left:var(--gut)}
+  #loader .slate .br{bottom:var(--gut);right:var(--gut);text-align:right}
+  #loader .slate::before,#loader .slate::after{content:"";position:absolute;width:18px;height:18px;border:1px solid var(--line)}
+  #loader .slate::before{top:calc(var(--gut) - 14px);left:calc(var(--gut) - 14px);border-right:0;border-bottom:0}
+  #loader .slate::after{bottom:calc(var(--gut) - 14px);right:calc(var(--gut) - 14px);border-left:0;border-top:0}
+  #loader .center{display:flex;flex-direction:column;align-items:center;gap:34px}
+  .leader{position:relative;width:clamp(120px,22vw,190px);aspect-ratio:1}
+  .leader .ring{position:absolute;inset:0;border-radius:50%;border:1px solid var(--line)}
+  .leader .sweep{position:absolute;inset:-1px;border-radius:50%;
+    background:conic-gradient(from 0deg,rgba(236,233,224,.5),rgba(236,233,224,0) 28%,rgba(236,233,224,0) 100%);
+    -webkit-mask:radial-gradient(transparent 60%,#000 61%);mask:radial-gradient(transparent 60%,#000 61%)}
+  .leader .cross{position:absolute;inset:0}
+  .leader .cross::before,.leader .cross::after{content:"";position:absolute;background:var(--line)}
+  .leader .cross::before{left:50%;top:0;bottom:0;width:1px;transform:translateX(-.5px)}
+  .leader .cross::after{top:50%;left:0;right:0;height:1px;transform:translateY(-.5px)}
+  .leader .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(40px,7vw,64px);color:var(--paper)}
+  .tc{font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(28px,7vw,62px);letter-spacing:.04em;color:var(--paper)}
+  .tc .fr{color:var(--grey)}
+  /* waiting state — sweep pulses when animation is done but video not yet ready */
+  .leader .ring.waiting{animation:ringpulse 1.2s ease-in-out infinite}
+  @keyframes ringpulse{0%,100%{opacity:.3}50%{opacity:1}}
+  #loader .wordmark{position:absolute;font-family:"Space Mono",monospace;font-weight:700;font-size:clamp(44px,12vw,128px);letter-spacing:-.02em;display:flex;align-items:flex-end;opacity:0}
   #loader .wordmark b{width:.5em;height:.78em;background:var(--paper);margin-left:.1em;margin-bottom:.06em;display:inline-block}
 
   /* ===================== PERSISTENT FRAME ===================== */
@@ -310,19 +305,20 @@
 
 <!-- ===================== LOADER ===================== -->
 <div id="loader" aria-hidden="true">
-  <div class="ma-bar">
-    <div class="ma-badge">M A</div>
-    <div class="ma-icon"></div>
-    <span class="ma-title">System Monitor</span>
+  <div class="slate">
+    <div class="tl">PXLPTR<br>LD / Programmer</div>
+    <div class="tr">SMPTE<br>30 FPS</div>
+    <div class="bl" id="ldStage">Loading showfile</div>
+    <div class="br">Dallas–Fort Worth</div>
   </div>
-  <div class="ma-log" id="ldLog"></div>
-  <div class="ma-status">
-    <div class="ma-prog-wrap"><i id="ldProg"></i></div>
-    <span class="ma-sel" id="ldTC">0h00m00.000s</span>
-  </div>
-  <div class="ma-cmd">
-    <span class="prompt">Command Line Input</span>
-    <span class="cmd-text" id="ldCmd">&nbsp;<span class="cursor-bl"></span></span>
+  <div class="center">
+    <div class="leader">
+      <div class="ring" id="ldRing"></div>
+      <div class="sweep" id="ldSweep"></div>
+      <div class="cross"></div>
+      <div class="num" id="ldNum">5</div>
+    </div>
+    <div class="tc" id="ldTC">00:00:00:<span class="fr">00</span></div>
   </div>
   <div class="wordmark" id="ldWord">PXLPTR<b></b></div>
 </div>
@@ -635,93 +631,55 @@
     tick();setInterval(tick,1000);
   }
 
-  /* ===================== LOADER (grandMA3 System Monitor) ===================== */
+  /* ===================== LOADER (SMPTE) ===================== */
   document.body.classList.add("is-loading");
-  var ldTC=document.getElementById("ldTC"),ldProg=document.getElementById("ldProg"),ldLog=document.getElementById("ldLog"),ldWord=document.getElementById("ldWord"),ldCmd=document.getElementById("ldCmd");
-  var _t0=Date.now();
-  function fmtElapsed(){var ms=Date.now()-_t0;var h=Math.floor(ms/3600000);var m=Math.floor((ms%3600000)/60000);var s=((ms%60000)/1000).toFixed(3);return h+"h"+("0"+m).slice(-2)+"m"+("0"+parseFloat(s).toFixed(3)).slice(-6)+"s";}
-
-  // grandMA3 System Monitor log entries
-  // cls: "" normal | "ok" green | "err" red | "sep" green separator | "dim" dim
-  var LOG_LINES=[
-    {task:"Kernel",   cls:"",    msg:"grandMA3 onPC v2.1.4.2 boot sequence started"},
-    {task:"Kernel",   cls:"",    msg:"Loading kernel modules and device drivers"},
-    {task:"NetPool",  cls:"",    msg:"Initialising MA-Net3 session on adapter eth0"},
-    {task:"NetPool",  cls:"",    msg:"Broadcasting session discovery 192.168.1.255:8078"},
-    {task:"MANet3",   cls:"ok",  msg:'<span class="ok-kw">OK:</span>MA-Net3 session established — peer count: 3'},
-    {task:"Kernel",   cls:"",    msg:"Mounting show file system PXLPTR.showfile"},
-    {task:"DBWorker", cls:"",    msg:"Reading fixture library v1.97.0.3 — 48212 types"},
-    {task:"DBWorker", cls:"",    msg:"Resolving fixture patch Fixture 1 Thru 512"},
-    {task:"DBWorker", cls:"",    msg:"Calculating dimmer curves and colour transforms"},
-    {task:"MANet3",   cls:"",    msg:"Syncing data pool 1 'Default' from session host"},
-    {task:"Root",     cls:"sep", msg:"================Loading Sequence Data================"},
-    {task:"Executor", cls:"",    msg:"Reading cue stack — sequences found: 84"},
-    {task:"Executor", cls:"",    msg:"Executor 1.1 — sequence 'MAIN LOOK' assigned"},
-    {task:"Executor", cls:"",    msg:"Timecode source: LTC 30fps — input locked"},
-    {task:"MainTask", cls:"ok",  msg:'<span class="ok-kw">OK:</span>Store Sequence 1 Cue 1 Thru 84 Please'},
-    {task:"NetPool",  cls:"",    msg:"sACN output universe 1 Thru 64 — 512 ch each"},
-    {task:"MainTask", cls:"ok",  msg:'<span class="ok-kw">OK:</span>Patch Fixture 1 Thru 512 Universe 1 Please'},
-    {task:"Root",     cls:"sep", msg:"================TRU Finished================"},
-    {task:"MainTask", cls:"ok",  msg:'<span class="ok-kw">OK:</span>Edit DataPool 1 Please'},
-    {task:"DBWorker", cls:"",    msg:"Syncing file system"},
-    {task:"MainTask", cls:"ok",  msg:'<span class="ok-kw">OK:</span>Set ScreenContent Default \"WindowSystemMonitor\"'},
-  ];
-  var CMD_STEPS=[
-    'Fixture 1 Thru 512<span class="cursor-bl"></span>',
-    'Fixture 1 Thru 512 At Full<span class="cursor-bl"></span>',
-    'Fixture 1 Thru 512 At Full Please<span class="cursor-bl"></span>',
-  ];
-  var MAX_VISIBLE=12;
-
-  function addLine(i){
-    var d=LOG_LINES[i];
-    var row=document.createElement("div");row.className="ma-line"+(d.cls?" "+d.cls:"");
-    row.innerHTML='<span class="ts">'+fmtElapsed()+'</span>'
-      +'<span class="task">'+d.task+'</span>'
-      +'<span class="col"> : </span>'
-      +'<span class="msg">'+d.msg+'</span>';
-    ldLog.appendChild(row);
-    while(ldLog.children.length>MAX_VISIBLE)ldLog.removeChild(ldLog.firstChild);
-    requestAnimationFrame(function(){row.classList.add("show");});
-  }
+  var ldTC=document.getElementById("ldTC"),ldNum=document.getElementById("ldNum"),ldSweep=document.getElementById("ldSweep"),ldRing=document.getElementById("ldRing"),ldStage=document.getElementById("ldStage"),ldWord=document.getElementById("ldWord");
+  var FPS=30,TARGET=5;
+  function fmt(f){var tf=Math.floor(f),fr=tf%FPS,sec=Math.floor(tf/FPS),s=sec%60,m=Math.floor(sec/60)%60,h=Math.floor(sec/3600);function p(x){return("0"+x).slice(-2);}return p(h)+":"+p(m)+":"+p(s)+':<span class="fr">'+p(fr)+"</span>";}
 
   function finishLoad(){document.body.classList.remove("is-loading");revealIntro();buildHorizontal();}
 
-  var _animDone=false,_videoDone=false;
-  function maybeFinish(){if(_animDone&&_videoDone)finishLoad();}
+  // Gate: animation (minimum floor) AND video canplaythrough must both pass
+  var _animDone=false,_videoDone=false,_dismissed=false;
+  function maybeFinish(){
+    if(!_animDone||!_videoDone||_dismissed)return;
+    _dismissed=true;
+    // if still on the leader, snap to wordmark first
+    ldRing.classList.remove("waiting");
+    gsap.set(".leader,#ldTC",{display:"none"});
+    gsap.set(ldWord,{opacity:1});
+    gsap.from(ldWord,{scale:0.92,duration:0.4,ease:"power3.out"});
+    gsap.to("#loader",{yPercent:-100,duration:0.85,delay:0.35,ease:"power4.inOut",onStart:finishLoad});
+  }
 
   var _v=document.getElementById("seqbg");
   if(_v){
     if(_v.readyState>=3){_videoDone=true;}
     else{_v.addEventListener("canplaythrough",function(){_videoDone=true;maybeFinish();},{once:true});}
+    // safety fallback — never block forever if format unsupported
     setTimeout(function(){_videoDone=true;maybeFinish();},12000);
   } else {_videoDone=true;}
 
   if(hasGSAP && !reduce){
     var counter={fr:0};
-    var FPS=30;
+    var total=TARGET*FPS;
+    var stages=["Patching rig","Loading showfile","Reading timecode","Clear & go"];
     var tl=gsap.timeline();
-    var _nextLine=0,_cmdStep=0;
-    tl.to(counter,{fr:LOG_LINES.length*FPS,duration:3.5,ease:"none",onUpdate:function(){
-      ldTC.textContent=fmtElapsed();
-      var idx=Math.min(LOG_LINES.length-1,Math.floor(counter.fr/FPS));
-      while(_nextLine<=idx){addLine(_nextLine);_nextLine++;}
-      // update command line in thirds
-      var cs=Math.min(CMD_STEPS.length-1,Math.floor(counter.fr/FPS/(LOG_LINES.length/CMD_STEPS.length)));
-      if(cs!==_cmdStep){_cmdStep=cs;ldCmd.innerHTML=" "+CMD_STEPS[cs];}
-      ldProg.style.width=(Math.min(1,counter.fr/(LOG_LINES.length*FPS))*100)+"%";
-    }})
-    .call(function(){_animDone=true;maybeFinish();})
-    .call(function checkReady(){
-      if(_animDone&&_videoDone){
-        gsap.set(ldWord,{opacity:1});
-        gsap.from(ldWord,{scale:0.94,duration:0.4,ease:"power3.out"});
-        gsap.to("#loader",{yPercent:-100,duration:0.85,delay:0.55,ease:"power4.inOut"});
-      } else {setTimeout(checkReady,100);}
+    tl.to(counter,{fr:total,duration:2.2,ease:"power1.inOut",onUpdate:function(){
+      var v=counter.fr;
+      ldTC.innerHTML=fmt(v);
+      ldNum.textContent=Math.max(1,TARGET-Math.floor(v/FPS));
+      ldStage.textContent=stages[Math.min(stages.length-1,Math.floor(v/total*stages.length))];
+    }});
+    tl.to(ldSweep,{rotation:360*TARGET,duration:2.2,ease:"power1.inOut",transformOrigin:"50% 50%"},0);
+    // animation floor reached — if video isn't ready yet, pulse the ring and hold
+    tl.call(function(){
+      _animDone=true;
+      if(!_videoDone){ldRing.classList.add("waiting");}
+      maybeFinish();
     });
   } else {
-    for(var _i=0;_i<LOG_LINES.length;_i++)addLine(_i);
-    ldProg.style.width="100%";
+    ldTC.innerHTML=fmt(total);ldNum.textContent="1";
     _animDone=true;
     if(_videoDone){ldWord.style.opacity=1;document.getElementById("loader").style.display="none";finishLoad();}
     else{_v&&_v.addEventListener("canplaythrough",function(){ldWord.style.opacity=1;document.getElementById("loader").style.display="none";finishLoad();},{once:true});}
