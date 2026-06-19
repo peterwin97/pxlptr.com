@@ -171,6 +171,28 @@ em { font-style: italic; }
 
 .nav-links a:hover { opacity: 1; }
 
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 1000;
+  color: inherit;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+body.menu-open { overflow: hidden; }
+
 .nav-links a[aria-current="page"] {
   opacity: 1;
   border-bottom: 1px solid currentColor;
@@ -815,10 +837,6 @@ footer {
 }
 
 @media (max-width: 700px) {
-  #nav { padding: 1.25rem 1.5rem; }
-  .nav-links { gap: 1.5rem; }
-  .nav-links a:not(.nav-begin) { display: none; }
-
   .cover-content { left: 1.5rem; right: 1.5rem; bottom: 4rem; }
   .cover-caption { left: 1.5rem; }
   .cover-badge { right: 1.5rem; top: 1.25rem; }
@@ -1186,14 +1204,103 @@ footer {
 
 /* Responsive */
 @media (max-width: 768px) {
+  /* Hamburger button */
+  .nav-hamburger { display: flex; }
+
+  .nav-links {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: var(--cream);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    clip-path: circle(0% at calc(100% - 2.5rem) 2rem);
+    visibility: hidden;
+    transition: clip-path 0.65s cubic-bezier(0.77, 0, 0.175, 1), visibility 0s 0.65s;
+  }
+
+  .nav-links.nav-open {
+    clip-path: circle(150% at calc(100% - 2.5rem) 2rem);
+    visibility: visible;
+    transition: clip-path 0.65s cubic-bezier(0.77, 0, 0.175, 1), visibility 0s 0s;
+  }
+
+  .nav-links a {
+    font-family: var(--display);
+    font-size: clamp(2rem, 8vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: var(--ink) !important;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s, transform 0.4s;
+    padding: 0.6em 0;
+  }
+
+  .nav-links.nav-open a {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .nav-links.nav-open a:nth-child(1) { transition-delay: 0.15s; }
+  .nav-links.nav-open a:nth-child(2) { transition-delay: 0.22s; }
+  .nav-links.nav-open a:nth-child(3) { transition-delay: 0.29s; }
+  .nav-links.nav-open a:nth-child(4) { transition-delay: 0.36s; }
+
+  .nav-links a:hover {
+    color: var(--burgundy) !important;
+  }
+
+  .nav-links a[aria-current="page"] {
+    color: var(--burgundy) !important;
+  }
+
+  /* Hamburger X animation */
+  body.menu-open .nav-hamburger {
+    color: var(--ink);
+    position: fixed;
+    top: 1.25rem;
+    right: 1.5rem;
+    z-index: 1000;
+  }
+  body.menu-open .nav-hamburger span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  body.menu-open .nav-hamburger span:nth-child(2) {
+    opacity: 0;
+  }
+  body.menu-open .nav-hamburger span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* Nav */
+  #nav { padding: 1.25rem 1.5rem; }
+
+  /* Layout stacking */
   .hwrk-feature { grid-template-columns: 1fr; gap: 3rem; }
   .home-stats { gap: 3rem; }
-  .page-hero { padding: 11rem 2rem 6rem; }
+  .page-hero { padding: 10rem 2rem 4rem; }
   #home-statement,
   #home-services,
   #home-work,
   #home-cta { padding-left: 2rem; padding-right: 2rem; }
   .footer-details { gap: 1.5rem; flex-wrap: wrap; }
+  .svcg-inner { grid-template-columns: 1fr; }
+  .feature { grid-template-columns: 1fr; gap: 2.5rem; }
+  .feature--rev .feature-visual,
+  .feature--rev .feature-text { order: unset; }
+  .feature-text { padding-top: 0; }
+  .intro-wrap { grid-template-columns: 1fr; gap: 2rem; }
+  .intro-numeral { display: none; }
+  .letter-wrap { grid-template-columns: 1fr; gap: 3rem; }
+  .letter-mask { max-width: 100%; }
+  #contact-builder { padding-left: 2rem; padding-right: 2rem; }
+  #services-grid { padding-left: 2rem; padding-right: 2rem; }
+  .page-cta { padding: 6rem 2rem; }
+  #home-cta { padding-top: 8rem; padding-bottom: 8rem; }
 }
 
 /* ============================================================
@@ -1502,4 +1609,14 @@ footer {
   .cb-letter {
     position: static;
   }
+}
+
+/* Mobile overrides for late-defined components */
+@media (max-width: 768px) {
+  .svcg-inner { grid-template-columns: 1fr; }
+  .svcg-card { padding: 2rem 1.5rem; }
+  #services-grid { padding: 0 1.5rem 6rem; }
+  .cb-inner { grid-template-columns: 1fr; }
+  .cb-letter { position: static; }
+  .cb-row--half { grid-template-columns: 1fr; }
 }

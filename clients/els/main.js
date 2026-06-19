@@ -124,11 +124,33 @@
     window.addEventListener("resize", resize);
 
     var mx = 0, my = 0, cx = 0, cy = 0;
+    var hasGyro = false;
+
     window.addEventListener("mousemove", function(e) {
-      if (reduce) return;
+      if (reduce || hasGyro) return;
       mx = (e.clientX / window.innerWidth  - 0.5) * -1;
       my = (e.clientY / window.innerHeight - 0.5) * -1;
     });
+
+    function onOrientation(e) {
+      if (e.gamma == null || e.beta == null) return;
+      hasGyro = true;
+      mx = Math.max(-0.5, Math.min(0.5, e.gamma / 30)) * -1;
+      my = Math.max(-0.5, Math.min(0.5, (e.beta - 45) / 30)) * -1;
+    }
+
+    if (window.DeviceOrientationEvent) {
+      if (typeof DeviceOrientationEvent.requestPermission === "function") {
+        document.addEventListener("touchstart", function grant() {
+          DeviceOrientationEvent.requestPermission().then(function(state) {
+            if (state === "granted") window.addEventListener("deviceorientation", onOrientation);
+          });
+          document.removeEventListener("touchstart", grant);
+        }, { once: true });
+      } else {
+        window.addEventListener("deviceorientation", onOrientation);
+      }
+    }
 
     function loop() {
       cx += (mx - cx) * 0.06;
@@ -440,6 +462,27 @@
     });
     document.querySelectorAll(".feature-mask, .letter-mask").forEach(function (el) {
       el.style.clipPath = "none";
+    });
+  }
+
+  /* ============================================================
+     HAMBURGER MENU
+     ============================================================ */
+  var hamburger = document.querySelector(".nav-hamburger");
+  var navLinks  = document.querySelector(".nav-links");
+  if (hamburger && navLinks) {
+    hamburger.addEventListener("click", function () {
+      var open = hamburger.getAttribute("aria-expanded") === "true";
+      hamburger.setAttribute("aria-expanded", !open);
+      navLinks.classList.toggle("nav-open");
+      document.body.classList.toggle("menu-open");
+    });
+    navLinks.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () {
+        hamburger.setAttribute("aria-expanded", "false");
+        navLinks.classList.remove("nav-open");
+        document.body.classList.remove("menu-open");
+      });
     });
   }
 
