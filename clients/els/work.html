@@ -1,87 +1,169 @@
-<!--
-  EMILY LANDON SOCIAL — Work / Portfolio
-  Adapted from emilylandonsocial.com/portfolio + /portfolio-1.
--->
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#f3eee2" />
+<meta name="theme-color" content="#f2ece0" />
 <title>Work — Emily Landon Social</title>
+<meta name="description" content="Real results for real brands — portfolio and case studies from Emily Landon Social, Dallas-based creative agency." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Fraunces:ital,opsz,wght@1,9..144,200..400&family=Archivo:wght@300;400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css?v=11" />
+</head>
+<body class="page-work">
 
-<!-- ===================== LOADER ===================== -->
-<div id="loader"><div class="word"><span>Emily Landon Social</span></div></div>
+<svg style="display:none" aria-hidden="true">
+  <symbol id="els-mark" viewBox="0 0 338.93 639.7">
+    <path fill="currentColor" d="M261.99,476.59c-14.78-14.63-25.95-34.94-26.68-55.91l-.17-4.72.17-5.98c.99-14.17,4.45-27.97,12.26-39.77,10.37-15.66,29.31-23.42,45.53-14.28l10.88,6.13,6.62,3.41c2.63,1.35,5.66.59,7.23-2.17,1.74-3.05,2.21-6.48,2.66-10.25l5.82.14-.16,17.84.04,4.13-.02,7.35.07,4.59.07,3.93v11.54s-.11,9.48-.11,9.48l-.05,10.79.06,10.18v4.02s.08,8.05.08,8.05l-.4,6.89c-.69,11.97-7.81,23.46-15.89,32.09l-6.88,7.36c9.65,9.27,17.48,18.83,23.88,30.11,5.12,9.02,8.25,18.49,9.86,28.71l.85,8.81v8.5s-.43,8.31-.43,8.31c-.6,11.8-3.64,23-8.85,33.59-7.12,14.5-19.64,25.31-35.41,29.11-10.39,2.5-20.58.73-29.9-4.1l-12.58-6.51c-.81-.42-3.09-.47-3.95-.22-3.14.9-3.89,7.15-4.18,11.86l-6.35-.08-.02-6.24-.1-95.67,6.51.04.29,21.18.49,7.54c1.59,24.62,7.13,62.49,35.67,66.3,8.7,1.16,17.65-.37,25.11-5.12,21.12-13.46,26.57-47.3,21.97-70.53-2.86-14.46-9.65-27.18-19.49-37.97l-5.24-5.75-5-5-5.12-4.88c-1.16-1.1-2.17-1.01-3.56-.26-11.45,6.23-24.24,8.67-37.27,7.66-10.7-.82-20.79-2.63-31.01-6.12-35.82-12.26-67.32-30.45-100.11-48.76l-32.17-16.23c-19.26,14.59-40.35,24.4-64.7,22.08-5.78-.55-11.31-2.25-15.65-5.79-6.32-5.14-8.47-13-5.08-20.44,2.11-4.65,5.9-8,10.31-10.66,5.48-3.3,11.68-4.56,18.1-5.06h10.01s6.55.64,6.55.64c11.72,1.8,22.65,5.44,33.78,9.81,7.68-7.26,14.82-14.17,21.17-22.24l23.38-29.69-6.4.33-8.01.57h-11.45s-8.03-.59-8.03-.59c-11.23-.81-21.78-3.54-32.08-8.04-7.32-3.2-13.72-7.4-19.47-13.19-12.94-13.04-22.55-37.99-14.68-55.13,2.45-5.34,5.82-9.87,9.7-14.31,6.99-7.99,14.19-6.68,22.41-7.79l6.08-.82c7.95-1.08,16.5-5.9,16.5-13.45V21.67c.01-5.8-5.82-11.44-11.82-13.26-4.73-1.43-9.11-2.1-14.18-1.83L53.57,0h107.87c.43,0,1.11.11,1.12.33l.08,1.22.4,10,.35,7.97.4,8.25.47,13.55.51,8.94.49,14.56.53,11.01.49,13.47.36,11.74-6-.07.09-3.52-.39-6.93-.61-9.37c-.95-14.58-2.64-28.76-5.8-43-1.86-8.34-4.36-16.15-8.49-23.48-2.21-3.65-4.91-6.24-9.12-7.59h-42.74s0,126.15,0,126.15c4.06,1.72,8.85-.11,12.39.54,5.03.93,9.72-.81,12.29-5.57,3.15-5.86,4.91-12.35,5.38-19.14l1.06-15.5.31-7.04,6.01-.03v100.81s-6.45.16-6.45.16l-.33-11.22c-.3-10.08-3.37-34.34-12.44-35.74-5.95-.92-11.97-.25-18.21-.29v140.26s41.86.02,41.86.02c2.4,0,4.55-1.84,6.35-3.11,2.64-3.08,4.94-6.21,6.51-10.01,3.67-8.9,5.88-17.93,7.48-27.55,2.94-17.64,4.43-34.92,4.91-53.02l5.96-.29-.35,11.4-1.02,24.34-.51,12.61-.52,10.42-.48,13.57-.52,9.93-.41,13.75-.59,5.05-114.16.13c-4.63,0-8.8,3.71-11.65,6.77-12.41,13.37-9.44,29.58-2,45.08,4.07,8.48,9.8,15.26,17.73,20.37,9.21,5.93,19.37,9.87,30.27,11.7l16.9,1.69,11.23-.02,16.43-1.15c1.82-.13,3.02-.47,4.12-2l21.66-30.31,35.59-48.88c8.87-12.19,18.26-23.51,28.41-34.56l7.48-8.14c14.06-15.31,35.39-33.06,54.71-40.72,13.23-5.24,23.92-7.2,38.19-5.66,7.39.8,14.12,4.14,18.2,10.29,12.79,19.26-12.05,55.85-26.83,71.41l-8.04,8.47-6.25,6.19-6,5.63-12.12,10.42c-28.56,22.96-66.36,42.52-101.44,53.4l-27.78,7.18c-9.76,12.82-19.28,25.27-30.14,36.93l-7.99,8.58-6.22,6.26-5.27,4.72-4.32,4.13,6.66,2.98,14.79,7.14,15.26,7.83c18.19,9.33,35.74,19.16,54.53,27.29l11.91,5.16c10.76,4.66,21.54,8.53,32.86,11.57,10.68,2.87,24.6,4.39,35.49,3.17,5.74-.55,11.04-2.07,16.31-4.26l1.03-.8c.19-.15-.19-.54-.49-.8l-11.58-10.47-7.78-7.7ZM274.93,308.01l14.11-12.46,11.23-11.25c8.66-9.35,16.39-19.05,22.87-30.07,5.34-9.06,10.92-22.42,9.54-32.31-1.13-8.09-7.06-13.68-15.04-14.54-14.15-1.52-27.33,2.12-39.51,9.29-9.38,5.52-17.94,11.66-25.62,19.36l-11.26,11.28-9.69,10.88c-16.69,20.41-32.04,41.51-47.13,63.26l-31.8,45.86c3.38-.4,5.7-1.17,8.39-1.86,40.79-10.55,81.3-30.73,113.91-57.46ZM318.74,455.67l.94-6.61.14-8.53-.15-5.03-1.1-17.93-.67-4.91c-1.97-14.49-6.07-31.35-15.47-42.5-5.48-6.5-12.53-10.76-21.17-11.36-11.41-.8-21.49,5.39-27.4,15.15-3.87,6.39-6.1,13.17-7.37,20.62-2.95,17.26.6,34.15,10.38,48.67,4.55,6.75,9.59,12.85,15.36,18.54l5.07,4.99,8.95,8.52,11.58,10.59c9.17-7.21,19.37-19.42,20.9-30.21ZM75.02,434.42l-19.1-6.29c-8.89-2.92-18.28-3.2-27.59-2.31-10.21.97-22.68,6.9-22.61,17.23.03,3.94,2.99,7.41,6.21,9.6,3.41,2.32,7.59,3.32,11.79,3.66,19.61,1.58,36.2-9.02,51.29-21.89Z"/>
+  </symbol>
+</svg>
 
-<!-- ===================== HEADER ===================== -->
-<header class="bar">
-  <a class="logo" href="index.html">Emily Landon Social</a>
-  <nav>
-    <a href="index.html" data-hover>Home</a>
-    <a href="services.html" data-hover>Services</a>
-    <a class="current" href="work.html" data-hover>Work</a>
-    <a href="about.html" data-hover>About</a>
-    <a href="get-started.html" data-hover>Get Started</a>
+<header id="nav" class="nav--dk">
+  <a class="nav-logo" href="index.html" aria-label="Emily Landon Social">
+    <svg class="nav-mark" viewBox="0 0 338.93 639.7" aria-label="Emily Landon Social"><use href="#els-mark"/></svg>
+  </a>
+  <nav class="nav-links">
+    <a href="services.html">Services</a>
+    <a href="work.html" aria-current="page">Work</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="nav-begin">Contact</a>
   </nav>
 </header>
 
 <main>
 
-  <!-- PAGE HERO -->
   <section class="page-hero">
-    <div class="kicker"><span class="lab">Selected Work</span></div>
-    <h1><span class="ln"><span>Looks good.</span></span><span class="ln"><span>Drives <em>real results.</em></span></span></h1>
-    <p class="reveal">We've mastered gen-z and innovative storytelling through social media. A look at recent shoots, reels, and campaigns — swap in real client work here.</p>
+    <div class="ph-inner">
+      <p class="ph-eyebrow">Our work</p>
+      <h1 class="ph-title">Stories that<br><em>stay with you.</em></h1>
+      <p class="ph-sub">Real results for real brands — from boutique storefronts to service businesses ready to scale.</p>
+    </div>
   </section>
 
-  <!-- WORK GRID -->
-  <section>
-    <div class="work-grid">
-      <div class="tile wide reveal">
-        <div class="frame"><img src="https://picsum.photos/seed/els-work-1/1400/900" loading="lazy" alt="" /><div class="ph">Featured — Reel</div></div>
-        <div class="cap"><div class="tag">Featured</div><h3>Professional Videography — Brand Reel</h3></div>
+  <section id="work">
+
+    <article class="feature">
+      <div class="feature-visual">
+        <div class="feature-mask">
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&fit=crop" loading="lazy" alt="" />
+        </div>
+        <div class="feature-loc">Dallas, TX &nbsp;— &nbsp;2025</div>
       </div>
-      <div class="tile reveal">
-        <div class="frame"><img src="https://picsum.photos/seed/els-work-2/900/1100" loading="lazy" alt="" /><div class="ph">Meta Ad — Still</div></div>
-        <div class="cap"><div class="tag">Paid Social</div><h3>Professional Videography — Meta Ad</h3></div>
+      <div class="feature-text">
+        <div class="feature-tag">A Quiet Storefront</div>
+        <h2 class="feature-title">Became somewhere people<br><em>plan their week around.</em></h2>
+        <p class="feature-body">A boutique with no marketing budget and a room full of regulars who had never thought to photograph what they loved about it. We built a content language that made strangers feel like they already belonged there — before they had ever walked through the door.</p>
+        <div class="feature-data">
+          <div class="datum"><div class="d-num">+340%</div><div class="d-label">Profile reach</div></div>
+          <div class="datum"><div class="d-num">4×</div><div class="d-label">Foot traffic in 60 days</div></div>
+        </div>
       </div>
-      <div class="tile reveal">
-        <div class="frame"><img src="https://picsum.photos/seed/els-work-3/900/1100" loading="lazy" alt="" /><div class="ph">UGC — Reel</div></div>
-        <div class="cap"><div class="tag">Reel</div><h3>Funny Reel — UGC Style</h3></div>
+    </article>
+
+    <div class="feature-sep"></div>
+
+    <article class="feature feature--rev">
+      <div class="feature-visual">
+        <div class="feature-mask">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900&q=80&fit=crop" loading="lazy" alt="" />
+        </div>
+        <div class="feature-loc">Dallas, TX &nbsp;— &nbsp;2025</div>
       </div>
-      <div class="tile reveal">
-        <div class="frame"><img src="https://picsum.photos/seed/els-work-4/900/1100" loading="lazy" alt="" /><div class="ph">Boutique — Shoot</div></div>
-        <div class="cap"><div class="tag">Content Day</div><h3>Boutique Batch Content Shoot</h3></div>
+      <div class="feature-text">
+        <div class="feature-tag">An Honest Brand</div>
+        <h2 class="feature-title">Found its people one<br><em>ordinary morning at a time.</em></h2>
+        <p class="feature-body">Mornings were slow. Word of mouth had taken them as far as it could. We turned their daily ritual into the kind of content that makes people reroute their commute — not because of a campaign, but because of a feeling.</p>
+        <div class="feature-data">
+          <div class="datum"><div class="d-num">1.5M</div><div class="d-label">Views in 30 days</div></div>
+          <div class="datum"><div class="d-num">+180%</div><div class="d-label">Audience growth</div></div>
+        </div>
       </div>
-      <div class="tile reveal">
-        <div class="frame"><img src="https://picsum.photos/seed/els-work-5/900/1100" loading="lazy" alt="" /><div class="ph">Café — Reel</div></div>
-        <div class="cap"><div class="tag">Reel</div><h3>Café — Morning Routine Series</h3></div>
+    </article>
+
+    <div class="feature-sep"></div>
+
+    <article class="feature">
+      <div class="feature-visual">
+        <div class="feature-mask">
+          <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?w=900&q=80&fit=crop" loading="lazy" alt="" />
+        </div>
+        <div class="feature-loc">Remote &nbsp;— &nbsp;2024</div>
       </div>
-      <div class="tile wide reveal">
-        <div class="frame"><img src="https://picsum.photos/seed/els-work-6/1400/900" loading="lazy" alt="" /><div class="ph">Event — Coverage</div></div>
-        <div class="cap"><div class="tag">Event Coverage</div><h3>Product Launch — Full Event Coverage</h3></div>
+      <div class="feature-text">
+        <div class="feature-tag">A Service, Retold</div>
+        <h2 class="feature-title">The work didn't change.<br><em>The way people saw it did.</em></h2>
+        <p class="feature-body">A personal brand with genuine craft and zero visibility. One strategic repositioning — a new visual language, a new content rhythm — led to a six-month waitlist and twenty brand partnerships. The work was always there. We simply made it impossible to ignore.</p>
+        <div class="feature-data">
+          <div class="datum"><div class="d-num">20+</div><div class="d-label">Brand partnerships</div></div>
+          <div class="datum"><div class="d-num">6 mo.</div><div class="d-label">Client waitlist</div></div>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <section id="philosophy">
+    <div class="chapter-head chapter-head--lt">
+      <span class="ch-num">IV.</span>
+      <span class="ch-name">On the Work</span>
+    </div>
+    <div class="phil-body">
+      <div class="phil-stmt">
+        <span class="stmt-dash">—</span>
+        <div>
+          <p class="stmt-a">Attention is earned, not bought.</p>
+          <p class="stmt-b">The brands that last are the ones that give people something to feel — not just something to see.</p>
+        </div>
+      </div>
+      <div class="phil-stmt">
+        <span class="stmt-dash">—</span>
+        <div>
+          <p class="stmt-a">Strategy without taste is noise.</p>
+          <p class="stmt-b">Taste without strategy is decoration. The work lives at the intersection.</p>
+        </div>
+      </div>
+      <div class="phil-stmt">
+        <span class="stmt-dash">—</span>
+        <div>
+          <p class="stmt-a">Consistency is a creative act.</p>
+          <p class="stmt-b">Showing up with intention, every single day — that is the discipline. And it compounds.</p>
+        </div>
+      </div>
+      <div class="phil-stmt">
+        <span class="stmt-dash">—</span>
+        <div>
+          <p class="stmt-a">The best content doesn't feel like content.</p>
+          <p class="stmt-b">It feels like a window into something real. And people will go out of their way to look through it.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- INVITATION -->
-  <section id="ch6">
-    <h2>
-      <span class="ln"><span>Want work</span></span>
-      <span class="ln"><span>like <em>this?</em></span></span>
-    </h2>
-    <a class="go magnet" href="get-started.html" data-hover><span class="magnet-inner">Get Started →</span></a>
-    <div class="footline">
-      <span>© 2026 Emily Landon Social — Dallas, Texas</span>
-      <span><a href="services.html" data-hover>Services</a> &nbsp;&nbsp; <a href="about.html" data-hover>About</a></span>
-    </div>
+  <section class="page-cta">
+    <p class="pcta-pre">Ready to be the next story?</p>
+    <h2 class="pcta-title">Let's build<br><em>yours.</em></h2>
+    <a class="pcta-link" href="mailto:hello@emilylandonsocial.com">hello@emilylandonsocial.com</a>
+    <a class="pcta-btn" href="contact.html">Book a free consult</a>
   </section>
 
 </main>
 
-<!-- ===================== SCRIPTS ===================== -->
+<footer id="footer">
+  <div class="footer-logo">
+    <svg class="footer-mark" viewBox="0 0 338.93 639.7" aria-label="Emily Landon Social"><use href="#els-mark"/></svg>
+  </div>
+  <div class="footer-details">
+    <span>Emily Landon Social</span>
+    <span>Dallas, Texas</span>
+    <span>© 2026</span>
+  </div>
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script src="main.js"></script>
+</body>
+</html>
