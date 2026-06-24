@@ -225,7 +225,7 @@
   .note{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.04em;color:var(--grey)}
 
   /* ===================== CV OVERLAY ===================== */
-  #cv{position:fixed;inset:0;z-index:900;background:var(--ink);display:none;overflow:hidden}
+  #cv{position:fixed;inset:0;z-index:900;background:var(--ink);display:none;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
   #cv.show{display:block}
   .cv-inner{max-width:1080px;margin:0 auto;height:100%;overflow-y:auto;overflow-x:hidden;padding:clamp(58px,9vh,104px) var(--gut) clamp(60px,9vh,90px);-webkit-overflow-scrolling:touch}
   .cv-close{position:fixed;top:max(18px,env(safe-area-inset-top));right:var(--gut);z-index:5;background:transparent;border:0;cursor:none;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper);mix-blend-mode:difference}
