@@ -1,0 +1,136 @@
+{
+  "name": "Outloud Music Festival",
+  "subtitle": "Main Stage · WeHo Pride 2026",
+  "date": "2026-06-05",
+  "dateEnd": "2026-06-08",
+  "venue": {
+    "name": "West Hollywood Park",
+    "address": "647 N San Vicente Blvd, West Hollywood, CA 90069",
+    "mapUrl": "https://maps.google.com/?q=647+N+San+Vicente+Blvd+West+Hollywood+CA+90069",
+    "coords": { "lat": 34.0877, "lon": -118.3815 },
+    "loadIn": "Stage build begins Wednesday June 4. Production load-in Thursday June 5.",
+    "power": "Festival power provided by production. Confirm distro requirements with PM.",
+    "wifi": { "network": "TBD", "password": "TBD" },
+    "parking": "Production parking coordinated through JJLA. No overnight parking on San Vicente.",
+    "notes": "Outdoor festival stage. West Hollywood noise ordinance in effect. All video files must be .mov DXV3 format. Textaline hung directly from roof grid, approx 140 lbs."
+  },
+  "passwordHash": "outloud2025",
+  "branding": {
+    "primaryColor": "#000000",
+    "accentColor": "#ece9e0"
+  },
+  "announcements": [
+    { "time": "2025-06-04T09:00", "level": "info", "text": "Stage build begins today. Roof truss is 2'x4' truss, tower truss is 20.5\" truss, spigoted connection." },
+    { "time": "2025-06-05T07:00", "level": "info", "text": "Production load-in. Audio, lighting, video, and backline crews on site." },
+    { "time": "2025-06-05T18:00", "level": "update", "text": "All department heads confirm system checks complete by 6 PM." }
+  ],
+  "contacts": [
+    { "name": "Sam Hiller", "role": "Head of Talent Buying & Artist Relations", "company": "JJLA", "phone": "", "email": "sam@jj-la.com", "category": "Production" },
+    { "name": "Seth Becker", "role": "Sr Producer", "company": "JJLA", "phone": "", "email": "seth@jj-la.com", "category": "Production" },
+    { "name": "Jasper Kuo", "role": "Main Stage Production Manager", "company": "", "phone": "(626) 321-8067", "email": "mrjasperkuo@gmail.com", "category": "Production" },
+    { "name": "Ben Omlar", "role": "Audio Engineer / Backline", "company": "AuntieM", "phone": "", "email": "ben@auntiem.com", "category": "Audio" },
+    { "name": "Sid", "role": "Lighting Designer", "company": "Aspect Lighting", "phone": "", "email": "sid@aspectlighting.com", "category": "Lighting" },
+    { "name": "Brandon Rosales", "role": "Video Director / LED", "company": "Brosales", "phone": "", "email": "brandon@brosales.net", "category": "Video" }
+  ],
+  "schedule": [
+    { "time": "18:00", "label": "Doors open", "dept": "venue", "day": 1 },
+    { "time": "18:00", "label": "Hannah Rad", "dept": "client", "day": 1 },
+    { "time": "19:00", "label": "Drag King Showcase", "dept": "client", "day": 1 },
+    { "time": "19:35", "label": "DARUMAS", "dept": "client", "day": 1 },
+    { "time": "20:15", "label": "Cakes da Killa", "dept": "client", "day": 1 },
+    { "time": "20:55", "label": "Maude Latour", "dept": "client", "day": 1 },
+    { "time": "21:45", "label": "Jess Glynne", "dept": "client", "day": 1 },
+    { "time": "22:35", "label": "Ava Max", "dept": "client", "day": 1 },
+
+    { "time": "08:00", "label": "Load In: The Pussycat Dolls", "dept": "production", "day": 2 },
+    { "time": "09:30", "label": "Load In: Ashlee Simpson", "dept": "production", "day": 2 },
+    { "time": "10:00", "label": "SC: The Pussycat Dolls", "dept": "production", "day": 2 },
+    { "time": "11:00", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "11:15", "label": "SC: Ashlee Simpson", "dept": "production", "day": 2 },
+    { "time": "11:15", "label": "Load In FLO", "dept": "production", "day": 2 },
+    { "time": "12:00", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "12:00", "label": "Load In Frost Children", "dept": "production", "day": 2 },
+    { "time": "12:15", "label": "SC: FLO", "dept": "production", "day": 2 },
+    { "time": "12:15", "label": "Load In Wolf and Love", "dept": "production", "day": 2 },
+    { "time": "12:45", "label": "LC: Hannah Red", "dept": "production", "day": 2 },
+    { "time": "13:00", "label": "Doors open", "dept": "venue", "day": 2 },
+    { "time": "13:00", "label": "Hannah Rad", "dept": "client", "day": 2 },
+    { "time": "13:00", "label": "Load In Cain Culto", "dept": "production", "day": 2 },
+    { "time": "13:45", "label": "Load In Aliyah's Interlude", "dept": "production", "day": 2 },
+    { "time": "14:30", "label": "Load In Lydia Night", "dept": "production", "day": 2 },
+    { "time": "14:40", "label": "Wolf And Love", "dept": "client", "day": 2 },
+    { "time": "14:40", "label": "Load In Destin Conrad", "dept": "production", "day": 2 },
+    { "time": "15:10", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "15:25", "label": "Cain Culto", "dept": "client", "day": 2 },
+    { "time": "15:55", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "16:20", "label": "Aliyah's Interlude", "dept": "client", "day": 2 },
+    { "time": "16:20", "label": "Load In MNEK", "dept": "production", "day": 2 },
+    { "time": "16:50", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "17:00", "label": "Lydia Night", "dept": "client", "day": 2 },
+    { "time": "17:35", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "17:50", "label": "Destin Conrad", "dept": "client", "day": 2 },
+    { "time": "18:25", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "18:35", "label": "Frost Children", "dept": "client", "day": 2 },
+    { "time": "19:10", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "19:25", "label": "MNEK", "dept": "client", "day": 2 },
+    { "time": "20:00", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "20:30", "label": "FLO", "dept": "client", "day": 2 },
+    { "time": "21:15", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "21:45", "label": "Ashlee Simpson", "dept": "client", "day": 2 },
+    { "time": "22:30", "label": "Changeover", "dept": "production", "day": 2 },
+    { "time": "23:00", "label": "The Pussycat Dolls", "dept": "client", "day": 2 },
+    { "time": "00:15", "label": "End of Last Set", "dept": "production", "day": 2 },
+    { "time": "00:30", "label": "SOUND CURFEW", "dept": "venue", "day": 2 },
+
+    { "time": "13:00", "label": "Doors open", "dept": "venue", "day": 3 },
+    { "time": "13:00", "label": "Hannah Rad", "dept": "client", "day": 3 },
+    { "time": "14:35", "label": "Addison Grace", "dept": "client", "day": 3 },
+    { "time": "15:30", "label": "senses", "dept": "client", "day": 3 },
+    { "time": "16:25", "label": "flowerovlove", "dept": "client", "day": 3 },
+    { "time": "17:15", "label": "Countess Luann", "dept": "client", "day": 3 },
+    { "time": "17:55", "label": "Lushious Massacr", "dept": "client", "day": 3 },
+    { "time": "18:25", "label": "Baby Tate", "dept": "client", "day": 3 },
+    { "time": "19:25", "label": "Blue Man Group", "dept": "client", "day": 3 },
+    { "time": "20:20", "label": "Confidence Man", "dept": "client", "day": 3 },
+    { "time": "21:50", "label": "JADE", "dept": "client", "day": 3 },
+
+    { "time": "08:00", "label": "Load-out begins", "dept": "production", "day": 4 },
+    { "time": "18:00", "label": "Venue clear", "dept": "venue", "day": 4 }
+  ],
+  "files": [
+    { "name": "Technical Packet Overview.pdf", "category": "documents", "path": "files/documents/technical-packet.pdf", "size": "6.7 MB", "updated": "2025-05-20" },
+    { "name": "Stage Plot (Overall Isometric)", "category": "drawings", "path": "files/documents/technical-packet.pdf", "size": "6.7 MB", "updated": "2025-05-20" },
+    { "name": "Lighting Plot (Flown Package)", "category": "drawings", "path": "files/documents/technical-packet.pdf", "size": "6.7 MB", "updated": "2025-05-20" },
+    { "name": "Rigging Plot", "category": "drawings", "path": "files/documents/technical-packet.pdf", "size": "6.7 MB", "updated": "2025-05-20" },
+    { "name": "LED Layout + Resolutions", "category": "drawings", "path": "files/documents/technical-packet.pdf", "size": "6.7 MB", "updated": "2025-05-20" },
+    { "name": "Camera Plot", "category": "drawings", "path": "files/documents/technical-packet.pdf", "size": "6.7 MB", "updated": "2025-05-20" }
+  ],
+  "techSpecs": {
+    "lighting": {
+      "consoles": ["MA3 Light", "MA3 Full"],
+      "movers": ["(33) MAC Axiom Hybrid Martin", "(15) Hyperzone RGBL ACME", "(32) Supernova ACME"],
+      "cyc": ["(19) CFII-75 Color Force II RGBA", "(66) Pixel Line IP ACME RGB CW", "(10) Paladin Panel V2 RGBW IP65"],
+      "blinders": ["(17) Blinder 2 Lite Linear ADJ LED Encore Burst 200"],
+      "followspots": ["(2) Robospot Base Stations", "(3) BMFL Followspot Moving"],
+      "foggers": ["(4) ZR45J JEM Fogger", "(4) Magma Prime Hazer", "(4) Fans"]
+    },
+    "audio": {
+      "mainPA": ["(16) d&b KSL8", "(8) d&b KSL12", "(16) d&b SL-GSUB Dual 21\"", "(8) d&b V12"],
+      "monitors": ["(6) d&b V Sub", "(4) d&b V8", "(12) d&b M4 Wedge"],
+      "consoles": ["(2) DiGiCo Quantum 338 Pulse", "(1) Yamaha QL1 Production Console"],
+      "wireless": ["Shure Axient Digital (G57 470-608MHz)", "(6) ADX2 Handheld", "(4) AD1 Beltpack"]
+    },
+    "video": {
+      "surfaces": [
+        "SR IMAG: 520x832",
+        "SR Upstage: 448x896",
+        "Upstage Center: 896x896",
+        "SL Upstage: 448x896",
+        "SL IMAG: 520x832",
+        "Video Header Top: 2240x224",
+        "Video Header Bottom: 2240x224"
+      ],
+      "format": ".mov DXV3"
+    }
+  }
+}

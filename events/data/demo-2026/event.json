@@ -1,0 +1,73 @@
+{
+  "name": "Summit 2026",
+  "subtitle": "Annual Leadership Conference",
+  "date": "2026-08-15",
+  "dateEnd": "2026-08-16",
+  "venue": {
+    "name": "The Factory Deep Ellum",
+    "address": "2713 Canton St, Dallas, TX 75226",
+    "mapUrl": "https://maps.google.com/?q=2713+Canton+St+Dallas+TX+75226",
+    "coords": { "lat": 32.7834, "lon": -96.7836 },
+    "loadIn": "Friday 8:00 AM. Dock B, South Entrance. 53' trailer access confirmed.",
+    "power": "200A 3-phase, cam-lock distro provided at stage left and stage right. House tie-in available.",
+    "wifi": { "network": "FACTORY-PROD", "password": "deepellum2026" },
+    "parking": "Crew vehicles: South lot (20 spaces). Vendor trailers: East loading dock. Client parking: Main St garage.",
+    "notes": "Venue curfew 11:00 PM hard out. Noise ordinance in effect. No pyro without permit."
+  },
+  "passwordHash": "demo",
+  "branding": {
+    "primaryColor": "#0a0a0f",
+    "accentColor": "#c8a44e",
+    "heroImage": "",
+    "logo": ""
+  },
+  "announcements": [
+    { "time": "2026-08-14T18:00", "level": "info", "text": "Load-in confirmed for 8 AM Friday. Dock B south entrance. Badge check at gate." },
+    { "time": "2026-08-14T20:30", "level": "update", "text": "Rigging crew arriving at 7 AM for pre-rig. Motor points confirmed at 12." },
+    { "time": "2026-08-15T06:45", "level": "urgent", "text": "Thunderstorms expected 2-4 PM. All outdoor staging on hold until clear. Tarp sensitive gear." }
+  ],
+  "contacts": [
+    { "name": "Peter Nguyen", "role": "Production Director", "company": "PXLPTR", "phone": "(214) 555-0101", "email": "peter@pxlptr.com", "category": "Production" },
+    { "name": "Sarah Kim", "role": "Stage Manager", "company": "PXLPTR", "phone": "(214) 555-0102", "email": "sarah@pxlptr.com", "category": "Production" },
+    { "name": "Marcus Rivera", "role": "Technical Director", "company": "PXLPTR", "phone": "(214) 555-0103", "email": "marcus@pxlptr.com", "category": "Production" },
+    { "name": "James Chen", "role": "Venue Manager", "company": "The Factory", "phone": "(214) 555-0201", "email": "james@thefactory.com", "category": "Venue" },
+    { "name": "Lisa Park", "role": "Event Coordinator", "company": "Apex Events", "phone": "(214) 555-0301", "email": "lisa@apexevents.com", "category": "Client" },
+    { "name": "David Okafor", "role": "Lighting Designer", "company": "Lumens Co.", "phone": "(214) 555-0401", "email": "david@lumens.co", "category": "Vendor" },
+    { "name": "Emily Torres", "role": "Audio Engineer", "company": "SoundCraft Audio", "phone": "(214) 555-0402", "email": "emily@soundcraft.com", "category": "Vendor" },
+    { "name": "Ryan Mitchell", "role": "Video Director", "company": "PixelStream", "phone": "(214) 555-0403", "email": "ryan@pixelstream.com", "category": "Vendor" }
+  ],
+  "schedule": [
+    { "time": "07:00", "label": "Rigging crew call", "dept": "production", "day": 1 },
+    { "time": "08:00", "label": "Load-in begins", "dept": "production", "day": 1 },
+    { "time": "09:00", "label": "Audio system deploy", "dept": "vendor", "day": 1 },
+    { "time": "10:00", "label": "Lighting hang + focus", "dept": "vendor", "day": 1 },
+    { "time": "12:00", "label": "Lunch (catered, green room)", "dept": "all", "day": 1 },
+    { "time": "13:00", "label": "Video/LED wall build", "dept": "vendor", "day": 1 },
+    { "time": "15:00", "label": "Full system check", "dept": "production", "day": 1 },
+    { "time": "16:00", "label": "Client walkthrough", "dept": "client", "day": 1 },
+    { "time": "17:00", "label": "Rehearsal / soundcheck", "dept": "production", "day": 1 },
+    { "time": "18:30", "label": "Dinner break", "dept": "all", "day": 1 },
+    { "time": "07:00", "label": "Crew call", "dept": "production", "day": 2 },
+    { "time": "08:00", "label": "Systems power up + check", "dept": "production", "day": 2 },
+    { "time": "09:00", "label": "Speaker rehearsal", "dept": "client", "day": 2 },
+    { "time": "11:00", "label": "Doors open", "dept": "venue", "day": 2 },
+    { "time": "12:00", "label": "Opening keynote", "dept": "client", "day": 2 },
+    { "time": "17:00", "label": "Closing session", "dept": "client", "day": 2 },
+    { "time": "18:00", "label": "Event wrap", "dept": "production", "day": 2 },
+    { "time": "18:30", "label": "Load-out begins", "dept": "production", "day": 2 },
+    { "time": "22:00", "label": "Venue clear", "dept": "venue", "day": 2 }
+  ],
+  "files": [
+    { "name": "Stage Plot v3.pdf", "category": "drawings", "path": "files/drawings/stage-plot-v3.pdf", "size": "2.4 MB", "updated": "2026-08-10" },
+    { "name": "Lighting Plot.pdf", "category": "drawings", "path": "files/drawings/lighting-plot.pdf", "size": "4.1 MB", "updated": "2026-08-12" },
+    { "name": "Audio System Diagram.pdf", "category": "drawings", "path": "files/drawings/audio-system.pdf", "size": "1.8 MB", "updated": "2026-08-11" },
+    { "name": "Production Advance.pdf", "category": "documents", "path": "files/documents/production-advance.pdf", "size": "890 KB", "updated": "2026-08-08" },
+    { "name": "Vendor COI Package.pdf", "category": "documents", "path": "files/documents/vendor-coi.pdf", "size": "3.2 MB", "updated": "2026-08-05" },
+    { "name": "Run of Show.pdf", "category": "documents", "path": "files/documents/run-of-show.pdf", "size": "420 KB", "updated": "2026-08-13" },
+    { "name": "Venue Front.jpg", "category": "photos", "path": "files/photos/venue-front.jpg", "size": "1.2 MB", "updated": "2026-07-20" },
+    { "name": "Stage Left View.jpg", "category": "photos", "path": "files/photos/stage-left.jpg", "size": "980 KB", "updated": "2026-07-20" },
+    { "name": "Dock B Access.jpg", "category": "photos", "path": "files/photos/dock-b.jpg", "size": "1.1 MB", "updated": "2026-07-20" },
+    { "name": "Client Recap 2025.mp4", "category": "videos", "path": "files/videos/recap-2025.mp4", "size": "124 MB", "updated": "2026-06-15" },
+    { "name": "Stage Design.gltf", "category": "3d", "path": "files/3d/stage-design.gltf", "size": "8.1 MB", "updated": "2026-08-12" }
+  ]
+}
