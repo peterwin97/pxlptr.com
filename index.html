@@ -82,6 +82,7 @@
     -webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none;
   }
   body.is-loading{overflow:hidden;height:100vh}
+  body.cv-open{position:fixed;width:100%;overflow-y:scroll}
   ::selection{background:var(--paper);color:var(--ink)}
   a{color:inherit;text-decoration:none}
   img,canvas,video{display:block;max-width:100%}
@@ -225,9 +226,9 @@
   .note{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.04em;color:var(--grey)}
 
   /* ===================== CV OVERLAY ===================== */
-  #cv{position:fixed;inset:0;z-index:900;background:var(--ink);display:none;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+  #cv{position:fixed;inset:0;z-index:900;background:var(--ink);display:none;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
   #cv.show{display:block}
-  .cv-inner{max-width:1080px;margin:0 auto;height:100%;overflow-y:auto;overflow-x:hidden;padding:clamp(58px,9vh,104px) var(--gut) clamp(60px,9vh,90px);-webkit-overflow-scrolling:touch}
+  .cv-inner{max-width:1080px;margin:0 auto;padding:clamp(58px,9vh,104px) var(--gut) clamp(60px,9vh,90px)}
   .cv-close{position:fixed;top:max(18px,env(safe-area-inset-top));right:var(--gut);z-index:5;background:transparent;border:0;cursor:none;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper);mix-blend-mode:difference}
   .cv-close span{color:var(--grey)}
   .cv-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:22px 40px;border-bottom:1px solid var(--line);padding-bottom:clamp(22px,3vh,32px)}
@@ -922,11 +923,14 @@
   }
 
   /* ===================== CV OVERLAY ===================== */
-  var cv=document.getElementById("cv"), navWork=document.getElementById("navWork"), cvOpen=false;
+  var cv=document.getElementById("cv"), navWork=document.getElementById("navWork"), cvOpen=false, cvScrollY=0;
   function openCV(){
     if(cvOpen||!cv)return; cvOpen=true;
+    cvScrollY=window.scrollY;
+    if(ScrollTrigger.normalizeScroll) ScrollTrigger.normalizeScroll(false);
     cv.classList.add("show"); cv.setAttribute("aria-hidden","false");
-    document.documentElement.style.overflow="hidden"; document.body.style.overflow="hidden";
+    document.body.classList.add("cv-open");
+    document.body.style.top=-cvScrollY+"px";
     if(hasGSAP&&!reduce){
       gsap.fromTo(cv,{opacity:0},{opacity:1,duration:0.3,ease:"power2.out"});
       gsap.fromTo(".cv-reveal",{y:20,opacity:0},{y:0,opacity:1,duration:0.6,stagger:0.025,ease:"power3.out",delay:0.04,clearProps:"transform"});
@@ -937,8 +941,11 @@
   function closeCV(){
     if(!cvOpen)return; cvOpen=false;
     document.removeEventListener("keydown",escClose);
-    document.documentElement.style.overflow=""; document.body.style.overflow="";
-    function done(){cv.classList.remove("show");cv.setAttribute("aria-hidden","true");cv.querySelector(".cv-inner").scrollTop=0;}
+    document.body.classList.remove("cv-open");
+    document.body.style.top="";
+    window.scrollTo(0,cvScrollY);
+    if(ScrollTrigger.normalizeScroll) ScrollTrigger.normalizeScroll(true);
+    function done(){cv.classList.remove("show");cv.setAttribute("aria-hidden","true");cv.scrollTop=0;}
     if(hasGSAP&&!reduce)gsap.to(cv,{opacity:0,duration:0.28,ease:"power2.in",onComplete:done}); else done();
   }
   function escClose(e){if(e.key==="Escape")closeCV();}
