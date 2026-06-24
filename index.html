@@ -252,10 +252,19 @@
   .c-meta i{display:block;font-style:normal}
   .c-meta i+i{color:var(--grey)}
   @media (max-width:720px){
-    .credit{grid-template-columns:1fr;gap:5px}
-    .c-meta{text-align:left}
+    .credit{grid-template-columns:1fr;gap:4px;padding:14px 0}
+    .c-name{font-size:15px}
+    .c-role{font-size:11px}
+    .c-meta{text-align:left;font-size:10px}
     .c-meta i{display:inline}
     .c-meta i+i::before{content:" · "}
+    .cv-head{flex-direction:column;gap:16px}
+    .cv-contacts{text-align:left;gap:5px}
+    .cv-contacts a{margin-left:0}
+    .cv-head h2{font-size:clamp(32px,10vw,48px)}
+    .cv-summary{font-size:15px}
+    .cv-close{font-size:10px;top:12px;right:16px}
+    .cv-inner{padding:50px 20px 40px}
   }
 
   .cv-grid{display:grid;grid-template-columns:1fr;gap:clamp(28px,4vw,46px);margin-top:clamp(30px,5vh,52px)}
