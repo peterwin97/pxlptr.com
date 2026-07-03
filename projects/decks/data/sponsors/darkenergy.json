@@ -1,0 +1,75 @@
+{
+  "_comment": "Dark Energy - POSEIDON power bank lineup. Positioned as mission-critical power infrastructure for an off-grid film crew, not a consumer gadget. FFM facts live in data/global.json.",
+
+  "key": "darkenergy",
+  "name": "Dark Energy",
+  "accent": "#3b9fe8",
+  "navLabel": "Dark Energy Sponsorship Deck",
+
+  "meta": {
+    "title": "Focus Finder Media - Dark Energy Sponsorship Deck",
+    "description": "A scroll-driven look at the Dark Energy x Focus Finder Media partnership.",
+    "image": "assets/web/og-darkenergy.jpg"
+  },
+
+  "og": {
+    "baseImage": "assets/web/team-9224.jpg",
+    "kicker": "FOCUS FINDER MEDIA",
+    "headline": "Dark Energy\nSponsorship Deck"
+  },
+
+  "hero": {
+    "lines": ["No grid.", "No problem.", "No excuses."],
+    "highlightLast": true
+  },
+
+  "challenge": {
+    "label": "The Challenge",
+    "heading": "A film crew runs on power.<br>Off-grid, there's no backup plan.",
+    "nodes": [
+      { "icon": "battery",  "t": "Multi-Device Load", "d": "Cameras, drones, gimbals, monitors, and comms all drawing power simultaneously", "img": "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "storage",  "t": "No Outlets", "d": "Days from the nearest wall, with no room for a dead battery in the shot schedule", "img": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "drone",    "t": "Weather and Terrain", "d": "Cold temps drain batteries faster, and charging gear has to survive the same conditions as the cameras", "img": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "camera",   "t": "Dead Gear Kills Shots", "d": "A camera that dies mid-scene, or a drone that can't fly, costs more than the battery that ran out", "img": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" },
+      { "icon": "comms",    "t": "Runtime Uncertainty", "d": "Not knowing how much power is left is its own risk, especially when the light window is closing", "img": "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?auto=format&fit=crop&w=800&q=80" }
+    ],
+    "quote": "\"A dead battery isn't just an inconvenience out there. It's a liability. The shot you couldn't take because the camera died is the shot that doesn't exist, and no amount of planning fixes it after the fact.\""
+  },
+
+  "solution": {
+    "label": "The Solution",
+    "heading": "Power in every pack,<br>for every device, all day.",
+    "sub": "The POSEIDON lineup from Dark Energy is built for exactly this. Nano in a jacket pocket for the camera operator, Pro clipped to a bag for the drone pilot, XL at base for the heaviest draws. Every crew member carries enough capacity to run their gear through a full shoot day, with fast charge so nothing waits and a build that holds up to the same terrain we shoot in.",
+    "hubTitle": "POSEIDON XL",
+    "hubSpec": "Portable Power · Fast Charge",
+    "spokes": [
+      { "t": "All-Day Capacity", "s": "Enough charge to run cameras and drones through a full shoot day" },
+      { "t": "Fast Charge", "s": "Devices back to full between scenes, not hours later" },
+      { "t": "Pack-Ready Size", "s": "Fits in any bag without adding meaningful weight to the kit" },
+      { "t": "Field-Proven Build", "s": "Handles the same terrain, weather, and rough handling as the gear it powers" }
+    ],
+    "line2": "POSEIDON isn't gear the crew thinks about. It's the reason they never have to think about power at all, every device charged, every shot available, from first light to last frame."
+  },
+
+  "partnership": {
+    "eyebrow": "The Partnership",
+    "heading": "The best crew gear is the gear nobody notices.",
+    "paragraphs": [
+      "Power banks don't show up in the frame, but they show up in every frame. The audience never sees a POSEIDON, but it's the reason the camera kept rolling, the drone made it back, and the edit happened in the field instead of the day after.",
+      "The plan is straightforward: POSEIDON across the crew kit for our next expedition, with creator-led content showing what field power management actually looks like, organic posts built around the real workflow, and long-form work that puts the gear in context without turning it into an advertisement."
+    ],
+    "flow": [
+      { "icon": "battery",  "t": "POSEIDON Lineup", "s": "Nano, Pro &amp; XL across the full crew kit" },
+      { "icon": "camera",   "t": "In the Field", "s": "All devices powered through every shoot day" },
+      { "icon": "play",     "t": "Organic + Original Work", "s": "Shared live, and built into films" },
+      { "icon": "audience", "t": "Our Audience", "s": "3.1M+ monthly views" }
+    ]
+  },
+
+  "finalAsk": {
+    "eyebrow": "The Final Ask",
+    "heading": "Every shot runs on power.<br>Let's make sure<br><i>we never run out.</i>",
+    "paragraph": "Focus Finder Media goes where the grid doesn't. Dark Energy's POSEIDON lineup is the power layer that makes that possible, every device charged, every crew member covered, from first light to the last card pulled. Let's put it to work on the next expedition.",
+    "cta": "Let's build the next chapter"
+  }
+}
