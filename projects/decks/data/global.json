@@ -27,10 +27,10 @@
       "The footage carries an aesthetic that repurposes cleanly across Instagram, YouTube, TikTok, and your website, for paid ads, organic posts, or internal use, built to extend your reach across every channel that matters to your audience."
     ],
     "members": [
-      { "name": "Jonah Castleberry", "handle": "@jonahcastleberry", "followers": "9.7K Followers", "img": "assets/web/team-jonah.jpg", "url": "https://www.instagram.com/jonahcastleberry/" },
+      { "name": "Jonah Castleberry", "handle": "@jonahcastleberry", "followers": "12.2K Followers", "img": "assets/web/team-jonah.jpg", "url": "https://www.instagram.com/jonahcastleberry/" },
       { "name": "Jeremiah Medlen", "handle": "@jeremiahmedlen", "followers": "26.8K Followers", "img": "assets/web/team-jeremiah.jpg", "url": "https://www.instagram.com/jeremiahmedlen/" },
-      { "name": "Liz Chandler", "handle": "@lizchandlercreative", "followers": "2.4K Followers", "img": "assets/web/team-liz.jpg", "url": "https://www.instagram.com/lizchandlercreative/" },
-      { "name": "Evan Chandler", "handle": "@evanchandlerr", "followers": "87.3K Followers", "img": "assets/web/team-evan.jpg", "url": "https://www.instagram.com/evanchandlerr/" }
+      { "name": "Liz Chandler", "handle": "@lizchandlercreative", "followers": "3.8K Followers", "img": "assets/web/team-liz.jpg", "url": "https://www.instagram.com/lizchandlercreative/" },
+      { "name": "Evan Chandler", "handle": "@evanchandlerr", "followers": "87.6K Followers", "img": "assets/web/team-evan.jpg", "url": "https://www.instagram.com/evanchandlerr/" }
     ]
   },
 
@@ -93,17 +93,17 @@
     "label": "The Audience",
     "heading": "Sponsors don't invest<br>in adventures. They invest<br>in audiences.",
     "counters": [
-      { "label": "Views, last 30 days (single channel)", "target": "1.2", "suffix": "M", "note": "Instagram Professional Dashboard insights" },
-      { "label": "Interactions, last 30 days", "target": "195.8", "suffix": "K", "note": "Likes, comments, shares &amp; saves combined" },
-      { "label": "New followers, last 30 days", "target": "1.1", "suffix": "K", "note": "Organic growth, no paid promotion" },
-      { "label": "Combined crew following", "target": "170", "suffix": "K+", "note": "Across Jonah, Jeremiah, Liz &amp; Evan's channels" }
+      { "label": "Views, last 30 days (single channel)", "target": "4.5", "suffix": "M", "note": "TikTok insights, Jun 6 - Jul 5" },
+      { "label": "New followers, last 30 days", "target": "3.8", "suffix": "K", "note": "Organic growth, no paid promotion" },
+      { "label": "Total followers (single channel)", "target": "12.3", "suffix": "K", "note": "+39.1% growth since Jun 5" },
+      { "label": "Combined crew following", "target": "130", "suffix": "K+", "note": "Across Jonah, Jeremiah, Liz &amp; Evan's channels" }
     ],
     "breakdownLabel": "Audience Breakdown",
     "demographics": [
-      { "label": "Men", "pct": "69.2" },
-      { "label": "Aged 25–34", "pct": "49.6" },
-      { "label": "Aged 18–24", "pct": "36.5" },
-      { "label": "United States", "pct": "47.8" }
+      { "label": "Women", "pct": "54.6" },
+      { "label": "Aged 25–34", "pct": "46.5" },
+      { "label": "Aged 18–24", "pct": "20.7" },
+      { "label": "United States", "pct": "55.2" }
     ]
   },
 
