@@ -73,63 +73,6 @@
     text-transform: uppercase;
   }
 
-  /* ── View toggle ── */
-  #view-toggle {
-    display: flex;
-    gap: 2px;
-    background: var(--border);
-    border-radius: 4px;
-    padding: 2px;
-  }
-  .vt-btn {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--grey);
-    background: transparent;
-    border: none;
-    border-radius: 2px;
-    padding: 4px 8px;
-    cursor: pointer;
-    transition: background .15s, color .15s;
-  }
-  .vt-btn.active {
-    background: var(--surface);
-    color: var(--text);
-  }
-
-  /* ── 3D container ── */
-  #scene-wrap {
-    position: absolute;
-    inset: 0;
-    display: none;
-  }
-  #scene-wrap.visible { display: block; }
-  #scene-wrap canvas { width: 100% !important; height: 100% !important; display: block; }
-
-  #load-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    font-size: 10px;
-    letter-spacing: .1em;
-    color: var(--grey);
-    text-transform: uppercase;
-    pointer-events: none;
-  }
-  .spinner {
-    width: 20px; height: 20px;
-    border: 2px solid var(--border);
-    border-top-color: var(--text);
-    border-radius: 50%;
-    animation: spin .7s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
 
   #throw-badge {
     font-size: 11px;
@@ -230,23 +173,11 @@
 <div id="app">
   <div id="header">
     <span id="wordmark">PXLPTR / Lens Throw</span>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div id="view-toggle">
-        <button class="vt-btn active" data-view="2d">2D</button>
-        <button class="vt-btn" data-view="3d">3D</button>
-      </div>
-      <div id="throw-badge">THROW <input type="number" id="throw-input" value="100" min="70" max="130">'</div>
-    </div>
+    <div id="throw-badge">THROW <input type="number" id="throw-input" value="100" min="70" max="130">'</div>
   </div>
 
   <div id="diagram-wrap">
     <canvas id="diagram"></canvas>
-    <div id="scene-wrap">
-      <div id="load-overlay">
-        <div class="spinner"></div>
-        <span>Loading model…</span>
-      </div>
-    </div>
   </div>
 
   <div id="card">
@@ -645,152 +576,22 @@ resize();
 update();
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/tools/lens-throw/service-worker.js');
-}
-</script>
-
-<!-- Three.js 3D view -->
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/"
-  }
-}
-</script>
-<script type="module">
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-const sceneWrap   = document.getElementById('scene-wrap');
-const loadOverlay = document.getElementById('load-overlay');
-const vtBtns      = document.querySelectorAll('.vt-btn');
-const diagramEl   = document.getElementById('diagram');
-
-let renderer, scene, camera, controls, modelLoaded = false;
-
-function initThree() {
-  const w = sceneWrap.clientWidth;
-  const h = sceneWrap.clientHeight;
-
-  renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.setSize(w, h);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
-  sceneWrap.appendChild(renderer.domElement);
-
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0a0a0c);
-
-  // Ambient + directional lights
-  scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-  const dir = new THREE.DirectionalLight(0xffffff, 2);
-  dir.position.set(0, 50, 30);
-  scene.add(dir);
-  const dir2 = new THREE.DirectionalLight(0xffffff, 0.6);
-  dir2.position.set(0, -20, -20);
-  scene.add(dir2);
-
-  camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100000);
-  // Start top-down, slightly angled
-  camera.position.set(0, 8000, 4000);
-  camera.lookAt(0, 0, 0);
-
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.08;
-  controls.minDistance = 500;
-  controls.maxDistance = 40000;
-  controls.target.set(0, 0, 0);
-
-  const ro = new ResizeObserver(() => {
-    const w2 = sceneWrap.clientWidth, h2 = sceneWrap.clientHeight;
-    renderer.setSize(w2, h2);
-    camera.aspect = w2 / h2;
-    camera.updateProjectionMatrix();
+  navigator.serviceWorker.register('/tools/lens-throw/service-worker.js').then(reg => {
+    reg.update();
+    reg.addEventListener('updatefound', () => {
+      const newSW = reg.installing;
+      newSW.addEventListener('statechange', () => {
+        if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+          newSW.postMessage({ type: 'SKIP_WAITING' });
+        }
+      });
+    });
   });
-  ro.observe(sceneWrap);
-
-  (function animate() {
-    requestAnimationFrame(animate);
-    controls.update();
-    renderer.render(scene, camera);
-  })();
-}
-
-function loadModel() {
-  if (modelLoaded) return;
-  modelLoaded = true;
-  loadOverlay.style.display = 'flex';
-
-  const draco = new DRACOLoader();
-  draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/libs/draco/');
-
-  const loader = new GLTFLoader();
-  loader.setDRACOLoader(draco);
-
-  loader.load(
-    '/tools/lens-throw/3D-stage/glb/stage-draco.glb',
-    gltf => {
-      const model = gltf.scene;
-
-      scene.add(model);
-
-      // Fit camera using bounding sphere + FOV formula
-      const box = new THREE.Box3().setFromObject(model);
-      const center = box.getCenter(new THREE.Vector3());
-      const sphere = new THREE.Sphere();
-      box.getBoundingSphere(sphere);
-      const r = sphere.radius;
-
-      const fovRad = camera.fov * (Math.PI / 180);
-      const dist = (r / Math.tan(fovRad / 2)) * 1.5;
-
-      camera.near = dist / 1000;
-      camera.far  = dist * 20;
-      camera.position.set(center.x, center.y + dist * 0.75, center.z + dist * 0.6);
-      camera.lookAt(center);
-      camera.updateProjectionMatrix();
-
-      controls.target.copy(center);
-      controls.minDistance = r * 0.5;
-      controls.maxDistance = dist * 6;
-      controls.update();
-
-      loadOverlay.style.display = 'none';
-    },
-    xhr => {
-      const pct = Math.round(xhr.loaded / xhr.total * 100);
-      loadOverlay.querySelector('span').textContent = `Loading… ${pct}%`;
-    },
-    err => {
-      loadOverlay.querySelector('span').textContent = 'Failed to load model';
-      console.error(err);
-    }
-  );
-}
-
-// ── View toggle ───────────────────────────────────────────────
-vtBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    vtBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    if (btn.dataset.view === '3d') {
-      diagramEl.style.display = 'none';
-      sceneWrap.classList.add('visible');
-      if (!renderer) initThree();
-      loadModel();
-    } else {
-      diagramEl.style.display = 'block';
-      sceneWrap.classList.remove('visible');
-    }
+  let refreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!refreshing) { refreshing = true; location.reload(); }
   });
-});
+}
 </script>
 </body>
 </html>
