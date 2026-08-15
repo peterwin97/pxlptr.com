@@ -1,4 +1,4 @@
-const CACHE = 'lens-throw-v1';
+const CACHE = 'lens-throw-v2';
 const ASSETS = [
   '/tools/lens-throw/',
   '/tools/lens-throw/index.html',
