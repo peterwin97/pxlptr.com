@@ -103,6 +103,7 @@
   }
   #throw-input::-webkit-outer-spin-button,
   #throw-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  #throw-input { -webkit-user-select: text; user-select: text; }
 
   /* ── Diagram ── */
   #diagram-wrap {
@@ -173,7 +174,7 @@
 <div id="app">
   <div id="header">
     <span id="wordmark">PXLPTR / Lens Throw</span>
-    <div id="throw-badge">THROW <input type="number" id="throw-input" value="100" min="70" max="130">'</div>
+    <div id="throw-badge">THROW <input type="text" inputmode="numeric" pattern="[0-9]*" id="throw-input" value="100">'</div>
   </div>
 
   <div id="diagram-wrap">
@@ -552,22 +553,18 @@ canvas.addEventListener('pointerup',    () => { dragging = false; });
 canvas.addEventListener('pointercancel',() => { dragging = false; });
 
 // ── Throw input ───────────────────────────────────────────────
-throwInput.addEventListener('focus', () => { throwInput.select(); });
-throwInput.addEventListener('input', () => {
-  const v = parseInt(throwInput.value, 10);
-  if (!isNaN(v) && v >= THROW_MIN && v <= THROW_MAX) {
-    throwFt = v;
-    update();
-  }
+throwInput.addEventListener('focus', () => {
+  setTimeout(() => throwInput.select(), 0);
 });
-throwInput.addEventListener('blur', () => {
+function commitThrow() {
   const v = parseInt(throwInput.value, 10);
   throwFt = isNaN(v) ? throwFt : Math.min(Math.max(v, THROW_MIN), THROW_MAX);
   throwInput.value = throwFt;
   update();
-});
+}
+throwInput.addEventListener('blur', commitThrow);
 throwInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') throwInput.blur();
+  if (e.key === 'Enter') { e.preventDefault(); throwInput.blur(); }
 });
 
 // ── Init ──────────────────────────────────────────────────────
