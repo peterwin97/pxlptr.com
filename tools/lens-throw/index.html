@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0a0a0c" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Lens Throw" />
+<link rel="apple-touch-icon" href="icons/icon-180.png" />
+<link rel="manifest" href="manifest.json" />
+<title>Lens Throw — PXLPTR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Archivo:wght@400;600&display=swap" rel="stylesheet" />
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-50W2X0B2TR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-50W2X0B2TR');
+</script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0a0a0c;
+    --surface:  #111114;
+    --border:   #222226;
+    --text:     #ece9e0;
+    --grey:     #76767b;
+    --grey2:    #3a3a3f;
+    --wings:    #d97706;
+    --center:   #3b82f6;
+    --mono:     'Space Mono', monospace;
+    --sans:     'Archivo', sans-serif;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bot: env(safe-area-inset-bottom, 0px);
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  #app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bot);
+  }
+
+  /* ── Header ── */
+  #header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px 10px;
+    flex-shrink: 0;
+  }
+
+  #wordmark {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .12em;
+    color: var(--grey);
+    text-transform: uppercase;
+  }
+
+  /* ── Position toggle ── */
+  #toggle {
+    display: flex;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .tog-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    padding: 7px 16px;
+    border: none;
+    background: transparent;
+    color: var(--grey);
+    cursor: pointer;
+    transition: background .15s, color .15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tog-btn.active {
+    color: var(--bg);
+  }
+
+  .tog-btn.active[data-pos="wings"]  { background: var(--wings); }
+  .tog-btn.active[data-pos="center"] { background: var(--center); }
+
+  /* ── Diagram area ── */
+  #diagram-wrap {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  #diagram {
+    width: 100%;
+    height: 100%;
+    display: block;
+    touch-action: none;
+  }
+
+  /* ── Bottom card ── */
+  #card {
+    flex-shrink: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 20px 24px calc(20px + var(--safe-bot));
+  }
+
+  #throw-display {
+    font-family: var(--mono);
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin-bottom: 4px;
+    transition: color .15s;
+  }
+
+  #throw-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    color: var(--grey);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  #card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 20px;
+  }
+
+  .card-field label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .12em;
+    color: var(--grey);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .card-field .val {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    line-height: 1.2;
+  }
+
+  #lens-field {
+    grid-column: 1 / -1;
+  }
+
+  #lens-field .val {
+    font-size: 16px;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <span id="wordmark">PXLPTR / Lens Throw</span>
+    <div id="toggle">
+      <button class="tog-btn active" data-pos="wings">Wings</button>
+      <button class="tog-btn" data-pos="center">Center</button>
+    </div>
+  </div>
+
+  <div id="diagram-wrap">
+    <canvas id="diagram"></canvas>
+  </div>
+
+  <div id="card">
+    <div id="throw-display">—</div>
+    <div id="throw-label">Throw Distance</div>
+    <div id="card-grid">
+      <div class="card-field" id="ratio-field">
+        <label>Throw Ratio</label>
+        <div class="val" id="ratio-val">—</div>
+      </div>
+      <div class="card-field" id="qty-field">
+        <label>Quantity</label>
+        <div class="val" id="qty-val">—</div>
+      </div>
+      <div class="card-field" id="lens-field">
+        <label>Lens</label>
+        <div class="val" id="lens-val">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Editable lens config — update throw ranges, widths, or models here without touching layout code.
+const LENS_CONFIG = {
+  wings: {
+    label: 'Wings',
+    width: 26,
+    color: '#d97706',
+    quantity: '4 in use (2 SR + 2 SL)',
+    spare: '1 spare per lens type',
+    lenses: [
+      { min: 70,   max: 72.8, model: 'Barco TLD+ 2.0–2.8:1' },
+      { min: 72.8, max: 117,  model: 'Barco TLD+ 2.8–4.5:1' },
+      { min: 117,  max: 130,  model: 'Barco TLD+ 4.5–7.5:1' },
+    ]
+  },
+  center: {
+    label: 'Center',
+    width: 57,
+    color: '#3b82f6',
+    quantity: '2 in use',
+    spare: '1 spare per lens type',
+    lenses: [
+      { min: 70,   max: 84.9, model: 'Barco TLD Ultra 1.16–1.49:1' },
+      { min: 84.9, max: 114,  model: 'Barco TLD+ 1.5–2.0:1'        },
+      { min: 114,  max: 130,  model: 'Barco TLD+ 2.0–2.8:1'        },
+    ]
+  }
+};
+
+const THROW_MIN = 70;
+const THROW_MAX = 130;
+
+function getLens(position, throwFt) {
+  const cfg = LENS_CONFIG[position];
+  for (const l of cfg.lenses) {
+    if (throwFt >= l.min && throwFt <= l.max) return l.model;
+  }
+  return cfg.lenses[cfg.lenses.length - 1].model;
+}
+
+function getRatio(position, throwFt) {
+  return throwFt / LENS_CONFIG[position].width;
+}
+</script>
+<script>
+(function () {
+  const canvas = document.getElementById('diagram');
+  const ctx = canvas.getContext('2d');
+
+  const throwDisplay = document.getElementById('throw-display');
+  const ratioVal     = document.getElementById('ratio-val');
+  const lensVal      = document.getElementById('lens-val');
+  const qtyVal       = document.getElementById('qty-val');
+  const toggleBtns   = document.querySelectorAll('.tog-btn');
+
+  let position = 'wings';
+  let throwFt  = 100; // default start
+
+  // ── Layout constants (computed on resize) ──
+  let stageY, trackTop, trackBot, trackX, stageHalfW, platformH, platformW;
+
+  // Vertical padding inside diagram
+  const PAD_TOP    = 28;
+  const PAD_BOT    = 24;
+  const STAGE_H    = 36;
+  const PLATFORM_H = 28;
+  const PLATFORM_W = 56;
+  const TRACK_W    = 2;
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth  * devicePixelRatio;
+    canvas.height = canvas.offsetHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    const W = canvas.offsetWidth;
+    const H = canvas.offsetHeight;
+
+    stageY     = PAD_TOP + STAGE_H / 2;
+    trackTop   = PAD_TOP + STAGE_H + 20;
+    trackBot   = H - PAD_BOT - PLATFORM_H;
+    trackX     = W / 2;
+    stageHalfW = W * 0.38;
+    platformH  = PLATFORM_H;
+    platformW  = PLATFORM_W;
+    draw();
+  }
+
+  function throwToY(ft) {
+    const t = (ft - THROW_MIN) / (THROW_MAX - THROW_MIN);
+    return trackTop + t * (trackBot - trackTop);
+  }
+
+  function yToThrow(y) {
+    const t = (y - trackTop) / (trackBot - trackTop);
+    return Math.round(Math.min(Math.max(t * (THROW_MAX - THROW_MIN) + THROW_MIN, THROW_MIN), THROW_MAX));
+  }
+
+  function getColor() {
+    return LENS_CONFIG[position].color;
+  }
+
+  function draw() {
+    const W = canvas.offsetWidth;
+    const H = canvas.offsetHeight;
+    ctx.clearRect(0, 0, W, H);
+
+    const color   = getColor();
+    const platY   = throwToY(throwFt);
+    const cfg     = LENS_CONFIG[position];
+
+    // ── Track line ──
+    ctx.beginPath();
+    ctx.setLineDash([4, 6]);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#2a2a2e';
+    ctx.moveTo(trackX, trackTop);
+    ctx.lineTo(trackX, trackBot + platformH / 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // ── Distance tick marks ──
+    const ticks = [70, 80, 90, 100, 110, 120, 130];
+    ctx.font = `700 9px 'Space Mono', monospace`;
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#3a3a3f';
+    ticks.forEach(ft => {
+      const y = throwToY(ft);
+      ctx.beginPath();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#2a2a2e';
+      ctx.moveTo(trackX - 14, y);
+      ctx.lineTo(trackX + 14, y);
+      ctx.stroke();
+      ctx.fillText(`${ft}'`, trackX - 18, y + 3);
+    });
+
+    // ── Stage ──
+    const sx = trackX - stageHalfW;
+    const sw = stageHalfW * 2;
+
+    // Truss top bar
+    ctx.beginPath();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#ece9e0';
+    ctx.fillStyle   = 'transparent';
+    ctx.moveTo(sx - 12, stageY - STAGE_H / 2 - 6);
+    ctx.lineTo(sx + sw + 12, stageY - STAGE_H / 2 - 6);
+    ctx.stroke();
+
+    // Truss diagonal hatching
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#444448';
+    for (let i = 0; i <= 8; i++) {
+      const x = sx + (sw / 8) * i;
+      ctx.beginPath();
+      ctx.moveTo(x - 4, stageY - STAGE_H / 2 - 6);
+      ctx.lineTo(x + 6, stageY - STAGE_H / 2 + 2);
+      ctx.stroke();
+    }
+
+    // Screen rect
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#ece9e0';
+    ctx.fillStyle   = '#0f0f12';
+    ctx.rect(sx, stageY - STAGE_H / 2, sw, STAGE_H);
+    ctx.fill();
+    ctx.stroke();
+
+    // Screen label
+    ctx.font = `400 9px 'Space Mono', monospace`;
+    ctx.fillStyle   = '#76767b';
+    ctx.textAlign   = 'center';
+    ctx.fillText(`SCREEN  ${cfg.width}'`, trackX, stageY + 4);
+
+    // ── FOV cone (dashed, colored) ──
+    const fovHalfW = stageHalfW; // top of cone = full stage width
+    const coneTopY = stageY + STAGE_H / 2;
+    const coneBotY = platY - platformH / 2;
+
+    // How wide is the projector platform = FOV angle source
+    const srcHalfW = platformW * 0.3;
+
+    ctx.beginPath();
+    ctx.setLineDash([5, 5]);
+    ctx.lineWidth  = 1.5;
+    ctx.strokeStyle = color;
+    // Left ray
+    ctx.moveTo(trackX - srcHalfW, coneBotY);
+    ctx.lineTo(sx, coneTopY);
+    ctx.stroke();
+    // Right ray
+    ctx.beginPath();
+    ctx.moveTo(trackX + srcHalfW, coneBotY);
+    ctx.lineTo(sx + sw, coneTopY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Subtle fill
+    ctx.beginPath();
+    ctx.moveTo(trackX - srcHalfW, coneBotY);
+    ctx.lineTo(sx, coneTopY);
+    ctx.lineTo(sx + sw, coneTopY);
+    ctx.lineTo(trackX + srcHalfW, coneBotY);
+    ctx.closePath();
+    ctx.fillStyle = color + '12';
+    ctx.fill();
+
+    // ── Projector platform knob ──
+    const px = trackX - platformW / 2;
+    const py = platY  - platformH / 2;
+
+    // Platform body
+    ctx.beginPath();
+    ctx.fillStyle   = '#0a0a0c';
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = 2;
+    ctx.rect(px, py, platformW, platformH);
+    ctx.fill();
+    ctx.stroke();
+
+    // Projector lens glyph (circle in center)
+    ctx.beginPath();
+    ctx.arc(trackX, platY, 5, 0, Math.PI * 2);
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = 1.5;
+    ctx.stroke();
+
+    // Lens inner dot
+    ctx.beginPath();
+    ctx.arc(trackX, platY, 2, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    // Platform label
+    ctx.font = `700 7px 'Space Mono', monospace`;
+    ctx.fillStyle   = color;
+    ctx.textAlign   = 'right';
+    ctx.fillText('PROJ', px - 6, platY + 3);
+
+    // Current throw callout on right side
+    ctx.font = `700 10px 'Space Mono', monospace`;
+    ctx.fillStyle   = color;
+    ctx.textAlign   = 'left';
+    ctx.fillText(`${throwFt}'`, trackX + platformW / 2 + 8, platY + 4);
+  }
+
+  function updateCard() {
+    const cfg   = LENS_CONFIG[position];
+    const ratio = getRatio(position, throwFt);
+    const lens  = getLens(position, throwFt);
+    const color = cfg.color;
+
+    throwDisplay.textContent = `${throwFt}'`;
+    throwDisplay.style.color = color;
+    ratioVal.textContent     = `${ratio.toFixed(2)}:1`;
+    lensVal.textContent      = lens;
+    qtyVal.textContent       = cfg.quantity;
+  }
+
+  function update() {
+    draw();
+    updateCard();
+  }
+
+  // ── Drag handling ──
+  let dragging = false;
+
+  function hitKnob(y) {
+    const ky = throwToY(throwFt);
+    return Math.abs(y - ky) < 28;
+  }
+
+  canvas.addEventListener('pointerdown', e => {
+    const rect = canvas.getBoundingClientRect();
+    const y = e.clientY - rect.top;
+    if (hitKnob(y)) {
+      dragging = true;
+      canvas.setPointerCapture(e.pointerId);
+    }
+  });
+
+  canvas.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    const rect = canvas.getBoundingClientRect();
+    const y = e.clientY - rect.top;
+    throwFt = yToThrow(y);
+    requestAnimationFrame(update);
+  });
+
+  canvas.addEventListener('pointerup',    () => { dragging = false; });
+  canvas.addEventListener('pointercancel',() => { dragging = false; });
+
+  // ── Toggle ──
+  toggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      position = btn.dataset.pos;
+      toggleBtns.forEach(b => b.classList.toggle('active', b === btn));
+      update();
+    });
+  });
+
+  // ── Resize ──
+  const ro = new ResizeObserver(resize);
+  ro.observe(canvas.parentElement);
+  resize();
+  update();
+
+  // ── Service worker ──
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/tools/lens-throw/service-worker.js');
+  }
+})();
+</script>
+</body>
+</html>

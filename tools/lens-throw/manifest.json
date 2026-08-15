@@ -1,0 +1,14 @@
+{
+  "name": "Lens Throw — PXLPTR",
+  "short_name": "Lens Throw",
+  "description": "Field tool for on-site projector lens selection by throw distance.",
+  "start_url": "/tools/lens-throw/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0a0a0c",
+  "background_color": "#0a0a0c",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
