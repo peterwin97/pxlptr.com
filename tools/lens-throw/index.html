@@ -27,16 +27,14 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:       #0a0a0c;
-    --surface:  #111114;
-    --border:   #222226;
-    --text:     #ece9e0;
-    --grey:     #76767b;
-    --grey2:    #3a3a3f;
-    --wings:    #d97706;
-    --center:   #3b82f6;
-    --mono:     'Space Mono', monospace;
-    --sans:     'Archivo', sans-serif;
+    --bg:      #0a0a0c;
+    --surface: #111114;
+    --border:  #222226;
+    --text:    #ece9e0;
+    --grey:    #76767b;
+    --wings:   #d97706;
+    --center:  #60a5fa;
+    --mono:    'Space Mono', monospace;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bot: env(safe-area-inset-bottom, 0px);
   }
@@ -45,7 +43,7 @@
     height: 100%;
     background: var(--bg);
     color: var(--text);
-    font-family: var(--sans);
+    font-family: 'Space Mono', monospace;
     overflow: hidden;
     user-select: none;
     -webkit-user-select: none;
@@ -69,43 +67,25 @@
   }
 
   #wordmark {
-    font-family: var(--mono);
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: .12em;
     color: var(--grey);
     text-transform: uppercase;
   }
 
-  /* ── Position toggle ── */
-  #toggle {
-    display: flex;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .tog-btn {
-    font-family: var(--mono);
+  #throw-badge {
     font-size: 11px;
-    letter-spacing: .08em;
-    padding: 7px 16px;
-    border: none;
-    background: transparent;
-    color: var(--grey);
-    cursor: pointer;
-    transition: background .15s, color .15s;
-    -webkit-tap-highlight-color: transparent;
+    letter-spacing: .06em;
+    color: var(--text);
   }
 
-  .tog-btn.active {
-    color: var(--bg);
+  #throw-badge span {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.01em;
   }
 
-  .tog-btn.active[data-pos="wings"]  { background: var(--wings); }
-  .tog-btn.active[data-pos="center"] { background: var(--center); }
-
-  /* ── Diagram area ── */
+  /* ── Diagram ── */
   #diagram-wrap {
     flex: 1;
     position: relative;
@@ -125,58 +105,48 @@
     flex-shrink: 0;
     background: var(--surface);
     border-top: 1px solid var(--border);
-    padding: 20px 24px calc(20px + var(--safe-bot));
-  }
-
-  #throw-display {
-    font-family: var(--mono);
-    font-size: 52px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -.02em;
-    margin-bottom: 4px;
-    transition: color .15s;
-  }
-
-  #throw-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: .12em;
-    color: var(--grey);
-    text-transform: uppercase;
-    margin-bottom: 18px;
-  }
-
-  #card-grid {
+    padding: 16px 20px calc(16px + var(--safe-bot));
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px 20px;
+    gap: 14px 16px;
   }
 
-  .card-field label {
-    display: block;
-    font-family: var(--mono);
+  .card-col {
+    border-left: 2px solid var(--border);
+    padding-left: 12px;
+  }
+
+  .card-col.wings { border-color: var(--wings); }
+  .card-col.center { border-color: var(--center); }
+
+  .col-label {
     font-size: 9px;
-    letter-spacing: .12em;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .col-label.wings  { color: var(--wings); }
+  .col-label.center { color: var(--center); }
+
+  .field-label {
+    font-size: 8px;
+    letter-spacing: .1em;
     color: var(--grey);
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
+    margin-top: 8px;
   }
 
-  .card-field .val {
-    font-family: var(--mono);
-    font-size: 14px;
+  .field-val {
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: .02em;
+    letter-spacing: .01em;
     line-height: 1.2;
   }
 
-  #lens-field {
-    grid-column: 1 / -1;
-  }
-
-  #lens-field .val {
-    font-size: 16px;
+  .field-val.lg {
+    font-size: 15px;
   }
 </style>
 </head>
@@ -184,10 +154,7 @@
 <div id="app">
   <div id="header">
     <span id="wordmark">PXLPTR / Lens Throw</span>
-    <div id="toggle">
-      <button class="tog-btn active" data-pos="wings">Wings</button>
-      <button class="tog-btn" data-pos="center">Center</button>
-    </div>
+    <div id="throw-badge">THROW <span id="throw-num">100</span>'</div>
   </div>
 
   <div id="diagram-wrap">
@@ -195,50 +162,50 @@
   </div>
 
   <div id="card">
-    <div id="throw-display">—</div>
-    <div id="throw-label">Throw Distance</div>
-    <div id="card-grid">
-      <div class="card-field" id="ratio-field">
-        <label>Throw Ratio</label>
-        <div class="val" id="ratio-val">—</div>
-      </div>
-      <div class="card-field" id="qty-field">
-        <label>Quantity</label>
-        <div class="val" id="qty-val">—</div>
-      </div>
-      <div class="card-field" id="lens-field">
-        <label>Lens</label>
-        <div class="val" id="lens-val">—</div>
-      </div>
+    <div class="card-col wings">
+      <div class="col-label wings">Wings (SR + SL)</div>
+      <div class="field-label">Ratio</div>
+      <div class="field-val" id="w-ratio">—</div>
+      <div class="field-label">Lens</div>
+      <div class="field-val lg" id="w-lens">—</div>
+      <div class="field-label">Qty</div>
+      <div class="field-val" id="w-qty">—</div>
+    </div>
+    <div class="card-col center">
+      <div class="col-label center">Center</div>
+      <div class="field-label">Ratio</div>
+      <div class="field-val" id="c-ratio">—</div>
+      <div class="field-label">Lens</div>
+      <div class="field-val lg" id="c-lens">—</div>
+      <div class="field-label">Qty</div>
+      <div class="field-val" id="c-qty">—</div>
     </div>
   </div>
 </div>
 
 <script>
-// Editable lens config — update throw ranges, widths, or models here without touching layout code.
+// ── Lens config ──────────────────────────────────────────────
 const LENS_CONFIG = {
   wings: {
-    label: 'Wings',
     width: 26,
     color: '#d97706',
-    quantity: '4 in use (2 SR + 2 SL)',
-    spare: '1 spare per lens type',
+    quantity: '4 units (2 SR + 2 SL)',
+    spare: '+ 1 spare',
     lenses: [
-      { min: 70,   max: 72.8, model: 'Barco TLD+ 2.0–2.8:1' },
-      { min: 72.8, max: 117,  model: 'Barco TLD+ 2.8–4.5:1' },
-      { min: 117,  max: 130,  model: 'Barco TLD+ 4.5–7.5:1' },
+      { min: 70,   max: 72.8, model: 'TLD+ 2.0–2.8:1' },
+      { min: 72.8, max: 117,  model: 'TLD+ 2.8–4.5:1' },
+      { min: 117,  max: 130,  model: 'TLD+ 4.5–7.5:1' },
     ]
   },
   center: {
-    label: 'Center',
     width: 57,
-    color: '#3b82f6',
-    quantity: '2 in use',
-    spare: '1 spare per lens type',
+    color: '#60a5fa',
+    quantity: '2 units',
+    spare: '+ 1 spare',
     lenses: [
-      { min: 70,   max: 84.9, model: 'Barco TLD Ultra 1.16–1.49:1' },
-      { min: 84.9, max: 114,  model: 'Barco TLD+ 1.5–2.0:1'        },
-      { min: 114,  max: 130,  model: 'Barco TLD+ 2.0–2.8:1'        },
+      { min: 70,   max: 84.9, model: 'TLD Ultra 1.16–1.49:1' },
+      { min: 84.9, max: 114,  model: 'TLD+ 1.5–2.0:1'        },
+      { min: 114,  max: 130,  model: 'TLD+ 2.0–2.8:1'        },
     ]
   }
 };
@@ -246,286 +213,334 @@ const LENS_CONFIG = {
 const THROW_MIN = 70;
 const THROW_MAX = 130;
 
-function getLens(position, throwFt) {
-  const cfg = LENS_CONFIG[position];
-  for (const l of cfg.lenses) {
-    if (throwFt >= l.min && throwFt <= l.max) return l.model;
-  }
+function getLens(pos, ft) {
+  const cfg = LENS_CONFIG[pos];
+  for (const l of cfg.lenses) if (ft >= l.min && ft <= l.max) return l.model;
   return cfg.lenses[cfg.lenses.length - 1].model;
 }
+function getRatio(pos, ft) { return ft / LENS_CONFIG[pos].width; }
 
-function getRatio(position, throwFt) {
-  return throwFt / LENS_CONFIG[position].width;
+// ── Canvas setup ─────────────────────────────────────────────
+const canvas  = document.getElementById('diagram');
+const ctx     = canvas.getContext('2d');
+
+const throwNum  = document.getElementById('throw-num');
+const wRatio    = document.getElementById('w-ratio');
+const wLens     = document.getElementById('w-lens');
+const wQty      = document.getElementById('w-qty');
+const cRatio    = document.getElementById('c-ratio');
+const cLens     = document.getElementById('c-lens');
+const cQty      = document.getElementById('c-qty');
+
+let throwFt = 100;
+
+// Layout (set in resize)
+let W, H, trackTop, trackBot, trackX;
+let stageTop, stageBot;
+const PAD_H      = 20;
+const STAGE_H    = 52;
+const PLAT_H     = 22;
+const PLAT_W     = 42;
+const PLAT_GAP   = 8;
+
+function throwToY(ft) {
+  const t = (ft - THROW_MIN) / (THROW_MAX - THROW_MIN);
+  return trackTop + t * (trackBot - trackTop);
 }
-</script>
-<script>
-(function () {
-  const canvas = document.getElementById('diagram');
-  const ctx = canvas.getContext('2d');
+function yToThrow(y) {
+  const t = (y - trackTop) / (trackBot - trackTop);
+  return Math.round(Math.min(Math.max(t * (THROW_MAX - THROW_MIN) + THROW_MIN, THROW_MIN), THROW_MAX));
+}
 
-  const throwDisplay = document.getElementById('throw-display');
-  const ratioVal     = document.getElementById('ratio-val');
-  const lensVal      = document.getElementById('lens-val');
-  const qtyVal       = document.getElementById('qty-val');
-  const toggleBtns   = document.querySelectorAll('.tog-btn');
+function resize() {
+  const dpr = devicePixelRatio;
+  W = canvas.offsetWidth;
+  H = canvas.offsetHeight;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-  let position = 'wings';
-  let throwFt  = 100; // default start
+  stageTop = PAD_H;
+  stageBot = PAD_H + STAGE_H;
+  trackTop = stageBot + 16;
+  trackBot = H - PAD_H - PLAT_H;
+  trackX   = W / 2;
+  draw();
+}
 
-  // ── Layout constants (computed on resize) ──
-  let stageY, trackTop, trackBot, trackX, stageHalfW, platformH, platformW;
+function drawStage() {
+  const cx  = W / 2;
+  // Stage occupies ~80% of width
+  const sw  = W * 0.80;
+  const sx  = cx - sw / 2;
 
-  // Vertical padding inside diagram
-  const PAD_TOP    = 28;
-  const PAD_BOT    = 24;
-  const STAGE_H    = 36;
-  const PLATFORM_H = 28;
-  const PLATFORM_W = 56;
-  const TRACK_W    = 2;
+  // Rear truss / header bar
+  ctx.beginPath();
+  ctx.lineWidth   = 3;
+  ctx.strokeStyle = '#ece9e0';
+  ctx.moveTo(sx - 10, stageTop + 4);
+  ctx.lineTo(sx + sw + 10, stageTop + 4);
+  ctx.stroke();
 
-  function resize() {
-    canvas.width  = canvas.offsetWidth  * devicePixelRatio;
-    canvas.height = canvas.offsetHeight * devicePixelRatio;
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-    const W = canvas.offsetWidth;
-    const H = canvas.offsetHeight;
-
-    stageY     = PAD_TOP + STAGE_H / 2;
-    trackTop   = PAD_TOP + STAGE_H + 20;
-    trackBot   = H - PAD_BOT - PLATFORM_H;
-    trackX     = W / 2;
-    stageHalfW = W * 0.38;
-    platformH  = PLATFORM_H;
-    platformW  = PLATFORM_W;
-    draw();
+  // Truss hatch marks
+  ctx.lineWidth   = 1;
+  ctx.strokeStyle = '#444448';
+  const hatchN = 14;
+  for (let i = 0; i <= hatchN; i++) {
+    const x = sx + (sw / hatchN) * i;
+    ctx.beginPath();
+    ctx.moveTo(x - 3, stageTop + 4);
+    ctx.lineTo(x + 5, stageTop + 12);
+    ctx.stroke();
   }
 
-  function throwToY(ft) {
-    const t = (ft - THROW_MIN) / (THROW_MAX - THROW_MIN);
-    return trackTop + t * (trackBot - trackTop);
-  }
+  // Main screen rect
+  ctx.beginPath();
+  ctx.lineWidth   = 1.5;
+  ctx.strokeStyle = '#ece9e0';
+  ctx.fillStyle   = '#0f0f12';
+  ctx.rect(sx, stageTop + 10, sw, STAGE_H - 14);
+  ctx.fill();
+  ctx.stroke();
 
-  function yToThrow(y) {
-    const t = (y - trackTop) / (trackBot - trackTop);
-    return Math.round(Math.min(Math.max(t * (THROW_MAX - THROW_MIN) + THROW_MIN, THROW_MIN), THROW_MAX));
-  }
+  // Wings screen panels (left and right of center)
+  const wScrW = sw * 0.22;
+  ctx.strokeStyle = '#' + 'd97706' + '88';
+  ctx.lineWidth   = 1;
+  // SR wing panel
+  ctx.strokeRect(sx, stageTop + 10, wScrW, STAGE_H - 14);
+  // SL wing panel
+  ctx.strokeRect(sx + sw - wScrW, stageTop + 10, wScrW, STAGE_H - 14);
 
-  function getColor() {
-    return LENS_CONFIG[position].color;
-  }
+  // Center screen panel
+  const cScrW = sw * 0.40;
+  ctx.strokeStyle = '#60a5fa88';
+  ctx.strokeRect(cx - cScrW / 2, stageTop + 10, cScrW, STAGE_H - 14);
 
-  function draw() {
-    const W = canvas.offsetWidth;
-    const H = canvas.offsetHeight;
-    ctx.clearRect(0, 0, W, H);
+  // Stage label
+  ctx.font        = '700 8px "Space Mono", monospace';
+  ctx.fillStyle   = '#76767b';
+  ctx.textAlign   = 'center';
+  ctx.textBaseline= 'middle';
+  ctx.fillText('STAGE', cx, stageTop + STAGE_H / 2 + 4);
 
-    const color   = getColor();
-    const platY   = throwToY(throwFt);
-    const cfg     = LENS_CONFIG[position];
+  return { sx, sw, cx };
+}
 
-    // ── Track line ──
-    ctx.beginPath();
-    ctx.setLineDash([4, 6]);
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = '#2a2a2e';
-    ctx.moveTo(trackX, trackTop);
-    ctx.lineTo(trackX, trackBot + platformH / 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
+function drawPlatforms(platY) {
+  // Three groups: SR Wings | Center | SL Wings
+  // Total width of 3 platforms + gaps
+  const totalW = PLAT_W * 3 + PLAT_GAP * 2;
+  const startX = W / 2 - totalW / 2;
 
-    // ── Distance tick marks ──
-    const ticks = [70, 80, 90, 100, 110, 120, 130];
-    ctx.font = `700 9px 'Space Mono', monospace`;
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#3a3a3f';
-    ticks.forEach(ft => {
-      const y = throwToY(ft);
-      ctx.beginPath();
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = '#2a2a2e';
-      ctx.moveTo(trackX - 14, y);
-      ctx.lineTo(trackX + 14, y);
-      ctx.stroke();
-      ctx.fillText(`${ft}'`, trackX - 18, y + 3);
-    });
+  const groups = [
+    { x: startX,                         label: 'SR',  color: LENS_CONFIG.wings.color  },
+    { x: startX + PLAT_W + PLAT_GAP,     label: 'CTR', color: LENS_CONFIG.center.color },
+    { x: startX + (PLAT_W + PLAT_GAP)*2, label: 'SL',  color: LENS_CONFIG.wings.color  },
+  ];
 
-    // ── Stage ──
-    const sx = trackX - stageHalfW;
-    const sw = stageHalfW * 2;
-
-    // Truss top bar
-    ctx.beginPath();
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = '#ece9e0';
-    ctx.fillStyle   = 'transparent';
-    ctx.moveTo(sx - 12, stageY - STAGE_H / 2 - 6);
-    ctx.lineTo(sx + sw + 12, stageY - STAGE_H / 2 - 6);
-    ctx.stroke();
-
-    // Truss diagonal hatching
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = '#444448';
-    for (let i = 0; i <= 8; i++) {
-      const x = sx + (sw / 8) * i;
-      ctx.beginPath();
-      ctx.moveTo(x - 4, stageY - STAGE_H / 2 - 6);
-      ctx.lineTo(x + 6, stageY - STAGE_H / 2 + 2);
-      ctx.stroke();
-    }
-
-    // Screen rect
-    ctx.beginPath();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#ece9e0';
-    ctx.fillStyle   = '#0f0f12';
-    ctx.rect(sx, stageY - STAGE_H / 2, sw, STAGE_H);
-    ctx.fill();
-    ctx.stroke();
-
-    // Screen label
-    ctx.font = `400 9px 'Space Mono', monospace`;
-    ctx.fillStyle   = '#76767b';
-    ctx.textAlign   = 'center';
-    ctx.fillText(`SCREEN  ${cfg.width}'`, trackX, stageY + 4);
-
-    // ── FOV cone (dashed, colored) ──
-    const fovHalfW = stageHalfW; // top of cone = full stage width
-    const coneTopY = stageY + STAGE_H / 2;
-    const coneBotY = platY - platformH / 2;
-
-    // How wide is the projector platform = FOV angle source
-    const srcHalfW = platformW * 0.3;
-
-    ctx.beginPath();
-    ctx.setLineDash([5, 5]);
-    ctx.lineWidth  = 1.5;
-    ctx.strokeStyle = color;
-    // Left ray
-    ctx.moveTo(trackX - srcHalfW, coneBotY);
-    ctx.lineTo(sx, coneTopY);
-    ctx.stroke();
-    // Right ray
-    ctx.beginPath();
-    ctx.moveTo(trackX + srcHalfW, coneBotY);
-    ctx.lineTo(sx + sw, coneTopY);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Subtle fill
-    ctx.beginPath();
-    ctx.moveTo(trackX - srcHalfW, coneBotY);
-    ctx.lineTo(sx, coneTopY);
-    ctx.lineTo(sx + sw, coneTopY);
-    ctx.lineTo(trackX + srcHalfW, coneBotY);
-    ctx.closePath();
-    ctx.fillStyle = color + '12';
-    ctx.fill();
-
-    // ── Projector platform knob ──
-    const px = trackX - platformW / 2;
-    const py = platY  - platformH / 2;
-
+  groups.forEach(({ x, label, color }) => {
     // Platform body
     ctx.beginPath();
     ctx.fillStyle   = '#0a0a0c';
     ctx.strokeStyle = color;
-    ctx.lineWidth   = 2;
-    ctx.rect(px, py, platformW, platformH);
+    ctx.lineWidth   = 1.5;
+    ctx.rect(x, platY - PLAT_H / 2, PLAT_W, PLAT_H);
     ctx.fill();
     ctx.stroke();
 
-    // Projector lens glyph (circle in center)
+    // Projector lens dot
+    const cx = x + PLAT_W / 2;
+    const cy = platY;
     ctx.beginPath();
-    ctx.arc(trackX, platY, 5, 0, Math.PI * 2);
+    ctx.arc(cx, cy, 4, 0, Math.PI * 2);
     ctx.strokeStyle = color;
     ctx.lineWidth   = 1.5;
     ctx.stroke();
-
-    // Lens inner dot
     ctx.beginPath();
-    ctx.arc(trackX, platY, 2, 0, Math.PI * 2);
+    ctx.arc(cx, cy, 1.5, 0, Math.PI * 2);
     ctx.fillStyle = color;
     ctx.fill();
 
-    // Platform label
-    ctx.font = `700 7px 'Space Mono', monospace`;
+    // Label
+    ctx.font        = '400 7px "Space Mono", monospace';
     ctx.fillStyle   = color;
-    ctx.textAlign   = 'right';
-    ctx.fillText('PROJ', px - 6, platY + 3);
-
-    // Current throw callout on right side
-    ctx.font = `700 10px 'Space Mono', monospace`;
-    ctx.fillStyle   = color;
-    ctx.textAlign   = 'left';
-    ctx.fillText(`${throwFt}'`, trackX + platformW / 2 + 8, platY + 4);
-  }
-
-  function updateCard() {
-    const cfg   = LENS_CONFIG[position];
-    const ratio = getRatio(position, throwFt);
-    const lens  = getLens(position, throwFt);
-    const color = cfg.color;
-
-    throwDisplay.textContent = `${throwFt}'`;
-    throwDisplay.style.color = color;
-    ratioVal.textContent     = `${ratio.toFixed(2)}:1`;
-    lensVal.textContent      = lens;
-    qtyVal.textContent       = cfg.quantity;
-  }
-
-  function update() {
-    draw();
-    updateCard();
-  }
-
-  // ── Drag handling ──
-  let dragging = false;
-
-  function hitKnob(y) {
-    const ky = throwToY(throwFt);
-    return Math.abs(y - ky) < 28;
-  }
-
-  canvas.addEventListener('pointerdown', e => {
-    const rect = canvas.getBoundingClientRect();
-    const y = e.clientY - rect.top;
-    if (hitKnob(y)) {
-      dragging = true;
-      canvas.setPointerCapture(e.pointerId);
-    }
+    ctx.textAlign   = 'center';
+    ctx.textBaseline= 'middle';
+    ctx.fillText(label, cx, platY + PLAT_H / 2 + 8);
   });
 
-  canvas.addEventListener('pointermove', e => {
-    if (!dragging) return;
-    const rect = canvas.getBoundingClientRect();
-    const y = e.clientY - rect.top;
-    throwFt = yToThrow(y);
-    requestAnimationFrame(update);
+  return { groups, startX, totalW };
+}
+
+function drawFOV(stageInfo, platY) {
+  const { sx, sw, cx } = stageInfo;
+  const stageEdgeY = stageBot - 4;
+  const srcY = platY - PLAT_H / 2;
+
+  const totalW = PLAT_W * 3 + PLAT_GAP * 2;
+  const startX = W / 2 - totalW / 2;
+
+  // ── Wings FOV (amber) — from SR + SL platforms to wing screen edges ──
+  const srCx = startX + PLAT_W / 2;
+  const slCx = startX + (PLAT_W + PLAT_GAP) * 2 + PLAT_W / 2;
+  const wScrW = sw * 0.22;
+  const wColor = LENS_CONFIG.wings.color;
+
+  ctx.setLineDash([5, 5]);
+  ctx.lineWidth   = 1.2;
+  ctx.strokeStyle = wColor;
+
+  // SR → left wing panel (outer left edge and inner edge)
+  drawLine(srCx, srcY, sx, stageEdgeY);
+  drawLine(srCx, srcY, sx + wScrW, stageEdgeY);
+
+  // SL → right wing panel
+  drawLine(slCx, srcY, sx + sw - wScrW, stageEdgeY);
+  drawLine(slCx, srcY, sx + sw, stageEdgeY);
+
+  // Subtle wing fill
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  ctx.moveTo(srCx, srcY);
+  ctx.lineTo(sx, stageEdgeY);
+  ctx.lineTo(sx + wScrW, stageEdgeY);
+  ctx.closePath();
+  ctx.fillStyle = wColor + '14';
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(slCx, srcY);
+  ctx.lineTo(sx + sw - wScrW, stageEdgeY);
+  ctx.lineTo(sx + sw, stageEdgeY);
+  ctx.closePath();
+  ctx.fillStyle = wColor + '14';
+  ctx.fill();
+
+  // ── Center FOV (blue) — from center platform to center screen ──
+  const ctrCx  = startX + PLAT_W + PLAT_GAP + PLAT_W / 2;
+  const cScrW  = sw * 0.40;
+  const cColor = LENS_CONFIG.center.color;
+
+  ctx.setLineDash([5, 5]);
+  ctx.lineWidth   = 1.2;
+  ctx.strokeStyle = cColor;
+
+  drawLine(ctrCx, srcY, cx - cScrW / 2, stageEdgeY);
+  drawLine(ctrCx, srcY, cx + cScrW / 2, stageEdgeY);
+
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  ctx.moveTo(ctrCx, srcY);
+  ctx.lineTo(cx - cScrW / 2, stageEdgeY);
+  ctx.lineTo(cx + cScrW / 2, stageEdgeY);
+  ctx.closePath();
+  ctx.fillStyle = cColor + '14';
+  ctx.fill();
+
+  ctx.setLineDash([]);
+}
+
+function drawLine(x1, y1, x2, y2) {
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+}
+
+function drawTrack(platY) {
+  // Center track line
+  ctx.beginPath();
+  ctx.setLineDash([3, 7]);
+  ctx.lineWidth   = 1;
+  ctx.strokeStyle = '#2a2a2e';
+  ctx.moveTo(trackX, trackTop);
+  ctx.lineTo(trackX, trackBot + PLAT_H / 2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Distance ticks
+  const ticks = [70, 80, 90, 100, 110, 120, 130];
+  ctx.font        = '400 8px "Space Mono", monospace';
+  ctx.textAlign   = 'right';
+  ctx.textBaseline= 'middle';
+  ctx.fillStyle   = '#333338';
+  ticks.forEach(ft => {
+    const y = throwToY(ft);
+    ctx.beginPath();
+    ctx.lineWidth   = 1;
+    ctx.strokeStyle = '#222226';
+    ctx.moveTo(trackX - 12, y);
+    ctx.lineTo(trackX + 12, y);
+    ctx.stroke();
+    ctx.fillText(`${ft}'`, trackX - 16, y);
   });
 
-  canvas.addEventListener('pointerup',    () => { dragging = false; });
-  canvas.addEventListener('pointercancel',() => { dragging = false; });
+  // Active throw label right of knob
+  ctx.font        = '700 10px "Space Mono", monospace';
+  ctx.fillStyle   = '#ece9e0';
+  ctx.textAlign   = 'left';
+  ctx.textBaseline= 'middle';
+  ctx.fillText(`${throwFt}'`, trackX + PLAT_W * 1.5 + PLAT_GAP + 12, platY);
+}
 
-  // ── Toggle ──
-  toggleBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      position = btn.dataset.pos;
-      toggleBtns.forEach(b => b.classList.toggle('active', b === btn));
-      update();
-    });
-  });
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  const platY    = throwToY(throwFt);
+  const stageInfo = drawStage();
+  drawTrack(platY);
+  drawFOV(stageInfo, platY);
+  drawPlatforms(platY);
+}
 
-  // ── Resize ──
-  const ro = new ResizeObserver(resize);
-  ro.observe(canvas.parentElement);
-  resize();
-  update();
+function updateCard() {
+  const wRat = getRatio('wings', throwFt);
+  const cRat = getRatio('center', throwFt);
+  throwNum.textContent = throwFt;
+  wRatio.textContent = `${wRat.toFixed(2)}:1`;
+  wLens.textContent  = getLens('wings', throwFt);
+  wQty.textContent   = `${LENS_CONFIG.wings.quantity}\n${LENS_CONFIG.wings.spare}`;
+  cRatio.textContent = `${cRat.toFixed(2)}:1`;
+  cLens.textContent  = getLens('center', throwFt);
+  cQty.textContent   = `${LENS_CONFIG.center.quantity}\n${LENS_CONFIG.center.spare}`;
+}
 
-  // ── Service worker ──
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/tools/lens-throw/service-worker.js');
+function update() { draw(); updateCard(); }
+
+// ── Drag ──────────────────────────────────────────────────────
+let dragging = false;
+
+function hitKnob(y) {
+  return Math.abs(y - throwToY(throwFt)) < 32;
+}
+
+canvas.addEventListener('pointerdown', e => {
+  const rect = canvas.getBoundingClientRect();
+  if (hitKnob(e.clientY - rect.top)) {
+    dragging = true;
+    canvas.setPointerCapture(e.pointerId);
   }
-})();
+});
+
+canvas.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  const rect = canvas.getBoundingClientRect();
+  throwFt = yToThrow(e.clientY - rect.top);
+  requestAnimationFrame(update);
+});
+
+canvas.addEventListener('pointerup',    () => { dragging = false; });
+canvas.addEventListener('pointercancel',() => { dragging = false; });
+
+// ── Init ──────────────────────────────────────────────────────
+const ro = new ResizeObserver(resize);
+ro.observe(canvas.parentElement);
+resize();
+update();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/tools/lens-throw/service-worker.js');
+}
 </script>
 </body>
 </html>
