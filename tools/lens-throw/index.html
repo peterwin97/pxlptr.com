@@ -124,7 +124,7 @@
     flex-shrink: 0;
     background: var(--surface);
     border-top: 1px solid var(--border);
-    padding: 16px 20px calc(16px + var(--safe-bot));
+    padding: 16px 20px calc(8px + var(--safe-bot));
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px 16px;
@@ -173,7 +173,7 @@
 <div id="app">
   <div id="header">
     <span id="wordmark">PXLPTR / Lens Throw</span>
-    <div id="throw-badge">THROW <input type="text" inputmode="numeric" pattern="[0-9]*" id="throw-input" value="100">'</div>
+    <div id="throw-badge">THROW <input type="text" inputmode="numeric" pattern="[0-9]*" id="throw-input" value="100" readonly>'</div>
   </div>
 
   <div id="diagram-wrap">
@@ -552,6 +552,9 @@ canvas.addEventListener('pointerup',    () => { dragging = false; });
 canvas.addEventListener('pointercancel',() => { dragging = false; });
 
 // ── Throw input ───────────────────────────────────────────────
+throwInput.addEventListener('pointerdown', () => {
+  throwInput.removeAttribute('readonly');
+});
 throwInput.addEventListener('focus', () => {
   setTimeout(() => throwInput.select(), 0);
 });
@@ -559,6 +562,7 @@ function commitThrow() {
   const v = parseInt(throwInput.value, 10);
   throwFt = isNaN(v) ? throwFt : Math.min(Math.max(v, THROW_MIN), THROW_MAX);
   throwInput.value = throwFt;
+  throwInput.setAttribute('readonly', '');
   update();
 }
 throwInput.addEventListener('blur', commitThrow);
