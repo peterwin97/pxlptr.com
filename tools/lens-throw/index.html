@@ -555,13 +555,14 @@ canvas.addEventListener('pointercancel',() => { dragging = false; });
 throwInput.addEventListener('focus', () => { throwInput.select(); });
 throwInput.addEventListener('input', () => {
   const v = parseInt(throwInput.value, 10);
-  if (!isNaN(v)) {
-    throwFt = Math.min(Math.max(v, THROW_MIN), THROW_MAX);
+  if (!isNaN(v) && v >= THROW_MIN && v <= THROW_MAX) {
+    throwFt = v;
     update();
   }
 });
 throwInput.addEventListener('blur', () => {
-  throwFt = Math.min(Math.max(parseInt(throwInput.value, 10) || throwFt, THROW_MIN), THROW_MAX);
+  const v = parseInt(throwInput.value, 10);
+  throwFt = isNaN(v) ? throwFt : Math.min(Math.max(v, THROW_MIN), THROW_MAX);
   throwInput.value = throwFt;
   update();
 });
