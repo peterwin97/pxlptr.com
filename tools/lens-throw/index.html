@@ -85,6 +85,24 @@
     letter-spacing: -.01em;
   }
 
+  #throw-input {
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    color: var(--text);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--grey);
+    outline: none;
+    width: 3.2ch;
+    text-align: right;
+    -moz-appearance: textfield;
+    padding: 0;
+  }
+  #throw-input::-webkit-outer-spin-button,
+  #throw-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
   /* ── Diagram ── */
   #diagram-wrap {
     flex: 1;
@@ -154,7 +172,7 @@
 <div id="app">
   <div id="header">
     <span id="wordmark">PXLPTR / Lens Throw</span>
-    <div id="throw-badge">THROW <span id="throw-num">100</span>'</div>
+    <div id="throw-badge">THROW <input type="number" id="throw-input" value="100" min="70" max="130">'</div>
   </div>
 
   <div id="diagram-wrap">
@@ -224,7 +242,7 @@ function getRatio(pos, ft) { return ft / LENS_CONFIG[pos].width; }
 const canvas  = document.getElementById('diagram');
 const ctx     = canvas.getContext('2d');
 
-const throwNum  = document.getElementById('throw-num');
+const throwInput = document.getElementById('throw-input');
 const wRatio    = document.getElementById('w-ratio');
 const wLens     = document.getElementById('w-lens');
 const wQty      = document.getElementById('w-qty');
@@ -496,7 +514,7 @@ function draw() {
 function updateCard() {
   const wRat = getRatio('wings', throwFt);
   const cRat = getRatio('center', throwFt);
-  throwNum.textContent = throwFt;
+  throwInput.value = throwFt;
   wRatio.textContent = `${wRat.toFixed(2)}:1`;
   wLens.textContent  = getLens('wings', throwFt);
   wQty.textContent   = `${LENS_CONFIG.wings.quantity}\n${LENS_CONFIG.wings.spare}`;
@@ -531,6 +549,24 @@ canvas.addEventListener('pointermove', e => {
 
 canvas.addEventListener('pointerup',    () => { dragging = false; });
 canvas.addEventListener('pointercancel',() => { dragging = false; });
+
+// ── Throw input ───────────────────────────────────────────────
+throwInput.addEventListener('focus', () => { throwInput.select(); });
+throwInput.addEventListener('input', () => {
+  const v = parseInt(throwInput.value, 10);
+  if (!isNaN(v)) {
+    throwFt = Math.min(Math.max(v, THROW_MIN), THROW_MAX);
+    update();
+  }
+});
+throwInput.addEventListener('blur', () => {
+  throwFt = Math.min(Math.max(parseInt(throwInput.value, 10) || throwFt, THROW_MIN), THROW_MAX);
+  throwInput.value = throwFt;
+  update();
+});
+throwInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') throwInput.blur();
+});
 
 // ── Init ──────────────────────────────────────────────────────
 const ro = new ResizeObserver(resize);
